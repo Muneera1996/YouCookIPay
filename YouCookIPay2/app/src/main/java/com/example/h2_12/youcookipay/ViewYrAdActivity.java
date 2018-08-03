@@ -75,7 +75,7 @@ public class ViewYrAdActivity extends AppCompatActivity
         filter=findViewById(R.id.filter);
         search_bar=findViewById(R.id.search_bar);
         if (!isConnected()) {
-            Toast.makeText(getApplicationContext(), "There is no Internet Connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Check Your Internet Connection", Toast.LENGTH_SHORT).show();
             }
         else {
 

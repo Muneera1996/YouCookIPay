@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -51,8 +52,8 @@ public class UpdateDescriptionActivity extends AppCompatActivity
     private final int IMG_REQUEST=1;
     private Bitmap bitmap;
     ArrayList<Chef_Profile> myProfile;
-    LinearLayout layout1,layout2;
     ProgressBar mProgressBar;
+    LinearLayout layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +73,8 @@ public class UpdateDescriptionActivity extends AppCompatActivity
         myProfile=ProfileActivity.myProfile;
         name.setText(myProfile.get(0).getName());
         address.setText(myProfile.get(0).getAddress());
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+        layout=findViewById(R.id.layout_updateDescription);
         description.setText(myProfile.get(0).getDescription());
         Glide.with(image.getContext()).load(myProfile.get(0).getImage()).into(image);
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -110,6 +113,8 @@ public class UpdateDescriptionActivity extends AppCompatActivity
         update_description.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mProgressBar.setVisibility(View.VISIBLE);
+                update_description.setEnabled(false);
                 String url = "http://www.businessmarkaz.com/test/ucookipayws/user/update_profile_seller";
                 StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>()
@@ -119,6 +124,8 @@ public class UpdateDescriptionActivity extends AppCompatActivity
                                 // response
                                 Log.d("Response", response);
                                 try {
+                                    mProgressBar.setVisibility(View.GONE);
+                                    update_description.setEnabled(true);
                                     JSONObject obj = new JSONObject(response);
                                     String message = obj.getString("message");
                                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
@@ -140,7 +147,8 @@ public class UpdateDescriptionActivity extends AppCompatActivity
                             public void onErrorResponse(VolleyError error) {
                                 // error
                                 Log.d("Error.Response", error.toString());
-                                Toast.makeText(getApplicationContext(), "Some error occur", Toast.LENGTH_SHORT).show();
+                                mProgressBar.setVisibility(View.GONE);
+                                update_description.setEnabled(true);
                             }
                         }
                 ) {
@@ -164,6 +172,24 @@ public class UpdateDescriptionActivity extends AppCompatActivity
                     }
                 };
                 queue.add(postRequest);
+                postRequest.setRetryPolicy(new RetryPolicy() {
+                    @Override
+                    public int getCurrentTimeout() {
+                        return 30000;
+                    }
+
+                    @Override
+                    public int getCurrentRetryCount() {
+                        return 30000;
+                    }
+
+                    @Override
+                    public void retry(VolleyError error) throws VolleyError {
+
+                    }
+                });
+
+
             }
         });
 

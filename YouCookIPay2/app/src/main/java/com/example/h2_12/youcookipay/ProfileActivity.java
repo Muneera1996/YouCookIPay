@@ -61,13 +61,13 @@ public class ProfileActivity extends AppCompatActivity
     ArrayList<ViewYourAd> mealsList;
     LinearLayout layout,profile_layout;
     ProgressBar mProgressBar;
+    public static boolean check= true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mealsList=new ArrayList<>();
         recyclerView=findViewById(R.id.recyclerview_view_my_ad);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         arrayList=LoginInActivity.users;
@@ -91,132 +91,14 @@ public class ProfileActivity extends AppCompatActivity
         star3=findViewById(R.id.myProfile_star_three);
         star4=findViewById(R.id.myProfile_star_four);
         star5=findViewById(R.id.myProfile_star_five);
-        final RequestQueue queue=AppController.getInstance().getRequestQueue();
 
         if (!isConnected()) {
             Toast.makeText(getApplicationContext(), "There is no Internet Connection", Toast.LENGTH_SHORT).show();
         }
         else {
-            final String url = "http://www.businessmarkaz.com/test/ucookipayws/meal_ads/chef_profile?user_id=" + arrayList.get(0).getUser_id() + "&session_id=" + arrayList.get(0).getSession_id() + "&chef_id=" + arrayList.get(0).getUser_id();
-            JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url,null,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-
-                            // display response
-                            Log.d("Response", response.toString());
-
-                            GsonBuilder gsonBuilder = new GsonBuilder();
-                            Gson gson = gsonBuilder.create();
-                            ProfileViewChef profileViewChef  = gson.fromJson(response.toString(),ProfileViewChef.class);
-                            JSONObject obj = null;
-                            try {
-                                mProgressBar.setVisibility(View.INVISIBLE);
-                                layout.setVisibility(View.GONE);
-                                profile_layout.setVisibility(View.VISIBLE);
-                                obj = new JSONObject(response.toString());
-                                JSONObject user=obj.getJSONObject("data");
-                                String id=user.getString("user_id");
-                                name.setText(user.getString("user_name"));
-                                place.setText(user.getString("user_adress"));
-                                type.setText(user.getString("seller_type"));
-                                profile_description.setText(user.getString("user_description"));
-                                rating.setText(user.getString("rating"));
-                                String imageUrl=user.getString("user_image");
-
-                                if(!rating.getText().toString().trim().isEmpty()){
-                                    rate = Double.parseDouble(rating.getText().toString());
-                                }
-
-                                if(rate>=1&&rate<2) {
-                                    Glide.with(star1.getContext()).load(R.drawable.fill_star).into(star1);
-
-                                }
-                                else if(rate>=2&&rate<3) {
-                                    Glide.with(star1.getContext()).load(R.drawable.fill_star).into(star1);
-                                    Glide.with(star2.getContext()).load(R.drawable.fill_star).into(star2);
-                                }
-                                else if(rate>=3&&rate<4) {
-                                    Glide.with(star1.getContext()).load(R.drawable.fill_star).into(star1);
-                                    Glide.with(star2.getContext()).load(R.drawable.fill_star).into(star2);
-                                    Glide.with(star3.getContext()).load(R.drawable.fill_star).into(star3);
-
-                                }
-                                else if(rate>=4&&rate<5) {
-                                    Glide.with(star1.getContext()).load(R.drawable.fill_star).into(star1);
-                                    Glide.with(star2.getContext()).load(R.drawable.fill_star).into(star2);
-                                    Glide.with(star3.getContext()).load(R.drawable.fill_star).into(star3);
-                                    Glide.with(star4.getContext()).load(R.drawable.fill_star).into(star4);
-                                }
-                                else if(rate>=5){
-                                    Glide.with(star1.getContext()).load(R.drawable.fill_star).into(star1);
-                                    Glide.with(star2.getContext()).load(R.drawable.fill_star).into(star2);
-                                    Glide.with(star3.getContext()).load(R.drawable.fill_star).into(star3);
-                                    Glide.with(star4.getContext()).load(R.drawable.fill_star).into(star4);
-                                    Glide.with(star5.getContext()).load(R.drawable.fill_star).into(star5);
-                                }
-                                Glide.with(image.getContext()).load(imageUrl).into(image);
-                                myProfile.add(new Chef_Profile(id,name.getText().toString(),place.getText().toString(),type.getText().toString(),profile_description.getText().toString(),rating.getText().toString(),imageUrl));
-                                } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                            boolean success = profileViewChef.getStatus();
-                            String message = profileViewChef.getMessage();
-                            try {
-                                if (success) {
-                                    JSONObject jsonObject=response.getJSONObject("data");
-                                    JSONArray jsonArray = jsonObject.getJSONArray("meals");
-                                    for(int i=0;i<jsonArray.length();i++){
-                                        JSONObject user=jsonArray.getJSONObject(i);
-                                        String meal_id=user.getString("meal_id");
-                                        String meal_name=user.getString("meal_name");
-                                        String place_name=user.getString("place_name");
-                                        String meal_description=user.getString("meal_description");
-                                        String classification=user.getString("classification");
-                                        String category=user.getString("category");
-                                        String type=user.getString("type");
-                                        String portion_price=user.getString("portion_price");
-                                        String meal_images= user.getJSONArray("meal_images").getString(0);
-                                        mealsList.add(new ViewYourAd(meal_id,meal_name,place_name,meal_description,classification,category,type,portion_price,meal_images));
-                                    }
-                                    recyclerView.setAdapter(new ViewYourAdAdapter(getApplicationContext(),mealsList));
-                                    }
-
-                            } catch (Throwable t) {
-                                Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d("Error.Response", error.toString());
-                            mProgressBar.setVisibility(View.INVISIBLE);
-                            layout.setVisibility(View.GONE);
-                        }
-                    });
-
-            queue.add(getRequest);
-            getRequest.setRetryPolicy(new RetryPolicy() {
-                @Override
-                public int getCurrentTimeout() {
-                    return 30000;
-                }
-
-                @Override
-                public int getCurrentRetryCount() {
-                    return 30000;
-                }
-
-                @Override
-                public void retry(VolleyError error) throws VolleyError {
-
-                }
-            });
+            check=false;
+            callingAPI();
         }
-
-
 
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -275,6 +157,14 @@ public class ProfileActivity extends AppCompatActivity
         });
     }
     @Override
+    public void onResume(){
+        super.onResume();
+        // put your code here...
+        if(check) {
+            callingAPI();
+        }
+    }
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch(requestCode) {
@@ -286,7 +176,6 @@ public class ProfileActivity extends AppCompatActivity
             }
         }
     }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -341,9 +230,129 @@ public class ProfileActivity extends AppCompatActivity
     public boolean isConnected() {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected())
-            return true;
-        else
-            return false;
+        return networkInfo != null && networkInfo.isConnected();
+    }
+    public void callingAPI(){
+        RequestQueue queue=AppController.getInstance().getRequestQueue();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mealsList=new ArrayList<>();
+        final String url = "http://www.businessmarkaz.com/test/ucookipayws/meal_ads/chef_profile?user_id=" + arrayList.get(0).getUser_id() + "&session_id=" + arrayList.get(0).getSession_id() + "&chef_id=" + arrayList.get(0).getUser_id();
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url,null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        // display response
+                        Log.d("Response", response.toString());
+                        GsonBuilder gsonBuilder = new GsonBuilder();
+                        Gson gson = gsonBuilder.create();
+                        ProfileViewChef profileViewChef  = gson.fromJson(response.toString(),ProfileViewChef.class);
+                        JSONObject obj = null;
+                        try {
+                            mProgressBar.setVisibility(View.INVISIBLE);
+                            layout.setVisibility(View.GONE);
+                            obj = new JSONObject(response.toString());
+                            JSONObject user=obj.getJSONObject("data");
+                            String id=user.getString("user_id");
+                            name.setText(user.getString("user_name"));
+                            place.setText(user.getString("user_adress"));
+                            type.setText(user.getString("seller_type"));
+                            profile_description.setText(user.getString("user_description"));
+                            rating.setText(user.getString("rating"));
+                            String imageUrl=user.getString("user_image");
+                            profile_layout.setVisibility(View.VISIBLE);
+
+
+                            if(!rating.getText().toString().trim().isEmpty()){
+                                rate = Double.parseDouble(rating.getText().toString());
+                            }
+
+                            if(rate>=1&&rate<2) {
+                                Glide.with(star1.getContext()).load(R.drawable.fill_star).into(star1);
+
+                            }
+                            else if(rate>=2&&rate<3) {
+                                Glide.with(star1.getContext()).load(R.drawable.fill_star).into(star1);
+                                Glide.with(star2.getContext()).load(R.drawable.fill_star).into(star2);
+                            }
+                            else if(rate>=3&&rate<4) {
+                                Glide.with(star1.getContext()).load(R.drawable.fill_star).into(star1);
+                                Glide.with(star2.getContext()).load(R.drawable.fill_star).into(star2);
+                                Glide.with(star3.getContext()).load(R.drawable.fill_star).into(star3);
+
+                            }
+                            else if(rate>=4&&rate<5) {
+                                Glide.with(star1.getContext()).load(R.drawable.fill_star).into(star1);
+                                Glide.with(star2.getContext()).load(R.drawable.fill_star).into(star2);
+                                Glide.with(star3.getContext()).load(R.drawable.fill_star).into(star3);
+                                Glide.with(star4.getContext()).load(R.drawable.fill_star).into(star4);
+                            }
+                            else if(rate>=5){
+                                Glide.with(star1.getContext()).load(R.drawable.fill_star).into(star1);
+                                Glide.with(star2.getContext()).load(R.drawable.fill_star).into(star2);
+                                Glide.with(star3.getContext()).load(R.drawable.fill_star).into(star3);
+                                Glide.with(star4.getContext()).load(R.drawable.fill_star).into(star4);
+                                Glide.with(star5.getContext()).load(R.drawable.fill_star).into(star5);
+                            }
+                            Glide.with(image.getContext()).load(imageUrl).into(image);
+                            myProfile.add(new Chef_Profile(id,name.getText().toString(),place.getText().toString(),type.getText().toString(),profile_description.getText().toString(),rating.getText().toString(),imageUrl));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        boolean success = profileViewChef.getStatus();
+                        String message = profileViewChef.getMessage();
+                        try {
+                            if (success) {
+                                JSONObject jsonObject=response.getJSONObject("data");
+                                JSONArray jsonArray = jsonObject.getJSONArray("meals");
+                                for(int i=0;i<jsonArray.length();i++){
+                                    JSONObject user=jsonArray.getJSONObject(i);
+                                    String meal_id=user.getString("meal_id");
+                                    String meal_name=user.getString("meal_name");
+                                    String place_name=user.getString("place_name");
+                                    String meal_description=user.getString("meal_description");
+                                    String classification=user.getString("classification");
+                                    String category=user.getString("category");
+                                    String type=user.getString("type");
+                                    String portion_price=user.getString("portion_price");
+                                    String meal_images= user.getJSONArray("meal_images").getString(0);
+                                    mealsList.add(new ViewYourAd(meal_id,meal_name,place_name,meal_description,classification,category,type,portion_price,meal_images));
+                                }
+                                recyclerView.setAdapter(new ViewYourAdAdapter(getApplicationContext(),mealsList));
+                            }
+
+                        } catch (Throwable t) {
+                            Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                        mProgressBar.setVisibility(View.INVISIBLE);
+                        layout.setVisibility(View.GONE);
+                    }
+                });
+
+        queue.add(getRequest);
+        getRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 30000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 30000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
     }
 }

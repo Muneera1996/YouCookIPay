@@ -101,6 +101,7 @@ public class ViewYourAdAdapter extends RecyclerView.Adapter<ViewYourAdAdapter.Vi
                                                     //this line below gives you the animation and also updates the
                                                     //list items after the deleted item
                                                     notifyItemRangeChanged(position, getItemCount());
+                                                    ProfileActivity.check=true;
                                                 }
                                                 } catch (Throwable t) {
                                                 Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");

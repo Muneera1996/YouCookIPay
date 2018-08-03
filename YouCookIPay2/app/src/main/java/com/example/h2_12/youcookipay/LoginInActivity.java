@@ -41,7 +41,6 @@ public class LoginInActivity extends AppCompatActivity {
     public  static ArrayList<User> users;
     ProgressBar mProgressBar;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,155 +53,147 @@ public class LoginInActivity extends AppCompatActivity {
         forget_password = findViewById(R.id.forget_password);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        if (isConnected()) {
-
-        } else {
-            Toast.makeText(this, "Not connected with the Internet", Toast.LENGTH_SHORT).show();
+        if (!isConnected()) {
+            Toast.makeText(this, "Check Your Internet Connection", Toast.LENGTH_SHORT).show();
         }
 
-        signUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
-                startActivity(intent);
-            }
-        });
-        signIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mProgressBar.setVisibility(View.VISIBLE);
-
-                if (email.getText().toString().trim().equals("") || password.getText().toString().trim().equals("")) {
-                    Toast.makeText(LoginInActivity.this, "Fill all the details", Toast.LENGTH_SHORT).show();
+        else {
+            signUp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+                    startActivity(intent);
                 }
-                else {
-                    String url = "http://www.businessmarkaz.com/test/ucookipayws/user/sign_in";
-                    StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    // response
-                                    mProgressBar.setVisibility(View.GONE);
+            });
+            signIn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mProgressBar.setVisibility(View.VISIBLE);
+                    if (email.getText().toString().trim().equals("") || password.getText().toString().trim().equals("")) {
+                        Toast.makeText(LoginInActivity.this, "Fill all the details", Toast.LENGTH_SHORT).show();
+                    } else {
+                        String url = "http://www.businessmarkaz.com/test/ucookipayws/user/sign_in";
+                        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                                new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        // response
+                                        mProgressBar.setVisibility(View.GONE);
 
-                                    Log.d("Response", response);
-                                    // JSONObject parser = new JSONObject();
-                                    try {
+                                        Log.d("Response", response);
+                                        // JSONObject parser = new JSONObject();
+                                        try {
 
-                                        JSONObject obj = new JSONObject(response);
-                                        String message = obj.getString("message");
-                                        JSONObject data=obj.getJSONObject("data");
-                                        String user_id=data.getString("user_id");
-                                        String session_id=data.getString("session_id");
-                                        users=new ArrayList<>();
-                                        users.add(new User(user_id,session_id));
-                                        Toast.makeText(LoginInActivity.this, message, Toast.LENGTH_SHORT).show();
-                                        if (message.equalsIgnoreCase("Sign In successfull")) {
-                                            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                                            startActivity(intent);
-                                        }
-
-                                    } catch (Throwable t) {
-                                        Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
-                                    }
-                                }
-                            },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    // error
-                                    Log.d("Error.Response", error.toString());
-                                    mProgressBar.setVisibility(View.GONE);
-
-                                }
-                            }
-                    ) {
-                        @Override
-                        protected Map<String, String> getParams() {
-                            Map<String, String> params = new HashMap<String, String>();
-                            params.put("email", email.getText().toString());
-                            params.put("password", password.getText().toString());
-                            params.put("device_type", "android");
-                            params.put("device_token", "token");
-                            return params;
-                        }
-
-
-                    };
-                    queue.add(postRequest);
-                    postRequest.setRetryPolicy(new RetryPolicy() {
-                        @Override
-                        public int getCurrentTimeout() {
-                            return 30000;
-                        }
-
-                        @Override
-                        public int getCurrentRetryCount() {
-                            return 30000;
-                        }
-
-                        @Override
-                        public void retry(VolleyError error) throws VolleyError {
-
-                        }
-                    });
-                }
-            }
-        });
-        forget_password.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (email.getText().toString().equalsIgnoreCase("")) {
-                    Toast.makeText(LoginInActivity.this, "Enter your Email", Toast.LENGTH_SHORT).show();
-
-                } else {
-                    final String url = "http://www.businessmarkaz.com/test/ucookipayws/user/forget_password?email=" + email.getText().toString();
-                    JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    // display response
-                                    Log.d("Response", response.toString());
-                                    GsonBuilder gsonBuilder = new GsonBuilder();
-                                    Gson gson = gsonBuilder.create();
-                                    ForgetPassword forgetPasswords = gson.fromJson(response.toString(), ForgetPassword.class);
-                                    boolean success = forgetPasswords.getStatus();
-                                    String message = forgetPasswords.getMessage();
-
-                                    try {
-
-                                        if (!success) {
+                                            JSONObject obj = new JSONObject(response);
+                                            String message = obj.getString("message");
+                                            JSONObject data = obj.getJSONObject("data");
+                                            String user_id = data.getString("user_id");
+                                            String session_id = data.getString("session_id");
+                                            users = new ArrayList<>();
+                                            users.add(new User(user_id, session_id));
                                             Toast.makeText(LoginInActivity.this, message, Toast.LENGTH_SHORT).show();
-                                        }
+                                            if (message.equalsIgnoreCase("Sign In successfull")) {
+                                                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                                startActivity(intent);
+                                            }
 
-                                    } catch (Throwable t) {
-                                        Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
+                                        } catch (Throwable t) {
+                                            Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
+                                        }
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        // error
+                                        Log.d("Error.Response", error.toString());
+                                        mProgressBar.setVisibility(View.GONE);
+
                                     }
                                 }
-                            },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Log.d("Error.Response", error.getMessage());
-                                }
+                        ) {
+                            @Override
+                            protected Map<String, String> getParams() {
+                                Map<String, String> params = new HashMap<String, String>();
+                                params.put("email", email.getText().toString());
+                                params.put("password", password.getText().toString());
+                                params.put("device_type", "android");
+                                params.put("device_token", "token");
+                                return params;
                             }
 
 
-                    );
-                    queue.add(getRequest);
+                        };
+                        queue.add(postRequest);
+                        postRequest.setRetryPolicy(new RetryPolicy() {
+                            @Override
+                            public int getCurrentTimeout() {
+                                return 30000;
+                            }
+
+                            @Override
+                            public int getCurrentRetryCount() {
+                                return 30000;
+                            }
+
+                            @Override
+                            public void retry(VolleyError error) throws VolleyError {
+
+                            }
+                        });
+                    }
                 }
-            }
-        });
+            });
+            forget_password.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                    if (email.getText().toString().equalsIgnoreCase("")) {
+                        Toast.makeText(LoginInActivity.this, "Enter your Email", Toast.LENGTH_SHORT).show();
 
+                    } else {
+                        final String url = "http://www.businessmarkaz.com/test/ucookipayws/user/forget_password?email=" + email.getText().toString();
+                        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        // display response
+                                        Log.d("Response", response.toString());
+                                        GsonBuilder gsonBuilder = new GsonBuilder();
+                                        Gson gson = gsonBuilder.create();
+                                        ForgetPassword forgetPasswords = gson.fromJson(response.toString(), ForgetPassword.class);
+                                        boolean success = forgetPasswords.getStatus();
+                                        String message = forgetPasswords.getMessage();
+
+                                        try {
+
+                                            if (!success) {
+                                                Toast.makeText(LoginInActivity.this, message, Toast.LENGTH_SHORT).show();
+                                            }
+
+                                        } catch (Throwable t) {
+                                            Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
+                                        }
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Log.d("Error.Response", error.getMessage());
+                                    }
+                                }
+
+                        );
+                        queue.add(getRequest);
+                    }
+                }
+            });
+        }
     }
 
     public boolean isConnected() {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected())
-            return true;
-        else
-            return false;
+        return networkInfo != null && networkInfo.isConnected();
     }
 }
