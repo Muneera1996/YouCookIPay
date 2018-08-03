@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout android:background="@drawable/overlay_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".OrderScreeen2Activity"
+    tools:showIn="@layout/app_bar_order_screeen2"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    >
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/progressbar_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:text="Loading data..." />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:id="@+id/layout_orderScreen1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_marginVertical="5dp"
+                android:id="@+id/chef_info"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginHorizontal="10dp"
+                android:minHeight="80dp">
+
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/profile_pic_circle"
+                    android:src="@drawable/profile_pic" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_toRightOf="@id/image"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:id="@+id/text_container"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/list_item_height"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerInParent="true"
+                        android:layout_weight="1.3"
+                        android:orientation="vertical"
+                        android:paddingLeft="5dp"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:id="@+id/chef_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:gravity="bottom"
+                            android:textAppearance="?android:textAppearanceMedium"
+                            android:textColor="@android:color/black"
+                            android:textStyle="bold"
+                            android:text="Elena Arzak" />
+
+                        <TextView
+                            android:id="@+id/chef_place"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="0.7"
+                            android:gravity="top"
+                            android:textAppearance="?android:textAppearanceSmall"
+                            android:textColor="@android:color/black"
+                            android:text="San Jose, CA" />
+
+                        <TextView
+                            android:id="@+id/chef_homemade"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="0.7"
+                            android:gravity="top"
+                            android:textAppearance="?android:textAppearanceSmall"
+                            android:textColor="@android:color/black"
+                            android:text="Home Made" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/list_item_height"
+                        android:layout_weight="0.7"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+
+                                android:id="@+id/ratting"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="4.5"
+                                android:textColor="@android:color/black"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:text="Rate"
+                                android:textColor="@android:color/black"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/star_one"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_margin="2dp"
+                                android:src="@drawable/fill_star" />
+
+                            <ImageView
+                                android:id="@+id/star_two"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_margin="2dp"
+                                android:src="@drawable/fill_star" />
+
+                            <ImageView
+                                android:id="@+id/star_three"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_margin="2dp"
+                                android:src="@drawable/fill_star" />
+
+                            <ImageView
+                                android:id="@+id/star_four"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_margin="2dp"
+                                android:src="@drawable/unfill_star" />
+
+                            <ImageView
+                                android:id="@+id/star_five"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_margin="2dp"
+                                android:src="@drawable/unfill_star" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </RelativeLayout>
+            <ImageView
+                android:layout_marginHorizontal="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@drawable/underline"
+                />
+
+            <LinearLayout
+                android:layout_marginHorizontal="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/fields_layout_bg">
+
+                    <RelativeLayout
+                        android:background="@drawable/fields_layout_bg2"
+                        android:id="@+id/user_icon"
+                        android:layout_width="60dp"
+                        android:layout_height="35dp">
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/ic_user" />
+                    </RelativeLayout>
+
+                    <EditText
+                        android:id="@+id/orderScreen_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_toRightOf="@id/user_icon"
+                        android:backgroundTint="@android:color/transparent"
+                        android:gravity="start"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="#3b6498"
+                        android:textSize="12sp"
+                        android:textColorHint="#3b6498"            android:hint="Name" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/fields_layout_bg">
+
+                    <RelativeLayout
+                        android:background="@drawable/fields_layout_bg2"
+                        android:id="@+id/email_icon"
+                        android:layout_width="60dp"
+                        android:layout_height="40dp">
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/email_address" />
+                    </RelativeLayout>
+
+                    <EditText
+                        android:id="@+id/orderScreen_email_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_toRightOf="@id/email_icon"
+                        android:backgroundTint="@android:color/transparent"
+                        android:gravity="start"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="12sp"
+                        android:textColor="#3b6498"
+                        android:textColorHint="#3b6498"
+                        android:hint="Email Address" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/fields_layout_bg">
+
+                    <RelativeLayout
+                        android:id="@+id/phone_icon"
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/fields_layout_bg2"
+                        >
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/phone" />
+                    </RelativeLayout>
+
+                    <EditText
+                        android:id="@+id/orderScreen_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_toRightOf="@id/phone_icon"
+                        android:backgroundTint="@android:color/transparent"
+                        android:gravity="start"
+                        android:textSize="12sp"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="#3b6498"
+                        android:textColorHint="#3b6498"
+                        android:hint="Number" />
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Order Schedule"
+                        android:textColor="#3b6498"/>
+                    <TextView
+
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Order Time"
+                        android:textColor="#3b6498"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:orientation="horizontal">
+                    <RelativeLayout
+                        android:layout_margin="2dp"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/fields_layout_bg">
+
+                        <RelativeLayout
+                            android:id="@+id/date_icon"
+                            android:layout_width="60dp"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/fields_layout_bg2"
+                            >
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/date_icon" />
+                        </RelativeLayout>
+
+                        <EditText
+                            android:id="@+id/orderScreen_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:layout_toRightOf="@id/date_icon"
+                            android:backgroundTint="@android:color/transparent"
+                            android:gravity="start"
+                            android:hint="Date"
+                            android:textSize="12sp"
+                            android:textColor="#3b6498"
+                            android:textColorHint="#3b6498" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_margin="2dp"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/fields_layout_bg">
+
+                        <RelativeLayout
+                            android:id="@+id/time_icon"
+                            android:layout_width="60dp"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/fields_layout_bg2"
+                            >
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/time_icon" />
+                        </RelativeLayout>
+
+                        <EditText
+                            android:id="@+id/orderScreen_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_toRightOf="@id/time_icon"
+                            android:backgroundTint="@android:color/transparent"
+                            android:gravity="start"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="#3b6498"
+                            android:textSize="12sp"
+                            android:textColorHint="#3b6498"
+                            android:hint="Time" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+                <TextView
+                    android:layout_marginVertical="5dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Select Delivery Option"
+                    android:textStyle="bold"
+                    android:textColor="#3b6498"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:id="@+id/pick_option_yourself"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/checkbox_pick"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/button_bg" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_toRightOf="@id/checkbox_pick"
+                            android:text="Pick by YourSelf"
+                            android:textColor="#3b6498"/>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/pick_option_dispatch"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/checkbox_dispatch"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/button_bg" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_toRightOf="@id/checkbox_dispatch"
+                            android:text="Dispatch at your doorstep"
+                            android:textColor="#3b6498"/>
+                    </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:orientation="horizontal">
+                    <RelativeLayout
+                        android:layout_margin="2dp"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/fields_layout_bg">
+
+                        <RelativeLayout
+                            android:id="@+id/street_icon"
+                            android:layout_width="60dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/fields_layout_bg2"
+                            >
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/dropdown_arrow" />
+                        </RelativeLayout>
+
+                        <EditText
+                            android:id="@+id/orderScreen_street"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_toRightOf="@id/street_icon"
+                            android:backgroundTint="@android:color/transparent"
+                            android:gravity="start"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="#3b6498"
+                            android:textSize="12sp"
+                            android:textColorHint="#3b6498"
+                            android:hint="Street" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_margin="2dp"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/fields_layout_bg">
+
+                        <RelativeLayout
+                            android:id="@+id/area_icon"
+                            android:layout_width="60dp"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/fields_layout_bg2"
+                            >
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/dropdown_arrow" />
+                        </RelativeLayout>
+
+                        <EditText
+                            android:id="@+id/orderScreen_area"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_toRightOf="@id/area_icon"
+                            android:backgroundTint="@android:color/transparent"
+                            android:gravity="start"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="#3b6498"
+                            android:textSize="12sp"
+                            android:textColorHint="#3b6498"
+                            android:hint="Area" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/fields_layout_bg">
+
+                    <RelativeLayout
+                        android:background="@drawable/fields_layout_bg2"
+                        android:id="@+id/city_icon"
+                        android:layout_width="60dp"
+                        android:layout_height="40dp">
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/dropdown_arrow" />
+                    </RelativeLayout>
+
+                    <EditText
+                        android:id="@+id/orderScreen_city"
+                        android:layout_width="253dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@id/city_icon"
+                        android:backgroundTint="@android:color/transparent"
+                        android:gravity="start"
+                        android:hint="City"
+                        android:textColor="#3b6498"
+                        android:textColorHint="#3b6498"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/orderScreen_place_order"
+                    android:layout_margin="20dp"
+                    android:layout_gravity="center"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/place_your_order"
+
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
+

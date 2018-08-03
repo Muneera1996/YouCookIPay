@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".PaymentMethodPopUp">
+        <TextView
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="== Change Your Email =="
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/fields_layout_bg">
+
+            <RelativeLayout
+                android:background="@drawable/fields_layout_bg2"
+                android:id="@+id/email_icon"
+                android:layout_width="60dp"
+                android:layout_height="45dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/email_address" />
+            </RelativeLayout>
+            <EditText
+                android:id="@+id/change_your_email_address"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_toRightOf="@id/email_icon"
+                android:backgroundTint="@android:color/transparent"
+                android:gravity="center"
+                android:hint="Email Address"
+                android:textColor="#3b6498"
+                android:textColorHint="#3b6498" />
+        </RelativeLayout>
+        <ImageView
+            android:id="@+id/email_verifier_btn"
+            android:src="@drawable/verify_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+         />
+    </LinearLayout>
+</ScrollView>

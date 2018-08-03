@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_margin="5dp"
+                            android:id="@+id/see_reviews_image"
+                            android:layout_width="88dp"
+                            android:layout_height="88dp"
+                            tools:src="@drawable/profile_pic"/>
+
+                        <LinearLayout
+                            android:layout_margin="5dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="88dp"
+                            android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/See_Reviews_username"
+                        android:layout_marginVertical="5dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="User Name"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="#3b6498"/>
+
+                    <LinearLayout
+                        android:layout_margin="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/see_rating_star1"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_margin="5dp"
+                            android:src="@drawable/unfill_star" />
+
+                        <ImageView
+                            android:id="@+id/see_rating_star2"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_margin="5dp"
+                            android:src="@drawable/unfill_star" />
+
+                        <ImageView
+                            android:id="@+id/see_rating_star3"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_margin="5dp"
+                            android:src="@drawable/unfill_star" />
+
+                        <ImageView
+                            android:id="@+id/see_rating_star4"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_margin="5dp"
+                            android:src="@drawable/unfill_star" />
+
+                        <ImageView
+                            android:id="@+id/see_rating_star5"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_margin="5dp"
+                            android:src="@drawable/unfill_star" />
+                    </LinearLayout>
+                    </LinearLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_marginVertical="5dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Comments"
+                        android:textStyle="bold"
+                        android:textColor="#3b6498"/>
+                    <TextView
+                        android:scrollbarAlwaysDrawVerticalTrack="true"
+                        android:layout_marginVertical="5dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:gravity="start"
+                        android:id="@+id/See_Reviews_comments"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="#000"
+                        />
+
+                    <ImageView
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:background="@drawable/underline"
+                        />
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+</LinearLayout >

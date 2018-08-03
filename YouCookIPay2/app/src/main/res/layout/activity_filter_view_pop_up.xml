@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp"
+        tools:context=".PaymentMethodPopUp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:text="== What are you looking For =="
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_margin="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/filter_purchase"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/checkbox_purchase"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/checkbox" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/checkbox_purchase"
+                    android:text="For Sell" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/filter_donation"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/checkbox_donation"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/checkbox" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/checkbox_donation"
+                    android:text="Donation" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_margin="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/filter_commercial"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/checkbox_commercial_food"
+                    android:layout_width="17dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/checkbox" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/checkbox_commercial_food"
+                    android:text="Commercial Food" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/filter_private"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/checkbox_private_food"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/checkbox" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/checkbox_private_food"
+                    android:text="Private Food" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_margin="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/filter_food"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/checkbox_food"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/checkbox" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/checkbox_food"
+                    android:text="Food" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/filter_beverages"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/checkbox_beverage"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/checkbox" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/checkbox_beverage"
+                    android:text="Beverage" />
+            </RelativeLayout>
+
+        </LinearLayout>
+          <ImageView
+              android:id="@+id/filter_view_search_btn"
+              android:layout_margin="10dp"
+              android:layout_gravity="center"
+              android:layout_width="match_parent"
+              android:layout_height="30dp"
+              android:src="@drawable/search_button"/>
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal" />
+
+
+    </LinearLayout>
+
+</ScrollView>

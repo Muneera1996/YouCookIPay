@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout android:background="@drawable/overlay_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".UpdateDeliveryAddressActivity"
+    tools:showIn="@layout/app_bar_update_delivery_address"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    >
+    <LinearLayout
+        android:id="@+id/progressbar_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:text="Loading data..." />
+    </LinearLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/layout_updateDeliveryAddress"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_marginTop="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginHorizontal="10dp"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_margin="2dp"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/fields_layout_bg">
+
+                    <RelativeLayout
+                        android:id="@+id/street_icon"
+                        android:layout_width="60dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/fields_layout_bg2"
+                        >
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/dropdown_arrow" />
+                    </RelativeLayout>
+
+                    <EditText
+                        android:id="@+id/updateDeliveryAddress_street"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_toRightOf="@id/street_icon"
+                        android:backgroundTint="@android:color/transparent"
+                        android:gravity="start"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="#3b6498"
+                        android:textSize="12sp"
+                        android:textColorHint="#3b6498"
+                        android:hint="Street" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_margin="2dp"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/fields_layout_bg">
+
+                    <RelativeLayout
+                        android:id="@+id/area_icon"
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/fields_layout_bg2"
+                        >
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/dropdown_arrow" />
+                    </RelativeLayout>
+
+                    <EditText
+                        android:id="@+id/updateDeliveryAddress_area"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_toRightOf="@id/area_icon"
+                        android:backgroundTint="@android:color/transparent"
+                        android:gravity="start"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="#3b6498"
+                        android:textSize="12sp"
+                        android:textColorHint="#3b6498"
+                        android:hint="Area" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/fields_layout_bg">
+
+                <RelativeLayout
+                    android:background="@drawable/fields_layout_bg2"
+                    android:id="@+id/city_icon"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/dropdown_arrow" />
+                </RelativeLayout>
+
+                <EditText
+                    android:id="@+id/updateDeliveryAddress_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_toRightOf="@id/city_icon"
+                    android:backgroundTint="@android:color/transparent"
+                    android:gravity="start"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="#3b6498"
+                    android:textColorHint="#3b6498"
+                    android:textSize="12sp"
+                    android:hint="City" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/fields_layout_bg">
+
+                <RelativeLayout
+                    android:background="@drawable/fields_layout_bg2"
+                    android:id="@+id/postal_icon"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/postal_code" />
+                </RelativeLayout>
+
+                <EditText
+                    android:id="@+id/updatedeliveryAddress_postalCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_toRightOf="@id/postal_icon"
+                    android:backgroundTint="@android:color/transparent"
+                    android:gravity="start"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="#3b6498"
+                    android:textColorHint="#3b6498"
+                    android:textSize="12sp"
+                    android:hint="Postal Code" />
+            </RelativeLayout>
+            <ImageView
+                android:id="@+id/updateDeliveryAddress_update"
+                android:layout_margin="10dp"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:src="@drawable/update"/>
+
+            <ImageView
+                android:layout_marginHorizontal="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@drawable/underline"
+                />
+
+            <TextView
+                android:layout_margin="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Previous Address"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:textColor="@android:color/black"
+                android:layout_gravity="center"
+                />
+            <TextView
+                android:layout_marginVertical="5dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1.68 Stonybrook Dr mount laurel , 09054"
+                android:textSize="15sp"
+                android:textColor="#3b6498"
+                />
+            <TextView
+                android:layout_marginVertical="5dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="#3b6498"
+                android:text="2. 86 Cedar Dr.Plainfield, NJ 07082"
+                />
+            <TextView
+                android:layout_marginVertical="5dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="#3b6498"
+                android:text="3. 675 Norh Center Drive Norman, OK 87301"
+                />
+
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

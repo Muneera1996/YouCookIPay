@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".PaymentMethodPopUp">
+        <TextView
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="== Thank You =="
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="An Email has been sent to demo@incisivesoft.com"
+            android:textSize="12sp"
+            />
+        <TextView
+            android:padding="10dp"
+            android:gravity="center"
+            android:layout_margin="5dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="please click link in that Message to Confirm Your Email Address "
+            android:textSize="12sp"/>
+        <TextView
+            android:id="@+id/resend_email"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Resend Email"
+            android:textSize="15sp"/>
+        <TextView
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OR"
+            android:textStyle="bold"
+            android:textSize="15sp"/>
+        <TextView
+            android:id="@+id/change_your_email_address"
+            android:gravity="center"
+            android:text="Change Your Email Address"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="15sp"/>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Make Sure to check your junk OR Spam folder "
+            android:textSize="12sp"/>
+
+        <ImageView
+            android:id="@+id/thankyou_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/splash_btn"
+            android:layout_gravity="end"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp" />
+
+    </LinearLayout>
+</ScrollView>

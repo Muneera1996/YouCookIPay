@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_home_height"
+
+    android:minHeight="@dimen/list_item_height">
+
+    <ImageView
+        android:layout_margin="5dp"
+        android:id="@+id/image"
+        android:layout_width="@dimen/list_item_height"
+        android:layout_height="@dimen/list_item_height"
+        android:background="@drawable/profile_pic_circle"
+        android:src="@drawable/profile_pic"/>
+
+
+
+    <LinearLayout
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_toRightOf="@id/image"
+        android:weightSum="2"
+        >
+
+    <LinearLayout
+        android:layout_margin="5dp"
+        android:id="@+id/text_container"
+        android:layout_width="0dp"
+        android:layout_weight="1.5"
+        android:layout_height="@dimen/list_item_height"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:weightSum="3"
+        android:paddingLeft="16dp">
+
+        <TextView
+            android:id="@+id/chef_name"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            tools:text="Elena Arzak" />
+
+        <TextView
+            android:id="@+id/chef_place"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@android:color/black"
+            tools:text="San Jose, CA" />
+
+        <TextView
+            android:id="@+id/chef_homemade"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@android:color/black"
+            tools:text="Home Made" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="center"
+        android:layout_margin="5dp"
+        android:layout_weight="0.5"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/list_item_height"
+        android:orientation="vertical"
+        android:paddingLeft="16dp">
+
+        <ImageView
+            android:layout_gravity="center"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/view_meal_btn" />
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/star_one"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@drawable/unfill_star"/>
+            <ImageView
+                android:id="@+id/star_two"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@drawable/unfill_star"/>
+            <ImageView
+                android:id="@+id/star_three"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@drawable/unfill_star"/>
+            <ImageView
+                android:id="@+id/star_four"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@drawable/unfill_star"/>
+            <ImageView
+                android:id="@+id/star_five"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@drawable/unfill_star"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    </LinearLayout>
+    <ImageView
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/underline"/>
+</RelativeLayout>

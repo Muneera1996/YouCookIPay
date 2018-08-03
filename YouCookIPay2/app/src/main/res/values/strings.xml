@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">You Cook I Pay</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_home1">Home1Activity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="title_activity_profile_view_chef">ProfileViewChefActivity</string>
+    <string name="title_activity_reviews_and_rating">ReviewsAndRatingActivity</string>
+    <string name="title_activity_order_history1">OrderHistory1Activity</string>
+    <string name="title_activity_order_screen1">OrderScreen1Activity</string>
+    <string name="title_activity_order_screeen2">OrderScreeen2Activity</string>
+    <string name="title_activity_about_us">AboutUsActivity</string>
+    <string name="title_activity_add_meal_ad">AddMealADActivity</string>
+    <string name="title_activity_see_review_and_rating">SeeReviewAndRatingActivity</string>
+    <string name="title_activity_view_yr_ad">ViewYrAdActivity</string>
+    <string name="title_activity_how_to_use_app">HowToUseAppActivity</string>
+    <string name="title_activity_sign_up1">SignUp1Activity</string>
+    <string name="title_activity_update_delivery_address">UpdateDeliveryAddressActivity</string>
+    <string name="title_activity_update_description">UpdateDescriptionActivity</string>
+
+</resources>
