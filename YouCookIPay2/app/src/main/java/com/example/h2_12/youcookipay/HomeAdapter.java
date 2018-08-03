@@ -99,17 +99,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                 holder.itemView.getContext().startActivity(intent);
             }
         });
-       /* Glide
-                .with(holder.chefImage.getContext())
-                .asBitmap()
-                .load(currentData.getUserImage())
-                .into(new SimpleTarget<Bitmap>(88,88) {
-                    @Override
-                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        Drawable dr = new BitmapDrawable(resource);
-                        holder.chefImage.setBackgroundDrawable(dr);
-                    }
-                });*/
+
         if(!currentData.getUserImage().equals("")) {
             Glide.with(holder.chefImage.getContext()).load(currentData.getUserImage()).into(holder.chefImage);
         }
@@ -118,10 +108,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             Glide.with(holder.chefImage.getContext()).load(R.drawable.profile_pic).into(holder.chefImage);
 
         }
-        Glide
-                .with(holder.mealImage.getContext())
+        Glide.with(holder.mealImage.getContext())
                 .asBitmap()
-                .load(currentData.getMeal_image())
+                .load(currentData.getMealImage())
                 .into(new SimpleTarget<Bitmap>(120,170) {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
@@ -129,6 +118,35 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                         holder.mealImage.setBackgroundDrawable(dr);
                     }
                 });
+       /* new Runnable(){
+            int currentIndex=0;
+            int updateInterval = 1000;
+            @Override
+            public void run() {
+
+                Glide.with(holder.mealImage.getContext())
+                        .asBitmap()
+
+                        .load(currentData.mylist.get(currentIndex))
+                        .into(new SimpleTarget<Bitmap>(120,170) {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                Drawable dr = new BitmapDrawable(resource);
+                                holder.mealImage.setBackgroundDrawable(dr);
+                            }
+                        });
+                holder.mealImage.postDelayed(this,updateInterval);
+                currentIndex+=1;
+                if (currentIndex == 2){
+                    currentIndex=0;
+                }
+            }
+        }.run();
+*/
+
+
+
+
         holder.orderMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

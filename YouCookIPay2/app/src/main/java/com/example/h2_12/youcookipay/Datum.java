@@ -1,6 +1,7 @@
 
 package com.example.h2_12.youcookipay;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -22,10 +23,10 @@ public class Datum {
     private String category;
     private String type;
     private String portionPrice;
-    private String meal_image;
+    private String mealImage;
+   // ArrayList<String> mylist = new ArrayList<String>();
 
-
-    public Datum(String userId, String userName, String userDescription, String userAddress, String userImage, String rating, String seller_type, String mealId, String mealName, String placeName, String mealDescription, String classification, String category, String type, String portionPrice, String meal_image) {
+    public Datum(String userId, String userName, String userDescription, String userAddress, String userImage, String rating, String seller_type, String mealId, String mealName, String placeName, String mealDescription, String classification, String category, String type, String portionPrice, String mealImage) {
         this.userId = userId;
         this.userName = userName;
         this.userDescription = userDescription;
@@ -41,8 +42,29 @@ public class Datum {
         this.category = category;
         this.type = type;
         this.portionPrice = portionPrice;
-        this.meal_image = meal_image;
+        this.mealImage = mealImage;
     }
+
+
+
+    /*public Datum(String userId, String userName, String userDescription, String userAddress, String userImage, String rating, String seller_type, String mealId, String mealName, String placeName, String mealDescription, String classification, String category, String type, String portionPrice, ArrayList<String> mylist) {
+        this.userId = userId;
+        this.userName = userName;
+        this.userDescription = userDescription;
+        this.userAddress = userAddress;
+        this.userImage = userImage;
+        this.rating = rating;
+        this.seller_type = seller_type;
+        this.mealId = mealId;
+        this.mealName = mealName;
+        this.placeName = placeName;
+        this.mealDescription = mealDescription;
+        this.classification = classification;
+        this.category = category;
+        this.type = type;
+        this.portionPrice = portionPrice;
+        this.mylist = mylist;
+    }*/
 
     public String getSeller_type() {
         return seller_type;
@@ -164,11 +186,12 @@ public class Datum {
         this.portionPrice = portionPrice;
     }
 
-    public String getMeal_image() {
-        return meal_image;
+    public String getMealImage() {
+        return mealImage;
     }
 
-    public void setMeal_image(String meal_image) {
-        this.meal_image = meal_image;
+    public void setMealImage(String mealImage) {
+        this.mealImage = mealImage;
     }
 }
+

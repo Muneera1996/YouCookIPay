@@ -46,13 +46,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
         <RelativeLayout
          android:id="@+id/chef_info"
           android:layout_width="match_parent"
           android:layout_height="80dp"
           android:minHeight="80dp">
-
            <de.hdodenhof.circleimageview.CircleImageView android:layout_margin="5dp"
                android:id="@+id/myProfile_image"
                android:layout_width="88dp"

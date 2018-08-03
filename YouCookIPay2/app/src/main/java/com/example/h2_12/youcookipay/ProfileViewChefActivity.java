@@ -54,8 +54,6 @@ public class ProfileViewChefActivity extends AppCompatActivity
     static ArrayList<Chef_Profile> chef_profile;
     TextView name,address,type,description,rating;
     private double rate=0;
-    final int CONNTIMEOUT=30000;
-    private ProgressDialog dialog;
     static String iid;
     LinearLayout layout1,layout2;
     ProgressBar mProgressBar;
@@ -71,7 +69,6 @@ public class ProfileViewChefActivity extends AppCompatActivity
 
         home_menu=findViewById(R.id.home_menu);
         filter=findViewById(R.id.filter);
-        dialog=new ProgressDialog(this);
         mealsList=new ArrayList<>();
         chef_profile=new ArrayList<>();
         recyclerView=findViewById(R.id.recyclerview_profile_view_chef);
@@ -171,7 +168,6 @@ public class ProfileViewChefActivity extends AppCompatActivity
                             }
 
                             boolean success = profileViewChef.getStatus();
-                            String message = profileViewChef.getMessage();
                             try {
                                 if (success) {
                                     JSONObject jsonObject=response.getJSONObject("data");

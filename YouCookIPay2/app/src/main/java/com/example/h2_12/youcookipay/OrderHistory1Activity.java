@@ -21,7 +21,6 @@ public class OrderHistory1Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     View home_menu;
     ImageView filter;
-    LinearLayout layout1,layout2;
     ProgressBar mProgressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

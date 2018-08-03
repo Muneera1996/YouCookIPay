@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -30,9 +31,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,11 +43,15 @@ public class OrderScreeen2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Button placeOrder;
     View home_menu,delivery,yourself;
-    ImageView filter,delivery_checkbox,yourself_checkbox;
+    ImageView filter,delivery_checkbox,yourself_checkbox,image,star1,star2,star3,star4,star5;
     EditText name,email,number,date,time,street,area,city;
     String pick_option="";
-    LinearLayout layout1,layout2;
     ProgressBar mProgressBar;
+    TextView chef_name,chef_address,chef_type,chef_rating;
+    ArrayList<Chef_Profile> profile;
+    private double rate=0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +59,7 @@ public class OrderScreeen2Activity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        profile=ProfileViewChefActivity.chef_profile;
         home_menu=findViewById(R.id.home_menu);
         filter=findViewById(R.id.filter);
         yourself=findViewById(R.id.pick_option_yourself);
@@ -66,7 +74,50 @@ public class OrderScreeen2Activity extends AppCompatActivity
         street=findViewById(R.id.orderScreen_street);
         area=findViewById(R.id.orderScreen_area);
         city=findViewById(R.id.orderScreen_city);
+        chef_name=findViewById(R.id.orderScreen1_chef_name);
+        chef_address=findViewById(R.id.orderScreen1_chef_place);
+        chef_rating=findViewById(R.id.orderScreen1_rating);
+        chef_type=findViewById(R.id.orderScreen1_seller_type);
+        image=findViewById(R.id.orderScreen1_image);
+        star1=findViewById(R.id.orderScreen1_star_one);
+        star2=findViewById(R.id.orderScreen1_star_two);
+        star3=findViewById(R.id.orderScreen1_star_three);
+        star4=findViewById(R.id.orderScreen1_star_four);
+        star5=findViewById(R.id.orderScreen1_star_five);
+        chef_name.setText(profile.get(0).getName());
+        chef_address.setText(profile.get(0).getAddress());
+        chef_type.setText(profile.get(0).getType());
+        chef_rating.setText(profile.get(0).getRating());
+        if(!chef_rating.getText().toString().trim().isEmpty()){
+            rate = Double.parseDouble(chef_rating.getText().toString());
+        }
+        if(rate>=1&&rate<2) {
+            Glide.with(star1.getContext()).load(R.drawable.fill_star).into(star1);
+        }
+        else if(rate>=2&&rate<3) {
+            Glide.with(star1.getContext()).load(R.drawable.fill_star).into(star1);
+            Glide.with(star2.getContext()).load(R.drawable.fill_star).into(star2);
+        }
+        else if(rate>=3&&rate<4) {
+            Glide.with(star1.getContext()).load(R.drawable.fill_star).into(star1);
+            Glide.with(star2.getContext()).load(R.drawable.fill_star).into(star2);
+            Glide.with(star3.getContext()).load(R.drawable.fill_star).into(star3);
 
+        }
+        else if(rate>=4&&rate<5) {
+            Glide.with(star1.getContext()).load(R.drawable.fill_star).into(star1);
+            Glide.with(star2.getContext()).load(R.drawable.fill_star).into(star2);
+            Glide.with(star3.getContext()).load(R.drawable.fill_star).into(star3);
+            Glide.with(star4.getContext()).load(R.drawable.fill_star).into(star4);
+        }
+        else if(rate>=5){
+            Glide.with(star1.getContext()).load(R.drawable.fill_star).into(star1);
+            Glide.with(star2.getContext()).load(R.drawable.fill_star).into(star2);
+            Glide.with(star3.getContext()).load(R.drawable.fill_star).into(star3);
+            Glide.with(star4.getContext()).load(R.drawable.fill_star).into(star4);
+            Glide.with(star5.getContext()).load(R.drawable.fill_star).into(star5);
+        }
+        Glide.with(image.getContext()).load(profile.get(0).getImage()).into(image);
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);

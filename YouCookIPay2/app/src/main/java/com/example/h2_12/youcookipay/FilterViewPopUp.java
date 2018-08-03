@@ -163,7 +163,13 @@ public class FilterViewPopUp extends AppCompatActivity {
                                                 String category=user.getString("category");
                                                 String type=user.getString("type");
                                                 String portion_price=user.getString("portion_price");
-                                                String meal_images= user.getJSONArray("meal_images").getString(0);
+                                                String  meal_images = user.getJSONArray("meal_images").getString(0);
+
+                                               /* ArrayList<String> mylist = new ArrayList<String>();
+                                                for(int ii=0;ii<2;ii++) {
+                                                    String  meal_images = user.getJSONArray("meal_images").getString(ii);
+                                                    mylist.add(meal_images); //this adds an element to the list.
+                                                }*/
                                                 homeList.add(new Datum(user_id,user_name,user_description,user_address,user_image,rating,seller_type,meal_id,meal_name,place_name,meal_description,classification,category,type,portion_price,meal_images));
                                             }
                                         }
