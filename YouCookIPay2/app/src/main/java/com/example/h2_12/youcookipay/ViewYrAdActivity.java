@@ -64,6 +64,7 @@ public class ViewYrAdActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         mealsList=new ArrayList<>();
         arrayList=LoginInActivity.users;
+        ProfileActivity.check=true;
         recyclerView=findViewById(R.id.recyclerview_view_your_Ad);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         final RequestQueue queue=AppController.getInstance().getRequestQueue();
