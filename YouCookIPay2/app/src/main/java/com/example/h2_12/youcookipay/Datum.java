@@ -23,10 +23,10 @@ public class Datum {
     private String category;
     private String type;
     private String portionPrice;
+    private ArrayList<String> mylist=new ArrayList<>();
     private String mealImage;
-   // ArrayList<String> mylist = new ArrayList<String>();
 
-    public Datum(String userId, String userName, String userDescription, String userAddress, String userImage, String rating, String seller_type, String mealId, String mealName, String placeName, String mealDescription, String classification, String category, String type, String portionPrice, String mealImage) {
+   public Datum(String userId, String userName, String userDescription, String userAddress, String userImage, String rating, String seller_type, String mealId, String mealName, String placeName, String mealDescription, String classification, String category, String type, String portionPrice, String mealImage) {
         this.userId = userId;
         this.userName = userName;
         this.userDescription = userDescription;
@@ -47,7 +47,7 @@ public class Datum {
 
 
 
-    /*public Datum(String userId, String userName, String userDescription, String userAddress, String userImage, String rating, String seller_type, String mealId, String mealName, String placeName, String mealDescription, String classification, String category, String type, String portionPrice, ArrayList<String> mylist) {
+ /*public Datum(String userId, String userName, String userDescription, String userAddress, String userImage, String rating, String seller_type, String mealId, String mealName, String placeName, String mealDescription, String classification, String category, String type, String portionPrice, ArrayList<String> mylist) {
         this.userId = userId;
         this.userName = userName;
         this.userDescription = userDescription;
@@ -192,6 +192,14 @@ public class Datum {
 
     public void setMealImage(String mealImage) {
         this.mealImage = mealImage;
+    }
+
+    public ArrayList<String> getMylist() {
+        return mylist;
+    }
+
+    public void setMylist(ArrayList<String> mylist) {
+        this.mylist = mylist;
     }
 }
 

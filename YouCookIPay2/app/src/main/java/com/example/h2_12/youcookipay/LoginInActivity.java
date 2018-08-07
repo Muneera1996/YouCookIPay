@@ -45,7 +45,6 @@ public class LoginInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_in);
-        final RequestQueue queue=AppController.getInstance().getRequestQueue();
         signIn = findViewById(R.id.sign_in);
         signUp = findViewById(R.id.register_btn);
         email = findViewById(R.id.login_email);
@@ -124,7 +123,7 @@ public class LoginInActivity extends AppCompatActivity {
 
 
                         };
-                        queue.add(postRequest);
+                        VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(postRequest);
                         postRequest.setRetryPolicy(new RetryPolicy() {
                             @Override
                             public int getCurrentTimeout() {
@@ -184,7 +183,7 @@ public class LoginInActivity extends AppCompatActivity {
                                 }
 
                         );
-                        queue.add(getRequest);
+                        VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(getRequest);
                     }
                 }
             });

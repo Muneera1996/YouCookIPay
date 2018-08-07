@@ -67,7 +67,6 @@ public class ViewYrAdActivity extends AppCompatActivity
         ProfileActivity.check=true;
         recyclerView=findViewById(R.id.recyclerview_view_your_Ad);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        final RequestQueue queue=AppController.getInstance().getRequestQueue();
         layout1 = (LinearLayout) findViewById(R.id.progressbar_view);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mProgressBar.setVisibility(View.VISIBLE);
@@ -120,7 +119,7 @@ public class ViewYrAdActivity extends AppCompatActivity
                             mProgressBar.setVisibility(View.GONE);
                             layout1.setVisibility(View.GONE);
                         }});
-            queue.add(getRequest);
+            VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(getRequest);
             getRequest.setRetryPolicy(new RetryPolicy() {
                 @Override
                 public int getCurrentTimeout() {

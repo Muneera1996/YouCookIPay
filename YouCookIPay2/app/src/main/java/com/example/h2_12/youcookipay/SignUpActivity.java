@@ -39,7 +39,6 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        final RequestQueue queue=AppController.getInstance().getRequestQueue();
 
         if(isConnected()){
 
@@ -198,7 +197,7 @@ public class SignUpActivity extends AppCompatActivity {
                             return params;
                         }
                     };
-                    queue.add(postRequest);
+                    VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(postRequest);
                     postRequest.setRetryPolicy(new RetryPolicy() {
                         @Override
                         public int getCurrentTimeout() {

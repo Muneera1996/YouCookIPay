@@ -73,7 +73,6 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
 
         arrayList=ProfileViewChefActivity.chef_profile;
         arrayList1=LoginInActivity.users;
-        final RequestQueue queue=AppController.getInstance().getRequestQueue();
         home_menu=findViewById(R.id.home_menu);
         filter=findViewById(R.id.filter);
         submit=findViewById(R.id.ReviewAndRating_submit);
@@ -178,6 +177,10 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
                                     mProgressBar.setVisibility(View.GONE);
                                     String message=obj.getString("message");
                                     Toast.makeText(ReviewsAndRatingActivity.this, message, Toast.LENGTH_SHORT).show();
+                                    if (message.equalsIgnoreCase("review posted successfully")) {
+                                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                        startActivity(intent);
+                                    }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -189,7 +192,7 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
                                 // error
                                 Log.d("Error.Response", error.toString());
                                 mProgressBar.setVisibility(View.GONE);
-                                Toast.makeText(getApplicationContext(),"Some error occur", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),error.toString(), Toast.LENGTH_SHORT).show();
                             }
                         }
                 ) {
@@ -214,7 +217,7 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
                     }
 
                 };
-                queue.add(postRequest);
+                VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(postRequest);
                 postRequest.setRetryPolicy(new RetryPolicy() {
                     @Override
                     public int getCurrentTimeout() {

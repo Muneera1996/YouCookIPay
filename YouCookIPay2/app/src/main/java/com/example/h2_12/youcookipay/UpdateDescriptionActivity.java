@@ -26,15 +26,19 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -62,7 +66,6 @@ public class UpdateDescriptionActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         description=findViewById(R.id.updateDescription_info);
-        final RequestQueue queue=AppController.getInstance().getRequestQueue();
         home_menu=findViewById(R.id.home_menu);
         name=findViewById(R.id.updateDescription_name);
         address=findViewById(R.id.updateDescription_address);
@@ -115,80 +118,111 @@ public class UpdateDescriptionActivity extends AppCompatActivity
             public void onClick(View v) {
                 mProgressBar.setVisibility(View.VISIBLE);
                 update_description.setEnabled(false);
-                String url = "http://www.businessmarkaz.com/test/ucookipayws/user/update_profile_seller";
-                StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                        new Response.Listener<String>()
-                        {
-                            @Override
-                            public void onResponse(String response) {
-                                // response
-                                Log.d("Response", response);
-                                try {
-                                    mProgressBar.setVisibility(View.GONE);
-                                    update_description.setEnabled(true);
-                                    JSONObject obj = new JSONObject(response);
-                                    String message = obj.getString("message");
-                                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                                    if(message.equalsIgnoreCase("profile updated successfully"))
-                                    {
+                updateDescription();
+            }
+        });
+    }
 
-                                        Intent intent=new Intent(getApplicationContext(),ProfileActivity.class);
-                                        startActivity(intent);
-                                    }
-
-                                } catch (Throwable t) {
-                                    Log.e("Update Description", "Could not parse malformed JSON: \"" + response + "\"");
-                                }
-                            }
-                        },
-                        new Response.ErrorListener()
-                        {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // error
-                                Log.d("Error.Response", error.toString());
-                                mProgressBar.setVisibility(View.GONE);
-                                update_description.setEnabled(true);
-                            }
-                        }
-                ) {
-                    @Override
-                    protected Map<String, String> getParams()
+    private void updateDescription() {
+        // loading or check internet connection or something...
+        // ... then
+        String url = "http://www.businessmarkaz.com/test/ucookipayws/user/update_profile_seller";
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, url, new Response.Listener<NetworkResponse>() {
+            @Override
+            public void onResponse(NetworkResponse response) {
+                String resultResponse = new String(response.data);
+                try {
+                    mProgressBar.setVisibility(View.GONE);
+                    update_description.setEnabled(true);
+                    JSONObject result = new JSONObject(resultResponse);
+                    String status = result.getString("status");
+                    String message = result.getString("message");
+                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                    if(message.equalsIgnoreCase("profile updated successfully"))
                     {
-                        Map<String, String> params = new HashMap<String, String>();
-                        params.put("user_id",users.get(0).getUser_id());
-                        params.put("session_id",users.get(0).getSession_id());
-                        params.put("user_name",name.getText().toString());
-                        params.put("user_address",address.getText().toString());
-                        params.put("user_description",description.getText().toString());
-                        if(bitmap!=null) {
-                            params.put("user_image", bitmapToString(bitmap));
+                        Intent intent=new Intent(getApplicationContext(),ProfileActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Log.i("Unexpected", message);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkResponse networkResponse = error.networkResponse;
+                String errorMessage = "Unknown error";
+                if (networkResponse == null) {
+                    if (error.getClass().equals(TimeoutError.class)) {
+                        errorMessage = "Request timeout";
+                    } else if (error.getClass().equals(NoConnectionError.class)) {
+                        errorMessage = "Failed to connect server";
+                    }
+                } else {
+                    String result = new String(networkResponse.data);
+                    try {
+                        JSONObject response = new JSONObject(result);
+                        String status = response.getString("status");
+                        String message = response.getString("message");
+
+                        Log.e("Error Status", status);
+                        Log.e("Error Message", message);
+
+                        if (networkResponse.statusCode == 404) {
+                            errorMessage = "Resource not found";
+                        } else if (networkResponse.statusCode == 401) {
+                            errorMessage = message+" Please login again";
+                        } else if (networkResponse.statusCode == 400) {
+                            errorMessage = message+ " Check your inputs";
+                        } else if (networkResponse.statusCode == 500) {
+                            errorMessage = message+" Something is getting wrong";
                         }
-                        else {
-                           params.put("user_image", myProfile.get(0).getImage());
-
-                        }
-                        return params;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                };
-                queue.add(postRequest);
-                postRequest.setRetryPolicy(new RetryPolicy() {
-                    @Override
-                    public int getCurrentTimeout() {
-                        return 30000;
-                    }
+                }
+                Log.i("Error", errorMessage);
+                error.printStackTrace();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("user_id",users.get(0).getUser_id());
+                params.put("session_id",users.get(0).getSession_id());
+                params.put("user_name",name.getText().toString());
+                params.put("user_address",address.getText().toString());
+                params.put("user_description",description.getText().toString());
+                return params;
+            }
 
-                    @Override
-                    public int getCurrentRetryCount() {
-                        return 30000;
-                    }
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+                // file name could found file base or direct access from real path
+                // for now just get bitmap data from ImageView
+                params.put("user_image", new DataPart("file_avatar.jpg", AppHelper.getFileDataFromDrawable(getBaseContext(), image.getDrawable()), "image/jpeg"));
 
-                    @Override
-                    public void retry(VolleyError error) throws VolleyError {
+                return params;
+            }
+        };
 
-                    }
-                });
+        VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(multipartRequest);
+        multipartRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 30000;
+            }
 
+            @Override
+            public int getCurrentRetryCount() {
+                return 30000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
 
             }
         });
@@ -204,7 +238,6 @@ public class UpdateDescriptionActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -248,12 +281,7 @@ public class UpdateDescriptionActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    private String bitmapToString(Bitmap bitmap){
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
-        byte[] imgBytes = byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(imgBytes,Base64.DEFAULT);
-    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==IMG_REQUEST&&resultCode==RESULT_OK&&data!=null)

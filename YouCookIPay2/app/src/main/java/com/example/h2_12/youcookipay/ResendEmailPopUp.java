@@ -36,7 +36,6 @@ public class ResendEmailPopUp extends AppCompatActivity {
         int height = dm.heightPixels;
 
         id=SignUpActivity.id;
-        final RequestQueue queue=AppController.getInstance().getRequestQueue();
 
         getWindow().setLayout((int) (width*.9),(int)(height*.5));
         resend_email=findViewById(R.id.resend_email);
@@ -86,7 +85,7 @@ public class ResendEmailPopUp extends AppCompatActivity {
                         }
                 );
 
-                queue.add(getRequest);
+                VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(getRequest);
 
             }
         });

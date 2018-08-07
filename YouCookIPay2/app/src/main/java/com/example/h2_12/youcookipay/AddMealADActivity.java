@@ -28,10 +28,13 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
@@ -40,6 +43,7 @@ import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -54,12 +58,13 @@ public class AddMealADActivity extends AppCompatActivity
     ImageView sell_checkbox,donate_checkbox,commercial_food_checkbox,private_food_checkbox,food_checkbox,beverages_checkbox;
     ImageView filter;
     ImageView publish,image1,image2,image3;
-    String type1="",type2="",type3="";
+    String type1="",type2="",type3="",meal_id;
     EditText meal,resturant,price,description;
     ImageView upload_img1,upload_img2,upload_img3;
     private final int IMG_REQUEST1=1;
     private final int IMG_REQUEST2=2;
     private final int IMG_REQUEST3=3;
+    int imageCount = 0;
 
     private Bitmap bitmap1,bitmap2,bitmap3;
     ArrayList<User> arrayList;
@@ -143,7 +148,7 @@ public class AddMealADActivity extends AppCompatActivity
                                     mProgressBar.setVisibility(View.GONE);
                                     JSONObject obj = new JSONObject(response.toString());
                                     JSONObject user=obj.getJSONObject("data");
-                                    String meal_id = user.getString("meal_id");
+                                    meal_id = user.getString("meal_id");
                                     meal.setText(user.getString("meal_name"));
                                     resturant.setText(user.getString("place_name"));
                                     price.setText(user.getString("portion_price"));
@@ -227,46 +232,74 @@ public class AddMealADActivity extends AppCompatActivity
                                 Toast.makeText(getApplicationContext(), "Fill all the details!", Toast.LENGTH_LONG).show();
                             layout1.setEnabled(true);
                         }
+
                             else {
                                 mProgressBar.setVisibility(View.VISIBLE);
                                 String url = "http://www.businessmarkaz.com/test/ucookipayws/meal_ads/edit_details";
-                                StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                                        new Response.Listener<String>() {
-                                            @Override
-                                            public void onResponse(String response) {
+                                VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, url, new Response.Listener<NetworkResponse>() {
+                                    @Override
+                                    public void onResponse(NetworkResponse response) {
+                                        String resultResponse = new String(response.data);
+                                        try {
+                                            mProgressBar.setVisibility(View.GONE);
+                                            JSONObject result = new JSONObject(resultResponse);
+                                            String message = result.getString("message");
+                                            Log.d("onResponseEditMeal", resultResponse);
+                                            Toast.makeText(AddMealADActivity.this, message, Toast.LENGTH_SHORT).show();
+                                            if (message.equalsIgnoreCase("Ad updated successfully")) {
+                                                Intent intent=new Intent(getApplicationContext(),ProfileActivity.class);
+                                                startActivity(intent);
+                                            } else {
+                                                Log.e("Unexpected", message);
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        NetworkResponse networkResponse = error.networkResponse;
+                                        String errorMessage = "Unknown error";
+                                        if (networkResponse == null) {
+                                            if (error.getClass().equals(TimeoutError.class)) {
+                                                errorMessage = "Request timeout";
+                                            } else if (error.getClass().equals(NoConnectionError.class)) {
+                                                errorMessage = "Failed to connect server";
+                                            }
+                                        } else {
+                                            String result = new String(networkResponse.data);
+                                            try {
+                                                JSONObject response = new JSONObject(result);
+                                                String status = response.getString("status");
+                                                String message = response.getString("message");
 
-                                                // response
-                                                Log.d("Response", response);
-                                                try {
-                                                    mProgressBar.setVisibility(View.GONE);
-                                                    layout1.setEnabled(true);
+                                                Log.e("Error Status", status);
+                                                Log.e("Error Message", message);
 
-                                                    JSONObject obj = new JSONObject(response);
-                                                    Toast.makeText(AddMealADActivity.this, response, Toast.LENGTH_SHORT).show();
-                                                    String message = obj.getString("message");
-                                                    if (message.equalsIgnoreCase("Ad successfully Updated")) {
-                                                        Toast.makeText(AddMealADActivity.this, message, Toast.LENGTH_SHORT).show();
-                                                    }
-                                                    } catch (Throwable t) {
-                                                    Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
+                                                if (networkResponse.statusCode == 404) {
+                                                    errorMessage = "Resource not found";
+                                                } else if (networkResponse.statusCode == 401) {
+                                                    errorMessage = message+" Please login again";
+                                                } else if (networkResponse.statusCode == 400) {
+                                                    errorMessage = message+ " Check your inputs";
+                                                } else if (networkResponse.statusCode == 500) {
+                                                    errorMessage = message+" Something is getting wrong";
                                                 }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
                                             }
-                                        },
-                                        new Response.ErrorListener() {
-                                            @Override
-                                            public void onErrorResponse(VolleyError error) {
-                                                // error
-                                                Log.d("Error.Response", error.toString());
-                                                mProgressBar.setVisibility(View.GONE);
-                                                layout1.setEnabled(true);
-                                            }
-                                            }
-                                ) {
+                                        }
+                                        Log.i("Error", errorMessage);
+                                        error.printStackTrace();
+                                    }
+                                }) {
                                     @Override
                                     protected Map<String, String> getParams() {
-                                        Map<String, String> params = new HashMap<String, String>();
+                                        Map<String, String> params = new HashMap<>();
                                         params.put("user_id", arrayList.get(0).getUser_id());
                                         params.put("session_id", arrayList.get(0).getSession_id());
+                                        params.put("meal_id", meal_id);
                                         params.put("classification", type1);
                                         params.put("category", type2);
                                         params.put("type", type3);
@@ -274,14 +307,24 @@ public class AddMealADActivity extends AppCompatActivity
                                         params.put("place_name", resturant.getText().toString());
                                         params.put("portion_price", price.getText().toString());
                                         params.put("meal_description", description.getText().toString());
+                                        return params;
+                                    }
 
-                                        params.put("meal_images[0]", bitmapToString(bitmap1));
-                                        params.put("meal_images[1]", bitmapToString(bitmap2));
-                                        params.put("meal_images[2]",bitmapToString(bitmap3));
-                                        return params; }
+                                    @Override
+                                    protected Map<String, DataPart> getByteData() {
+                                        Map<String, DataPart> params = new HashMap<>();
+                                        // file name could found file base or direct access from real path
+                                        // for now just get bitmap data from ImageView
+                                            params.put("meal_images[0]", new DataPart("file_avatar.jpg", AppHelper.getFileDataFromDrawable(getBaseContext(), image1.getDrawable()), "image/jpeg"));
+                                            params.put("meal_images[1]", new DataPart("file_cover.jpg", AppHelper.getFileDataFromDrawable(getBaseContext(), image2.getDrawable()), "image/jpeg"));
+                                            params.put("meal_images[2]", new DataPart("file_cover.jpg", AppHelper.getFileDataFromDrawable(getBaseContext(), image3.getDrawable()), "image/jpeg"));
+
+                                        return params;
+                                    }
                                 };
-                                queue.add(postRequest);
-                                postRequest.setRetryPolicy(new RetryPolicy() {
+
+                                VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(multipartRequest);
+                                multipartRequest.setRetryPolicy(new RetryPolicy() {
                                     @Override
                                     public int getCurrentTimeout() {
                                         return 30000;
@@ -294,8 +337,13 @@ public class AddMealADActivity extends AppCompatActivity
 
                                     @Override
                                     public void retry(VolleyError error) throws VolleyError {
+
                                     }
                                 });
+
+
+
+
 
                             }
                         }
@@ -320,77 +368,14 @@ public class AddMealADActivity extends AppCompatActivity
                                 price.getText().toString().trim().equals("") || description.getText().toString().trim().equals("") ||
                                 type1.equals("") || type2.equals("") || type3.equals(""))
                             Toast.makeText(getApplicationContext(), "Fill all the details!", Toast.LENGTH_LONG).show();
+                        else if (imageCount!=3){
+                            Toast.makeText(AddMealADActivity.this, "Meal Images are Missing", Toast.LENGTH_SHORT).show();
+                        }
                         else {
                             mProgressBar.setVisibility(View.VISIBLE);
-                            String url = "http://www.businessmarkaz.com/test/ucookipayws/meal_ads/publish";
-                            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                                    new Response.Listener<String>() {
-                                        @Override
-                                        public void onResponse(String response) {
-                                            // response
-                                            Log.d("Response", response);
-                                            try {
-                                                mProgressBar.setVisibility(View.GONE);
-                                                JSONObject obj = new JSONObject(response);
-                                                String message = obj.getString("message");
-                                                if (message.equalsIgnoreCase("Ad successfully published")) {
-                                                    Toast.makeText(AddMealADActivity.this, message, Toast.LENGTH_SHORT).show();
-                                                }
-
-                                            } catch (Throwable t) {
-                                                Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
-                                            }
-                                        }
-                                    },
-                                    new Response.ErrorListener() {
-                                        @Override
-                                        public void onErrorResponse(VolleyError error) {
-                                            // error
-                                            mProgressBar.setVisibility(View.GONE);
-
-                                            Log.d("Error.Response", error.toString());
-                                            Toast.makeText(getApplicationContext(), "Some error occur", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                            ) {
-                                @Override
-                                protected Map<String, String> getParams() {
-                                    Map<String, String> params = new HashMap<String, String>();
-                                    params.put("user_id", arrayList.get(0).getUser_id());
-                                    params.put("session_id", arrayList.get(0).getSession_id());
-                                    params.put("classification", type1);
-                                    params.put("category", type2);
-                                    params.put("type", type3);
-                                    params.put("meal_name", meal.getText().toString());
-                                    params.put("place_name", resturant.getText().toString());
-                                    params.put("portion_price", price.getText().toString());
-                                    params.put("meal_description", description.getText().toString());
-                                    params.put("meal_images[0]", bitmapToString(bitmap1));
-                                    params.put("meal_images[1]", bitmapToString(bitmap2));
-                                    params.put("meal_images[2]", bitmapToString(bitmap3));
-                                    return params;
-                                }
-                            };
-                            queue.add(postRequest);
-                            postRequest.setRetryPolicy(new RetryPolicy() {
-                                @Override
-                                public int getCurrentTimeout() {
-                                    return 30000;
-                                }
-
-                                @Override
-                                public int getCurrentRetryCount() {
-                                    return 30000;
-                                }
-
-                                @Override
-                                public void retry(VolleyError error) throws VolleyError {
-
-                                }
-                            });
+                            addMeal();
                         }
                     } else {
-
                         Toast.makeText(AddMealADActivity.this, "Check Your Internet Connection", Toast.LENGTH_SHORT).show();
                     }
 
@@ -539,6 +524,7 @@ public class AddMealADActivity extends AppCompatActivity
                 bitmap1 = MediaStore.Images.Media.getBitmap(getContentResolver(), path);
                 image1.setImageBitmap(bitmap1);
                 image_visibilty.setVisibility(View.VISIBLE);
+                imageCount++;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -550,6 +536,7 @@ public class AddMealADActivity extends AppCompatActivity
                 bitmap2 = MediaStore.Images.Media.getBitmap(getContentResolver(), path);
                 image2.setImageBitmap(bitmap2);
                 image_visibilty.setVisibility(View.VISIBLE);
+                imageCount++;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -561,6 +548,7 @@ public class AddMealADActivity extends AppCompatActivity
                 bitmap3 = MediaStore.Images.Media.getBitmap(getContentResolver(), path);
                 image3.setImageBitmap(bitmap3);
                 image_visibilty.setVisibility(View.VISIBLE);
+                imageCount++;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -579,5 +567,113 @@ public class AddMealADActivity extends AppCompatActivity
         bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
         byte[] imgBytes = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(imgBytes,Base64.DEFAULT);
+    }
+    private void addMeal() {
+        // loading or check internet connection or something...
+        // ... then
+        String url = "http://www.businessmarkaz.com/test/ucookipayws/meal_ads/publish";
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, url, new Response.Listener<NetworkResponse>() {
+            @Override
+            public void onResponse(NetworkResponse response) {
+                String resultResponse = new String(response.data);
+                try {
+                    mProgressBar.setVisibility(View.GONE);
+                    JSONObject result = new JSONObject(resultResponse);
+                    String message = result.getString("message");
+                    Toast.makeText(AddMealADActivity.this, message, Toast.LENGTH_SHORT).show();
+                    if (message.equalsIgnoreCase("Ad successfully published")) {
+                        Intent intent=new Intent(getApplicationContext(),ProfileActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Log.e("Unexpected", message);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkResponse networkResponse = error.networkResponse;
+                String errorMessage = "Unknown error";
+                if (networkResponse == null) {
+                    if (error.getClass().equals(TimeoutError.class)) {
+                        errorMessage = "Request timeout";
+                    } else if (error.getClass().equals(NoConnectionError.class)) {
+                        errorMessage = "Failed to connect server";
+                    }
+                } else {
+                    String result = new String(networkResponse.data);
+                    try {
+                        JSONObject response = new JSONObject(result);
+                        String status = response.getString("status");
+                        String message = response.getString("message");
+
+                        Log.e("Error Status", status);
+                        Log.e("Error Message", message);
+
+                        if (networkResponse.statusCode == 404) {
+                            errorMessage = "Resource not found";
+                        } else if (networkResponse.statusCode == 401) {
+                            errorMessage = message+" Please login again";
+                        } else if (networkResponse.statusCode == 400) {
+                            errorMessage = message+ " Check your inputs";
+                        } else if (networkResponse.statusCode == 500) {
+                            errorMessage = message+" Something is getting wrong";
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Log.i("Error", errorMessage);
+                error.printStackTrace();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("user_id", arrayList.get(0).getUser_id());
+                params.put("session_id", arrayList.get(0).getSession_id());
+                params.put("classification", type1);
+                params.put("category", type2);
+                params.put("type", type3);
+                params.put("meal_name", meal.getText().toString());
+                params.put("place_name", resturant.getText().toString());
+                params.put("portion_price", price.getText().toString());
+                params.put("meal_description", description.getText().toString());
+                return params;
+            }
+
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+                // file name could found file base or direct access from real path
+                // for now just get bitmap data from ImageView
+                params.put("meal_images[0]", new DataPart("file_avatar.jpg", AppHelper.getFileDataFromDrawable(getBaseContext(), image1.getDrawable()), "image/jpeg"));
+                params.put("meal_images[1]", new DataPart("file_cover.jpg", AppHelper.getFileDataFromDrawable(getBaseContext(), image2.getDrawable()), "image/jpeg"));
+                params.put("meal_images[2]", new DataPart("file_cover.jpg", AppHelper.getFileDataFromDrawable(getBaseContext(), image3.getDrawable()), "image/jpeg"));
+
+                return params;
+            }
+        };
+
+        VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(multipartRequest);
+        multipartRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 30000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 30000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
     }
 }

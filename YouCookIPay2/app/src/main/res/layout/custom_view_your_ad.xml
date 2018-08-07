@@ -10,7 +10,7 @@
         android:id="@+id/viewyourmeal_sliding_btn"
         android:layout_marginHorizontal="10dp"
         android:layout_gravity="end"
-        android:layout_width="35dp"
+        android:layout_width="25dp"
         android:layout_height="12dp"
         android:src="@drawable/sliding_button"/>
 

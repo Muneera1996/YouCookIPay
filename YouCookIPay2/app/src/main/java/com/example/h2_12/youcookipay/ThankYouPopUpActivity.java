@@ -15,7 +15,6 @@ import android.widget.TextView;
 public class ThankYouPopUpActivity extends AppCompatActivity {
     TextView resend_email,change_email_address;
     ImageView thanks_btn;
-    LinearLayout layout1,layout2;
     ProgressBar mProgressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

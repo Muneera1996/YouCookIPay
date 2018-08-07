@@ -336,7 +336,7 @@ public class ProfileActivity extends AppCompatActivity
                     }
                 });
 
-        queue.add(getRequest);
+        VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(getRequest);
         getRequest.setRetryPolicy(new RetryPolicy() {
             @Override
             public int getCurrentTimeout() {

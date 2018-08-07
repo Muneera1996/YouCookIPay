@@ -49,7 +49,6 @@ public class UpdateDeliveryAddressActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final RequestQueue queue = Volley.newRequestQueue(this);
 
         home_menu=findViewById(R.id.home_menu);
         filter=findViewById(R.id.filter);

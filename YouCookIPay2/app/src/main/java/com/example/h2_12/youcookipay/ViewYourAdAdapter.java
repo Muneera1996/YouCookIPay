@@ -80,7 +80,6 @@ public class ViewYourAdAdapter extends RecyclerView.Adapter<ViewYourAdAdapter.Vi
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
                         if(item.getItemId()==R.id.action_delete){
-                            final RequestQueue queue = Volley.newRequestQueue(context);
 
                             final String url = "http://www.businessmarkaz.com/test/ucookipayws/meal_ads/delete_ad?user_id=" + arrayList.get(0).getUser_id() + "&session_id=" + arrayList.get(0).getSession_id() + "&meal_id=" + currentMeal.getMealId();
                             JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -112,7 +111,7 @@ public class ViewYourAdAdapter extends RecyclerView.Adapter<ViewYourAdAdapter.Vi
                                         public void onErrorResponse(VolleyError error) {
                                             Log.d("Error.Response", error.toString());
                                         }});
-                            queue.add(getRequest);
+                            VolleySingleton.getInstance(context).addToRequestQueue(getRequest);
                         }
                         if(item.getItemId()==R.id.action_edit){
                             Intent intent=new Intent(holder.slidingOption.getContext(),AddMealADActivity.class);

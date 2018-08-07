@@ -13,12 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.util.ArrayList;
+
+import static java.lang.System.load;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder>{
     private Context context;
@@ -108,7 +111,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             Glide.with(holder.chefImage.getContext()).load(R.drawable.profile_pic).into(holder.chefImage);
 
         }
-        Glide.with(holder.mealImage.getContext())
+      Glide.with(holder.mealImage.getContext())
                 .asBitmap()
                 .load(currentData.getMealImage())
                 .into(new SimpleTarget<Bitmap>(120,170) {
@@ -118,7 +121,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                         holder.mealImage.setBackgroundDrawable(dr);
                     }
                 });
-       /* new Runnable(){
+   /*  final ArrayList<String> myList=currentData.getMylist();
+        new Runnable(){
             int currentIndex=0;
             int updateInterval = 1000;
             @Override
@@ -126,8 +130,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
                 Glide.with(holder.mealImage.getContext())
                         .asBitmap()
-
-                        .load(currentData.mylist.get(currentIndex))
+                        .load(myList.get(currentIndex))
                         .into(new SimpleTarget<Bitmap>(120,170) {
                             @Override
                             public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
@@ -136,16 +139,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                             }
                         });
                 holder.mealImage.postDelayed(this,updateInterval);
-                currentIndex+=1;
-                if (currentIndex == 2){
+                if (currentIndex == currentData.getMylist().size()-1){
                     currentIndex=0;
                 }
+                currentIndex+=1;
+
             }
-        }.run();
-*/
-
-
-
+        }.run();*/
 
         holder.orderMeal.setOnClickListener(new View.OnClickListener() {
             @Override

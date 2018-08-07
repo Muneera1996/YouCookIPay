@@ -66,7 +66,6 @@ public class SeeReviewAndRatingActivity extends AppCompatActivity
         ratingList=new ArrayList<>();
         Intent intent = getIntent();
         String id = intent.getStringExtra("ChefId");
-        final RequestQueue queue=AppController.getInstance().getRequestQueue();
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -131,7 +130,7 @@ public class SeeReviewAndRatingActivity extends AppCompatActivity
                             layout.setVisibility(View.GONE);
 
                         }});
-            queue.add(getRequest);
+            VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(getRequest);
             getRequest.setRetryPolicy(new RetryPolicy() {
                 @Override
                 public int getCurrentTimeout() {

@@ -73,7 +73,7 @@ public class ChangeEmailPopUp extends AppCompatActivity {
                         }
                 );
 
-                queue.add(getRequest);
+                VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(getRequest);
             }
         });
 

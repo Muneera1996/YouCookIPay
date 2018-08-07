@@ -65,7 +65,6 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        final RequestQueue queue=AppController.getInstance().getRequestQueue();
         home_menu=findViewById(R.id.home_menu);
         filter=findViewById(R.id.filter);
         homeList=new ArrayList<>();
@@ -113,7 +112,6 @@ public class HomeActivity extends AppCompatActivity
                             Gson gson = gsonBuilder.create();
                             Home home  = gson.fromJson(response.toString(),Home.class);
                             boolean success = home.getStatus();
-                            String message = home.getMessage();
 
                             try {
                                 if (success) {
@@ -137,11 +135,15 @@ public class HomeActivity extends AppCompatActivity
                                         String type=user.getString("type");
                                         String portion_price=user.getString("portion_price");
                                         String  meal_images = user.getJSONArray("meal_images").getString(0);
-
-                                       /* ArrayList<String> mylist = new ArrayList<String>();
-                                        for(int ii=0;ii<2;ii++) {
+                                      /* ArrayList<String> mylist = new ArrayList<String>();
+                                        for(int ii=0;ii<3;ii++) {
                                             String  meal_images = user.getJSONArray("meal_images").getString(ii);
+                                            if(meal_images.equalsIgnoreCase("")){
+                                                break;
+                                            }
+                                            Log.i("onResponseImage", meal_images);
                                             mylist.add(meal_images); //this adds an element to the list.
+
                                         }*/
                                         homeList.add(new Datum(user_id,user_name,user_description,user_address,user_image,rating,seller_type,meal_id,meal_name,place_name,meal_description,classification,category,type,portion_price,meal_images));
 
@@ -160,7 +162,7 @@ public class HomeActivity extends AppCompatActivity
                             layout.setVisibility(View.GONE);
                             Log.d("Error.Response", error.toString());
                         }});
-            queue.add(getRequest);
+            VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(getRequest);
             getRequest.setRetryPolicy(new RetryPolicy() {
                 @Override
                 public int getCurrentTimeout() {
@@ -235,11 +237,15 @@ public class HomeActivity extends AppCompatActivity
                                                 String category=user.getString("category");
                                                 String type=user.getString("type");
                                                 String portion_price=user.getString("portion_price");
-                                                String  meal_images = user.getJSONArray("meal_images").getString(0);
+                                               String  meal_images = user.getJSONArray("meal_images").getString(0);
 
                                                /* ArrayList<String> mylist = new ArrayList<String>();
-                                                for(int ii=0;ii<2;ii++) {
+                                                for(int ii=0;ii<3;ii++) {
                                                     String  meal_images = user.getJSONArray("meal_images").getString(ii);
+                                                    if(meal_images.equalsIgnoreCase("")){
+                                                        break;
+                                                    }
+                                                    Log.i("onResponseImage", meal_images);
                                                     mylist.add(meal_images); //this adds an element to the list.
 
                                                 }*/
@@ -260,7 +266,7 @@ public class HomeActivity extends AppCompatActivity
                                     layout.setVisibility(View.GONE);
                                 }
                             });
-                    queue.add(getRequest);
+                    VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(getRequest);
                     getRequest.setRetryPolicy(new RetryPolicy() {
                         @Override
                         public int getCurrentTimeout() {
