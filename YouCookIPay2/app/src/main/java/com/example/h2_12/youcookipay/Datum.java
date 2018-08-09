@@ -26,7 +26,7 @@ public class Datum {
     private ArrayList<String> mylist=new ArrayList<>();
     private String mealImage;
 
-   public Datum(String userId, String userName, String userDescription, String userAddress, String userImage, String rating, String seller_type, String mealId, String mealName, String placeName, String mealDescription, String classification, String category, String type, String portionPrice, String mealImage) {
+  /* public Datum(String userId, String userName, String userDescription, String userAddress, String userImage, String rating, String seller_type, String mealId, String mealName, String placeName, String mealDescription, String classification, String category, String type, String portionPrice, String mealImage) {
         this.userId = userId;
         this.userName = userName;
         this.userDescription = userDescription;
@@ -43,11 +43,11 @@ public class Datum {
         this.type = type;
         this.portionPrice = portionPrice;
         this.mealImage = mealImage;
-    }
+    }*/
 
 
 
- /*public Datum(String userId, String userName, String userDescription, String userAddress, String userImage, String rating, String seller_type, String mealId, String mealName, String placeName, String mealDescription, String classification, String category, String type, String portionPrice, ArrayList<String> mylist) {
+ public Datum(String userId, String userName, String userDescription, String userAddress, String userImage, String rating, String seller_type, String mealId, String mealName, String placeName, String mealDescription, String classification, String category, String type, String portionPrice, ArrayList<String> mylist) {
         this.userId = userId;
         this.userName = userName;
         this.userDescription = userDescription;
@@ -64,7 +64,7 @@ public class Datum {
         this.type = type;
         this.portionPrice = portionPrice;
         this.mylist = mylist;
-    }*/
+    }
 
     public String getSeller_type() {
         return seller_type;

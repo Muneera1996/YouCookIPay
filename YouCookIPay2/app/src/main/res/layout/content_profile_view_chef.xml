@@ -40,8 +40,8 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/layout_profileViewChef"
             android:visibility="gone"
+            android:id="@+id/layout_profileViewChef"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -118,6 +118,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/profile_chef_rating_view"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/list_item_height"
                         android:layout_weight="0.7"

@@ -85,15 +85,18 @@ public class LoginInActivity extends AppCompatActivity {
 
                                             JSONObject obj = new JSONObject(response);
                                             String message = obj.getString("message");
-                                            JSONObject data = obj.getJSONObject("data");
-                                            String user_id = data.getString("user_id");
-                                            String session_id = data.getString("session_id");
-                                            users = new ArrayList<>();
-                                            users.add(new User(user_id, session_id));
+                                            boolean status= obj.getBoolean("status");
                                             Toast.makeText(LoginInActivity.this, message, Toast.LENGTH_SHORT).show();
-                                            if (message.equalsIgnoreCase("Sign In successfull")) {
-                                                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                                                startActivity(intent);
+                                            if(status) {
+                                                JSONObject data = obj.getJSONObject("data");
+                                                String user_id = data.getString("user_id");
+                                                String session_id = data.getString("session_id");
+                                                users = new ArrayList<>();
+                                                users.add(new User(user_id, session_id));
+                                                if (message.equalsIgnoreCase("Sign In successfull")) {
+                                                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                                    startActivity(intent);
+                                                }
                                             }
 
                                         } catch (Throwable t) {

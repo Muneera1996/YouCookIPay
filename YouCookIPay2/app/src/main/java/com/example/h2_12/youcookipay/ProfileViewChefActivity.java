@@ -57,7 +57,7 @@ public class ProfileViewChefActivity extends AppCompatActivity
     static String iid;
     LinearLayout layout1,layout2;
     ProgressBar mProgressBar;
-
+    View rating_view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +87,7 @@ public class ProfileViewChefActivity extends AppCompatActivity
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mProgressBar.setVisibility(View.VISIBLE);
         layout1.setVisibility(View.VISIBLE);
+        rating_view=findViewById(R.id.profile_chef_rating_view);
         Intent intent = getIntent();
         String id = intent.getStringExtra("Chef_Id");
         iid=id;
@@ -100,7 +101,7 @@ public class ProfileViewChefActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         if (!isConnected()) {
-            Toast.makeText(getApplicationContext(), "There is no Internet Connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Check your Internet Connection", Toast.LENGTH_SHORT).show();
         }
         else {
             final String url = "http://www.businessmarkaz.com/test/ucookipayws/meal_ads/chef_profile?user_id=" + arrayList.get(0).getUser_id() + "&session_id=" + arrayList.get(0).getSession_id() + "&chef_id=" + id;
@@ -224,8 +225,16 @@ public class ProfileViewChefActivity extends AppCompatActivity
                 Intent intent=new Intent(getApplicationContext(),FilterViewPopUp.class);
                 startActivity(intent);
             }
-        }); }
-
+        });
+        rating_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),SeeReviewAndRatingActivity.class);
+                intent.putExtra("ChefId", iid);
+                startActivity(intent);
+            }
+        });
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

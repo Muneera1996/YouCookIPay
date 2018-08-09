@@ -34,6 +34,7 @@ public class OrderScreen1Activity extends AppCompatActivity
     ArrayList<Chef_Profile> profile;
     private double rate=0;
     ProgressBar mProgressBar;
+    View rating_view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +54,7 @@ public class OrderScreen1Activity extends AppCompatActivity
         chef_address=findViewById(R.id.orderScreen1_chef_place);
         chef_rating=findViewById(R.id.orderScreen1_rating);
         chef_type=findViewById(R.id.orderScreen1_seller_type);
+        rating_view=findViewById(R.id.orderScreen2_ratingSection);
         image=findViewById(R.id.orderScreen1_image);
         star1=findViewById(R.id.orderScreen1_star_one);
         star2=findViewById(R.id.orderScreen1_star_two);
@@ -77,7 +79,6 @@ public class OrderScreen1Activity extends AppCompatActivity
             Glide.with(star1.getContext()).load(R.drawable.fill_star).into(star1);
             Glide.with(star2.getContext()).load(R.drawable.fill_star).into(star2);
             Glide.with(star3.getContext()).load(R.drawable.fill_star).into(star3);
-
         }
         else if(rate>=4&&rate<5) {
             Glide.with(star1.getContext()).load(R.drawable.fill_star).into(star1);
@@ -136,6 +137,14 @@ public class OrderScreen1Activity extends AppCompatActivity
                     quantity--;
                 }
                 txt_quanity.setText(Integer.toString(quantity));
+            }
+        });
+        rating_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),SeeReviewAndRatingActivity.class);
+                intent.putExtra("ChefId", ProfileViewChefActivity.iid);
+                startActivity(intent);
             }
         });
     }

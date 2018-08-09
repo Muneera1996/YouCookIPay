@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:background="@drawable/overlay_bg"
+<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
@@ -26,7 +26,6 @@
             android:layout_gravity="center"
             android:layout_weight="2.3"
             android:gravity="center"
-            android:text="Sign Up"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
 
@@ -39,19 +38,19 @@
             android:src="@drawable/logo" />
 
     </LinearLayout>
-    <ScrollView
 
+    <ScrollView
+        android:background="@drawable/overlay_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
+            android:background="@drawable/background2"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/background2"
             tools:context=".SignUpActivity">
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -62,7 +61,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="40dp"
                     android:layout_marginHorizontal="30dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/fields_layout_bg">
@@ -91,7 +90,6 @@
                         android:layout_marginLeft="2dp"
                         android:layout_toRightOf="@id/user_icon"
                         android:backgroundTint="@android:color/transparent"
-                        android:gravity="center"
                         android:hint="Username"
                         android:textColor="#3b6498"
                         android:textColorHint="#3b6498" />
@@ -99,7 +97,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="40dp"
                     android:layout_marginHorizontal="30dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/fields_layout_bg">
@@ -108,7 +106,7 @@
                         android:background="@drawable/fields_layout_bg2"
                         android:id="@+id/email_icon"
                         android:layout_width="60dp"
-                        android:layout_height="45dp">
+                        android:layout_height="40dp">
 
                         <ImageView
                             android:layout_width="30dp"
@@ -128,7 +126,6 @@
                         android:layout_marginLeft="2dp"
                         android:layout_toRightOf="@id/email_icon"
                         android:backgroundTint="@android:color/transparent"
-                        android:gravity="center"
                         android:hint="Email Address"
                         android:textColor="#3b6498"
                         android:textColorHint="#3b6498" />
@@ -136,7 +133,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="40dp"
                     android:layout_marginHorizontal="30dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/fields_layout_bg">
@@ -145,7 +142,7 @@
                         android:background="@drawable/fields_layout_bg2"
                         android:id="@+id/lock_icon"
                         android:layout_width="60dp"
-                        android:layout_height="45dp">
+                        android:layout_height="40dp">
 
                         <ImageView
                             android:layout_width="30dp"
@@ -165,7 +162,6 @@
                         android:layout_marginLeft="2dp"
                         android:layout_toRightOf="@id/lock_icon"
                         android:backgroundTint="@android:color/transparent"
-                        android:gravity="center"
                         android:password="true"
                         android:hint="Password"
                         android:textColor="#3b6498"
@@ -175,7 +171,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="40dp"
                     android:layout_marginHorizontal="30dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/fields_layout_bg">
@@ -184,7 +180,7 @@
                         android:background="@drawable/fields_layout_bg2"
                         android:id="@+id/lock2_icon"
                         android:layout_width="60dp"
-                        android:layout_height="45dp">
+                        android:layout_height="40dp">
 
                         <ImageView
                             android:layout_width="30dp"
@@ -204,7 +200,6 @@
                         android:layout_marginLeft="2dp"
                         android:layout_toRightOf="@id/lock2_icon"
                         android:backgroundTint="@android:color/transparent"
-                        android:gravity="center"
                         android:password="true"
                         android:hint="Confirm Password"
                         android:textColor="#3b6498"
@@ -213,16 +208,16 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="40dp"
                     android:layout_marginHorizontal="30dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/fields_layout_bg">
 
                     <RelativeLayout
-                        android:background="@drawable/fields_layout_bg2"
                         android:id="@+id/phone_icon"
+                        android:background="@drawable/fields_layout_bg2"
                         android:layout_width="60dp"
-                        android:layout_height="45dp">
+                        android:layout_height="40dp">
 
                         <ImageView
                             android:layout_width="30dp"
@@ -242,7 +237,6 @@
                         android:layout_marginLeft="2dp"
                         android:layout_toRightOf="@id/phone_icon"
                         android:backgroundTint="@android:color/transparent"
-                        android:gravity="center"
                         android:hint="Phone"
                         android:textColor="#3b6498"
                         android:textColorHint="#3b6498" />
@@ -252,7 +246,7 @@
                 <RelativeLayout
                     android:id="@+id/payment_method"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="40dp"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
                     android:layout_marginTop="10dp"
@@ -263,7 +257,7 @@
                         android:background="@drawable/fields_layout_bg3"
                         android:id="@+id/dropdown_icon"
                         android:layout_width="60dp"
-                        android:layout_height="45dp"
+                        android:layout_height="40dp"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         >
@@ -298,7 +292,7 @@
                 <LinearLayout
                     android:id="@+id/signup_gender"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="20dp"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
                     android:layout_marginTop="10dp"
@@ -358,7 +352,7 @@
                 <LinearLayout
                     android:id="@+id/sign_type"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="20dp"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
                     android:layout_marginTop="10dp"
@@ -414,7 +408,7 @@
                 <LinearLayout
                     android:id="@+id/sign_seller_type"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="20dp"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
                     android:layout_marginTop="10dp"
@@ -480,7 +474,7 @@
                 <ImageView
                     android:id="@+id/signup_btn"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="35dp"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
                     android:src="@drawable/sign_up_btn" />

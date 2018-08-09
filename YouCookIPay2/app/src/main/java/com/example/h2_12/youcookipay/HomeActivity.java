@@ -134,18 +134,22 @@ public class HomeActivity extends AppCompatActivity
                                         String category=user.getString("category");
                                         String type=user.getString("type");
                                         String portion_price=user.getString("portion_price");
-                                        String  meal_images = user.getJSONArray("meal_images").getString(0);
-                                      /* ArrayList<String> mylist = new ArrayList<String>();
-                                        for(int ii=0;ii<3;ii++) {
+                                       // String  meal_images = user.getJSONArray("meal_images").getString(0);
+                                       ArrayList<String> mylist = new ArrayList<String>();
+                                        for(int ii=0;ii<1;ii++) {
                                             String  meal_images = user.getJSONArray("meal_images").getString(ii);
-                                            if(meal_images.equalsIgnoreCase("")){
+                                            if(meal_images != null && !meal_images.isEmpty())
+                                            {
+                                                mylist.add(meal_images); //this adds an element to the list.
+                                                Log.i("onResponseImage", meal_images);
+
+                                            }
+                                            else
+                                            {
                                                 break;
                                             }
-                                            Log.i("onResponseImage", meal_images);
-                                            mylist.add(meal_images); //this adds an element to the list.
-
-                                        }*/
-                                        homeList.add(new Datum(user_id,user_name,user_description,user_address,user_image,rating,seller_type,meal_id,meal_name,place_name,meal_description,classification,category,type,portion_price,meal_images));
+                                        }
+                                        homeList.add(new Datum(user_id,user_name,user_description,user_address,user_image,rating,seller_type,meal_id,meal_name,place_name,meal_description,classification,category,type,portion_price,mylist));
 
                                     }
                                     recyclerView.setAdapter(new HomeAdapter(getApplicationContext(),homeList));
@@ -237,19 +241,21 @@ public class HomeActivity extends AppCompatActivity
                                                 String category=user.getString("category");
                                                 String type=user.getString("type");
                                                 String portion_price=user.getString("portion_price");
-                                               String  meal_images = user.getJSONArray("meal_images").getString(0);
-
-                                               /* ArrayList<String> mylist = new ArrayList<String>();
-                                                for(int ii=0;ii<3;ii++) {
+                                              // String  meal_images = user.getJSONArray("meal_images").getString(0);
+                                                ArrayList<String> mylist = new ArrayList<String>();
+                                                for(int ii=0; ii < 1 ; ii++) {
                                                     String  meal_images = user.getJSONArray("meal_images").getString(ii);
-                                                    if(meal_images.equalsIgnoreCase("")){
+                                                    if(meal_images != null && !meal_images.isEmpty())
+                                                    {
+                                                        mylist.add(meal_images); //this adds an element to the list.
+                                                        Log.i("onResponseImage", meal_images);
+                                                    }
+                                                    else
+                                                    {
                                                         break;
                                                     }
-                                                    Log.i("onResponseImage", meal_images);
-                                                    mylist.add(meal_images); //this adds an element to the list.
-
-                                                }*/
-                                                homeSearchData.add(new Datum(user_id,user_name,user_description,user_address,user_image,rating,seller_type,meal_id,meal_name,place_name,meal_description,classification,category,type,portion_price,meal_images));
+                                                }
+                                                homeSearchData.add(new Datum(user_id,user_name,user_description,user_address,user_image,rating,seller_type,meal_id,meal_name,place_name,meal_description,classification,category,type,portion_price,mylist));
                                             }
                                             recyclerView.setAdapter(new HomeAdapter(getApplicationContext(),homeSearchData));
                                         }
@@ -284,7 +290,6 @@ public class HomeActivity extends AppCompatActivity
                         }
                     });
                 }
-
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -293,7 +298,6 @@ public class HomeActivity extends AppCompatActivity
 
             }
         });
-
     }
     @Override
     public void onBackPressed() {
@@ -304,7 +308,6 @@ public class HomeActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {

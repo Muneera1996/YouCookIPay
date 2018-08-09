@@ -49,6 +49,7 @@ public class OrderScreeen2Activity extends AppCompatActivity
     ProgressBar mProgressBar;
     TextView chef_name,chef_address,chef_type,chef_rating;
     ArrayList<Chef_Profile> profile;
+    View rating_view;
     private double rate=0;
 
 
@@ -62,6 +63,7 @@ public class OrderScreeen2Activity extends AppCompatActivity
         profile=ProfileViewChefActivity.chef_profile;
         home_menu=findViewById(R.id.home_menu);
         filter=findViewById(R.id.filter);
+        rating_view=findViewById(R.id.orderScreen_ratingSection);
         yourself=findViewById(R.id.pick_option_yourself);
         delivery=findViewById(R.id.pick_option_dispatch);
         delivery_checkbox=findViewById(R.id.checkbox_dispatch);
@@ -232,6 +234,14 @@ public class OrderScreeen2Activity extends AppCompatActivity
                 yourself_checkbox.setImageResource(R.drawable.button_bg);
                 delivery_checkbox.setImageResource(R.drawable.option_select_circle);
 
+            }
+        });
+        rating_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),SeeReviewAndRatingActivity.class);
+                intent.putExtra("ChefId", ProfileViewChefActivity.iid);
+                startActivity(intent);
             }
         });
     }

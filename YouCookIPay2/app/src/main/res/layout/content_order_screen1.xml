@@ -117,6 +117,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/orderScreen2_ratingSection"
                         android:layout_marginTop="5dp"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/list_item_height"

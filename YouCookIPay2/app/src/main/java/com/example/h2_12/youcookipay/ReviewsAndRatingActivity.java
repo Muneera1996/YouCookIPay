@@ -63,6 +63,7 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
     ArrayList<User> arrayList1;
     private double rate = 0;
     ProgressBar mProgressBar;
+    View rating_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +84,7 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
         type=findViewById(R.id.reviews_and_rating_type);
         rating=findViewById(R.id.reviews_and_rating_rating);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+        rating_view=findViewById(R.id.ReviewsRating_ratingSection);
         star1=findViewById(R.id.star_one);
         star2=findViewById(R.id.star_two);
         star3=findViewById(R.id.star_three);
@@ -237,6 +239,7 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
 
 
 
+
             }
         });
 
@@ -382,6 +385,14 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
                 taste_star3.setImageResource(R.drawable.fill_star);
                 taste_star4.setImageResource(R.drawable.fill_star);
                 taste_star5.setImageResource(R.drawable.fill_star);
+            }
+        });
+        rating_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SeeReviewAndRatingActivity.class);
+                intent.putExtra("ChefId", ProfileViewChefActivity.iid);
+                startActivity(intent);
             }
         });
 

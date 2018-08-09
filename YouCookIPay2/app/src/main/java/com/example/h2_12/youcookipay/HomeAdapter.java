@@ -111,7 +111,35 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             Glide.with(holder.chefImage.getContext()).load(R.drawable.profile_pic).into(holder.chefImage);
 
         }
-      Glide.with(holder.mealImage.getContext())
+
+        for (int i=0; i<currentData.getMylist().size();i++){
+            final int updateInterval = 1000;
+            new Runnable(){
+                @Override
+                public void run() {
+                    int currentIndex=0;
+                    Glide.with(holder.mealImage.getContext())
+                            .asBitmap()
+                            .load(currentData.getMylist().get(currentIndex))
+                            .into(new SimpleTarget<Bitmap>(120,170) {
+                                @Override
+                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                    Drawable dr = new BitmapDrawable(resource);
+                                    holder.mealImage.setBackgroundDrawable(dr);
+                                }
+                            });
+
+
+                    holder.mealImage.postDelayed(this,updateInterval);
+                    if (currentIndex == (currentData.getMylist().size())-1){
+                        currentIndex=0;
+                    }
+                    else
+                        currentIndex+=1;
+                }
+            }.run();
+        }
+     /* Glide.with(holder.mealImage.getContext())
                 .asBitmap()
                 .load(currentData.getMealImage())
                 .into(new SimpleTarget<Bitmap>(120,170) {
@@ -120,32 +148,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                         Drawable dr = new BitmapDrawable(resource);
                         holder.mealImage.setBackgroundDrawable(dr);
                     }
-                });
-   /*  final ArrayList<String> myList=currentData.getMylist();
-        new Runnable(){
-            int currentIndex=0;
-            int updateInterval = 1000;
-            @Override
-            public void run() {
+                });*/
 
-                Glide.with(holder.mealImage.getContext())
-                        .asBitmap()
-                        .load(myList.get(currentIndex))
-                        .into(new SimpleTarget<Bitmap>(120,170) {
-                            @Override
-                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                Drawable dr = new BitmapDrawable(resource);
-                                holder.mealImage.setBackgroundDrawable(dr);
-                            }
-                        });
-                holder.mealImage.postDelayed(this,updateInterval);
-                if (currentIndex == currentData.getMylist().size()-1){
-                    currentIndex=0;
-                }
-                currentIndex+=1;
 
-            }
-        }.run();*/
 
         holder.orderMeal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,7 +168,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                 holder.rating_section.getContext().startActivity(intent);
             }
         });
-
     }
     @Override
     public int getItemCount() {
