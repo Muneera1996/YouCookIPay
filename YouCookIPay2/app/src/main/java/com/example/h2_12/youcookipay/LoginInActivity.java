@@ -174,7 +174,7 @@ public class LoginInActivity extends AppCompatActivity {
                                             }
 
                                         } catch (Throwable t) {
-                                            Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
+                                            Log.e("Login", "Could not parse malformed JSON: \"" + response + "\"");
                                         }
                                     }
                                 },
@@ -187,6 +187,22 @@ public class LoginInActivity extends AppCompatActivity {
 
                         );
                         VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(getRequest);
+                        getRequest.setRetryPolicy(new RetryPolicy() {
+                            @Override
+                            public int getCurrentTimeout() {
+                                return 30000;
+                            }
+
+                            @Override
+                            public int getCurrentRetryCount() {
+                                return 30000;
+                            }
+
+                            @Override
+                            public void retry(VolleyError error) throws VolleyError {
+
+                            }
+                        });
                     }
                 }
             });

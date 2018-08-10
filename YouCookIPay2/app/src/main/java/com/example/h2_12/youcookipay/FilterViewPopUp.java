@@ -163,10 +163,9 @@ public class FilterViewPopUp extends AppCompatActivity {
                                                 String category=user.getString("category");
                                                 String type=user.getString("type");
                                                 String portion_price=user.getString("portion_price");
-                                                //String  meal_images = user.getJSONArray("meal_images").getString(0);
-
                                                 ArrayList<String> mylist = new ArrayList<String>();
-                                                for(int ii=0;ii<3;ii++) {
+                                                int images=user.getJSONArray("meal_images").length();
+                                                for(int ii=0;ii<images;ii++) {
                                                     String  meal_images = user.getJSONArray("meal_images").getString(ii);
                                                     if(meal_images != null && !meal_images.isEmpty())
                                                     {

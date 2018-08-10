@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.example.h2_12.youcookipay.AppController"
+        android:name=".AppController"
         android:allowBackup="true"
         android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
@@ -99,7 +99,11 @@
             android:name=".UpdateDescriptionActivity"
             android:label="@string/title_activity_update_description"
             android:theme="@style/AppTheme" />
-        <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".SignUpActivity" />
+        <activity
+            android:name=".NewOrdersActivity"
+            android:label="@string/title_activity_new_orders"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

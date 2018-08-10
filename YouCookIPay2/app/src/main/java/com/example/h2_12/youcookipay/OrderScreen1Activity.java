@@ -188,8 +188,9 @@ public class OrderScreen1Activity extends AppCompatActivity
             startActivity(intent);
 
         }
-        else if (id == R.id.nav_promotional_videos) {
-
+        else if (id == R.id.nav_new_orders) {
+            Intent intent = new Intent(getApplicationContext(), NewOrdersActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_reviews) {
             Intent intent=new Intent(getApplicationContext(),SeeReviewAndRatingActivity.class);
             intent.putExtra("ChefId",HomeActivity.arrayList.get(0).getUser_id());

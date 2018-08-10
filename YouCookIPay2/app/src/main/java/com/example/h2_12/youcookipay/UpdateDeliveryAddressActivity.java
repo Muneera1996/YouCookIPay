@@ -7,6 +7,8 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -26,13 +28,21 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UpdateDeliveryAddressActivity extends AppCompatActivity
@@ -40,15 +50,91 @@ public class UpdateDeliveryAddressActivity extends AppCompatActivity
     View home_menu;
     ImageView filter,update;
     EditText street,area,city,code;
-    LinearLayout layout1,layout2;
     ProgressBar mProgressBar;
+    RecyclerView recyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_delivery_address);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+        recyclerView=findViewById(R.id.recyclerview_updateDelivery);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        if (isConnected()){
+            mProgressBar.setVisibility(View.VISIBLE);
+            final String url = "http://www.businessmarkaz.com/test/ucookipayws/user/delivery_addresses?user_id="+LoginInActivity.users.get(0).getUser_id()+"&session_id="+LoginInActivity.users.get(0).getSession_id();
+            JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            // display response
+                            try {
+                                ArrayList<String> streets=new ArrayList<>();
+                                ArrayList<String> areas=new ArrayList<>();
+                                ArrayList<String> cities=new ArrayList<>();
+                                ArrayList<String> codes=new ArrayList<>();
+
+                                JSONObject obj = new JSONObject(response.toString());
+                                Boolean status=obj.getBoolean("status");
+                                JSONObject data=obj.getJSONObject("data");
+                                if(status){
+                                    mProgressBar.setVisibility(View.GONE);
+                                    JSONArray street=data.getJSONArray("streets");
+                                    for(int i=0;i<street.length();i++)
+                                       streets.add(street.getString(i));
+                                    JSONArray area=data.getJSONArray("areas");
+                                    for(int i=0;i<area.length();i++)
+                                        areas.add(area.getString(i));
+                                    JSONArray city=data.getJSONArray("cities");
+                                    for(int i=0;i<city.length();i++)
+                                        cities.add(city.getString(i));
+                                    JSONArray code=data.getJSONArray("postal_codes");
+                                    for(int i=0;i<code.length();i++)
+                                        codes.add(code.getString(i));
+                                }
+                                recyclerView.setAdapter(new DeliveryAddressAdapter(getApplicationContext(),streets,areas,cities,codes));
+
+
+                            } catch (Throwable t) {
+                                mProgressBar.setVisibility(View.GONE);
+                                Log.e("Order Screen", "Could not parse malformed JSON: \"" + response + "\"");
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("Error.Response", error.toString());
+                            mProgressBar.setVisibility(View.GONE);
+
+                        }
+                    }
+
+            );
+            VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(getRequest);
+            getRequest.setRetryPolicy(new RetryPolicy() {
+                @Override
+                public int getCurrentTimeout() {
+                    return 30000;
+                }
+
+                @Override
+                public int getCurrentRetryCount() {
+                    return 30000;
+                }
+
+                @Override
+                public void retry(VolleyError error) throws VolleyError {
+
+                }
+            });
+        }
+        else {
+            Toast.makeText(this, "Check your Internet Connection", Toast.LENGTH_SHORT).show();
+        }
 
         home_menu=findViewById(R.id.home_menu);
         filter=findViewById(R.id.filter);
@@ -80,15 +166,15 @@ public class UpdateDeliveryAddressActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-        code.setOnClickListener(new View.OnClickListener() {
+        update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*if(isConnected()){
+                if(isConnected()){
                     if (street.getText().toString().trim().equals("") || area.getText().toString().trim().equals("") ||
                         city.getText().toString().trim().equals("") || code.getText().toString().trim().equals(""))
                         Toast.makeText(getApplicationContext(), "Fill all the details!", Toast.LENGTH_LONG).show();
                     else {
-                        String url = "http://www.businessmarkaz.com/test/ucookipayws/user/sign_up";
+                        String url = "http://www.businessmarkaz.com/test/ucookipayws/user/add_delivery_address";
                         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                                 new Response.Listener<String>() {
                                     @Override
@@ -100,13 +186,16 @@ public class UpdateDeliveryAddressActivity extends AppCompatActivity
                                             JSONObject obj = new JSONObject(response);
                                             String message = obj.getString("message");
                                             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                                            if (message.equalsIgnoreCase("signup successfull")) {
-                                                Intent intent = new Intent(getApplicationContext(), OrderScreen1Activity.class);
-                                                startActivity(intent);
+                                            if (message.equalsIgnoreCase("delivery addresses added successfully")) {
+                                                street.setText("");
+                                                city.setText("");
+                                                area.setText("");
+                                                code.setText("");
+
                                          }
 
                                         } catch (Throwable t) {
-                                            Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
+                                            Log.e("Update Delivery Address", "Could not parse malformed JSON: \"" + response + "\"");
                                         }
 
                                     }
@@ -116,7 +205,7 @@ public class UpdateDeliveryAddressActivity extends AppCompatActivity
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
                                         // error
-                                        Log.d("Error.Response", error.getMessage());
+                                        Log.d("Error.Response", error.toString());
                                         Toast.makeText(getApplicationContext(), "Some error occur", Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -124,21 +213,37 @@ public class UpdateDeliveryAddressActivity extends AppCompatActivity
                             @Override
                             protected Map<String, String> getParams() {
                                 Map<String, String> params = new HashMap<String, String>();
-
+                                params.put("user_id",LoginInActivity.users.get(0).getUser_id());
+                                params.put("session_id",LoginInActivity.users.get(0).getSession_id());
                                 params.put("street", street.getText().toString());
-                                params.put("resturant", area.getText().toString());
-                                params.put("price", code.getText().toString());
-                                params.put("description", city.getText().toString());
+                                params.put("area", area.getText().toString());
+                                params.put("postal_code", code.getText().toString());
+                                params.put("city", city.getText().toString());
                                 return params;
                             }
                         };
-                        queue.add(postRequest);
-                    }
+                        VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(postRequest);
+                        postRequest.setRetryPolicy(new RetryPolicy() {
+                            @Override
+                            public int getCurrentTimeout() {
+                                return 30000;
+                            }
+
+                            @Override
+                            public int getCurrentRetryCount() {
+                                return 30000;
+                            }
+
+                            @Override
+                            public void retry(VolleyError error) throws VolleyError {
+
+                            }
+                        });                    }
                 }
                 else
                 {
-                    Toast.makeText(getApplicationContext(), "Check Your Network Connection", Toast.LENGTH_SHORT).show();
-                }*/
+                    Toast.makeText(getApplicationContext(), "Check Your Internet Connection", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -186,8 +291,9 @@ public class UpdateDeliveryAddressActivity extends AppCompatActivity
             startActivity(intent);
 
         }
-        else if (id == R.id.nav_promotional_videos) {
-
+        else if (id == R.id.nav_new_orders) {
+            Intent intent = new Intent(getApplicationContext(), NewOrdersActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_reviews) {
             Intent intent=new Intent(getApplicationContext(),SeeReviewAndRatingActivity.class);
             intent.putExtra("ChefId",HomeActivity.arrayList.get(0).getUser_id());

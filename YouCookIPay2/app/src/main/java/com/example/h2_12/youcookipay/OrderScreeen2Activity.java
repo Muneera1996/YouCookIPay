@@ -28,10 +28,17 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.braintreepayments.api.dropin.DropInActivity;
+import com.braintreepayments.api.dropin.DropInRequest;
+import com.braintreepayments.api.dropin.DropInResult;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONObject;
 
@@ -49,8 +56,13 @@ public class OrderScreeen2Activity extends AppCompatActivity
     ProgressBar mProgressBar;
     TextView chef_name,chef_address,chef_type,chef_rating;
     ArrayList<Chef_Profile> profile;
+    ArrayList<User> user;
+    ArrayList<OrderScreen> orderScreens;
     View rating_view;
     private double rate=0;
+    String delivery_method = "";
+    public static String Token = "";
+    public static int REQUEST_CODE = 1;
 
 
     @Override
@@ -60,6 +72,8 @@ public class OrderScreeen2Activity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        user=LoginInActivity.users;
         profile=ProfileViewChefActivity.chef_profile;
         home_menu=findViewById(R.id.home_menu);
         filter=findViewById(R.id.filter);
@@ -74,6 +88,7 @@ public class OrderScreeen2Activity extends AppCompatActivity
         date=findViewById(R.id.orderScreen_date);
         time=findViewById(R.id.orderScreen_time);
         street=findViewById(R.id.orderScreen_street);
+        orderScreens=new ArrayList<>();
         area=findViewById(R.id.orderScreen_area);
         city=findViewById(R.id.orderScreen_city);
         chef_name=findViewById(R.id.orderScreen1_chef_name);
@@ -142,12 +157,46 @@ public class OrderScreeen2Activity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+        if(isConnected()){
+            final String url = "http://www.businessmarkaz.com/test/ucookipayws/user/generate_token?user_id="+user.get(0).getUser_id()+"&session_id="+user.get(0).getSession_id();
+            JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            // display response
+                            try {
+                                JSONObject obj = new JSONObject(response.toString());
+                                Boolean status=obj.getBoolean("status");
+                                JSONObject data=obj.getJSONObject("data");
+                                if(status){
+                                    Log.d("token generated",Token);
+                                    Token=data.getString("token");
+                                    onBraintreeSubmit();
+
+                                }
+                            } catch (Throwable t) {
+                                Log.e("Order Screen", "Could not parse malformed JSON: \"" + response + "\"");
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("Error.Response", error.toString());
+                        }
+                    }
+
+            );
+            VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(getRequest);
+        }
+        else
+            Toast.makeText(this, "Check Your Internet Connection", Toast.LENGTH_SHORT).show();
         placeOrder=findViewById(R.id.orderScreen_place_order);
         placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                /*if (isConnected()) {
+                if (isConnected()) {
                     if (name.getText().toString().trim().equals("") || email.getText().toString().trim().equals("") ||
                             number.getText().toString().trim().equals("") || date.getText().toString().trim().equals("") ||
                             time.getText().toString().trim().equals("") || street.getText().toString().trim().equals("") ||
@@ -155,74 +204,25 @@ public class OrderScreeen2Activity extends AppCompatActivity
                         Toast.makeText(getApplicationContext(), "Fill all the details!", Toast.LENGTH_LONG).show();
 
                         // call AsynTask to perform network operation on separate thread
-                    else {
-                        RequestQueue queue = Volley.newRequestQueue(this);
-                        String url = "http://www.businessmarkaz.com/test/ucookipayws/user/sign_up";
-                        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                                new Response.Listener<String>() {
-                                    @Override
-                                    public void onResponse(String response) {
-                                        // response
-                                        Log.d("Response", response);
-                                        try {
+                    else
+                    {
+                        if(delivery_method.equalsIgnoreCase("home_delivery"))
+                        orderScreens.add(new OrderScreen(name.getText().toString(),email.getText().toString(),number.getText().toString(),date.getText().toString(),time.getText().toString(),delivery_method,street.getText().toString(),area.getText().toString(),city.getText().toString()));
+                        else
+                            orderScreens.add(new OrderScreen(name.getText().toString(),email.getText().toString(),number.getText().toString(),date.getText().toString(),time.getText().toString(),delivery_method));
 
-                                            JSONObject obj = new JSONObject(response);
-                                            String message = obj.getString("message");
-                                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                                            if (message.equalsIgnoreCase("signup successfull")) {
-                                                Intent intent = new Intent(getApplicationContext(), OrderScreen1Activity.class);
-                                                startActivity(intent);
-                                            }
-
-                                        } catch (Throwable t) {
-                                            Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
-                                        }
-
-                                    }
-
-                                },
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        // error
-                                        Log.d("Error.Response", error.getMessage());
-                                        Toast.makeText(getApplicationContext(), "Some error occur", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                        ) {
-                            @Override
-                            protected Map<String, String> getParams() {
-                                Map<String, String> params = new HashMap<String, String>();
-                                params.put("name", name.getText().toString());
-                                params.put("email", email.getText().toString());
-                                params.put("number", number.getText().toString());
-                                params.put("date", date.getText().toString());
-                                params.put("time", time.getText().toString());
-                                params.put("street", street.getText().toString());
-                                params.put("area", area.getText().toString());
-                                params.put("city", city.getText().toString());
-
-                                return params;
-                            }
-                        };
-                        queue.add(postRequest);
                     }
-
                 }
-
                 else {
-                    Toast.makeText(OrderScreeen2Activity.this, "Check Your Network Connection", Toast.LENGTH_SHORT).show();
-                }*/
-                Intent intent = new Intent(getApplicationContext(), OrderScreen1Activity.class);
-                startActivity(intent);
+                    Toast.makeText(OrderScreeen2Activity.this, "Check Your Internet Connection", Toast.LENGTH_SHORT).show();
+                }
             }
 
         });
         yourself.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                pick_option="Pick By yourself";
+                delivery_method="take_away";
                 yourself_checkbox.setImageResource(R.drawable.option_select_circle);
                 delivery_checkbox.setImageResource(R.drawable.button_bg);
             }
@@ -230,7 +230,7 @@ public class OrderScreeen2Activity extends AppCompatActivity
         delivery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pick_option="Dispatch at your doorstep";
+                delivery_method="home_delivery";
                 yourself_checkbox.setImageResource(R.drawable.button_bg);
                 delivery_checkbox.setImageResource(R.drawable.option_select_circle);
 
@@ -286,20 +286,18 @@ public class OrderScreeen2Activity extends AppCompatActivity
             startActivity(intent);
 
         }
-        else if (id == R.id.nav_promotional_videos) {
-
+        else if (id == R.id.nav_new_orders) {
+            Intent intent = new Intent(getApplicationContext(), NewOrdersActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_reviews) {
             Intent intent=new Intent(getApplicationContext(),SeeReviewAndRatingActivity.class);
             intent.putExtra("ChefId",HomeActivity.arrayList.get(0).getUser_id());
             startActivity(intent);
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-
     }
-
     public boolean isConnected(){
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -308,5 +306,25 @@ public class OrderScreeen2Activity extends AppCompatActivity
         else
             return false;
     }
+    public void onBraintreeSubmit() {
+        DropInRequest dropInRequest = new DropInRequest()
+                .clientToken(Token);
+        startActivityForResult(dropInRequest.getIntent(this), REQUEST_CODE);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                DropInResult result = data.getParcelableExtra(DropInResult.EXTRA_DROP_IN_RESULT);
+                // use the result to update your UI and send the payment method nonce to your server
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                // the user canceled
+            } else {
+                // handle errors here, an exception may be available in
+                Exception error = (Exception) data.getSerializableExtra(DropInActivity.EXTRA_ERROR);
+            }
+        }
+    }
+
 
 }

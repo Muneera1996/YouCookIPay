@@ -29,13 +29,14 @@
             android:icon="@drawable/use_app"
             android:title="How To Use App " />
         <item
-            android:id="@+id/nav_promotional_videos"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Promotional Videos" />
+            android:id="@+id/nav_new_orders"
+            android:icon="@drawable/history_icon"
+            android:title="New Orders" />
         <item
             android:id="@+id/nav_reviews"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Reviews" />
+
     </group>
 
     <item android:title="Communicate">

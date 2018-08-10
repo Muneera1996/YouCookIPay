@@ -204,34 +204,11 @@
                 android:textColor="@android:color/black"
                 android:layout_gravity="center"
                 />
-            <TextView
-                android:layout_marginVertical="5dp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1.68 Stonybrook Dr mount laurel , 09054"
-                android:textSize="15sp"
-                android:textColor="#3b6498"
-                />
-            <TextView
-                android:layout_marginVertical="5dp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textColor="#3b6498"
-                android:text="2. 86 Cedar Dr.Plainfield, NJ 07082"
-                />
-            <TextView
-                android:layout_marginVertical="5dp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textColor="#3b6498"
-                android:text="3. 675 Norh Center Drive Norman, OK 87301"
-                />
-
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/recyclerview_updateDelivery">
+            </android.support.v7.widget.RecyclerView>
 
 
         </LinearLayout>

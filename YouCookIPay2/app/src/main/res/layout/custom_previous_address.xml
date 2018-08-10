@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    xmlns:tools="http://schemas.android.com/tools">
+    <TextView
+        android:id="@+id/place_holder"
+        android:layout_width="0dp"
+        android:layout_weight="0.1"
+        android:layout_height="wrap_content"
+        tools:text="1"
+        android:textSize="15sp"
+        android:layout_marginLeft="5dp"
+        android:textColor="#3b6498"/>
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        tools:text="Incivesoft"
+        android:textSize="15sp"
+        android:layout_marginLeft="5dp"
+        android:textColor="#3b6498"/>
+
+</LinearLayout>

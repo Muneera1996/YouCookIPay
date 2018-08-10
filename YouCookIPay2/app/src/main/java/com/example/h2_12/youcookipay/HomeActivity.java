@@ -98,7 +98,6 @@ public class HomeActivity extends AppCompatActivity
             recyclerView.setAdapter(new HomeAdapter(getApplicationContext(),homeList));
         }
         else {
-
             final String url = "http://www.businessmarkaz.com/test/ucookipayws/meal_ads/home?user_id=" + arrayList.get(0).getUser_id() + "&session_id=" + arrayList.get(0).getSession_id();
             final JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                     new Response.Listener<JSONObject>() {
@@ -134,15 +133,14 @@ public class HomeActivity extends AppCompatActivity
                                         String category=user.getString("category");
                                         String type=user.getString("type");
                                         String portion_price=user.getString("portion_price");
-                                       // String  meal_images = user.getJSONArray("meal_images").getString(0);
                                        ArrayList<String> mylist = new ArrayList<String>();
-                                        for(int ii=0;ii<1;ii++) {
+                                       int images=user.getJSONArray("meal_images").length();
+                                        for(int ii=0;ii<images;ii++) {
                                             String  meal_images = user.getJSONArray("meal_images").getString(ii);
                                             if(meal_images != null && !meal_images.isEmpty())
                                             {
                                                 mylist.add(meal_images); //this adds an element to the list.
                                                 Log.i("onResponseImage", meal_images);
-
                                             }
                                             else
                                             {
@@ -243,7 +241,8 @@ public class HomeActivity extends AppCompatActivity
                                                 String portion_price=user.getString("portion_price");
                                               // String  meal_images = user.getJSONArray("meal_images").getString(0);
                                                 ArrayList<String> mylist = new ArrayList<String>();
-                                                for(int ii=0; ii < 1 ; ii++) {
+                                                int images=user.getJSONArray("meal_images").length();
+                                                for(int ii=0;ii<images;ii++) {
                                                     String  meal_images = user.getJSONArray("meal_images").getString(ii);
                                                     if(meal_images != null && !meal_images.isEmpty())
                                                     {
@@ -341,7 +340,9 @@ public class HomeActivity extends AppCompatActivity
                 Intent intent4=new Intent(getApplicationContext(),HowToUseAppActivity.class);
                 startActivity(intent4);
                 break;
-            case R.id.nav_promotional_videos:
+            case R.id.nav_new_orders:
+                Intent intent5=new Intent(getApplicationContext(),NewOrdersActivity.class);
+                startActivity(intent5);
                 break;
             case R.id.nav_reviews:
                 Intent intent6=new Intent(getApplicationContext(),SeeReviewAndRatingActivity.class);

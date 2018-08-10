@@ -502,7 +502,9 @@ public class AddMealADActivity extends AppCompatActivity
             startActivity(intent);
 
         }
-        else if (id == R.id.nav_promotional_videos) {
+        else if (id == R.id.nav_new_orders) {
+            Intent intent = new Intent(getApplicationContext(), NewOrdersActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_reviews) {
             Intent intent=new Intent(getApplicationContext(),SeeReviewAndRatingActivity.class);

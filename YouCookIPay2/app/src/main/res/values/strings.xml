@@ -25,5 +25,6 @@
     <string name="title_activity_sign_up1">SignUp1Activity</string>
     <string name="title_activity_update_delivery_address">UpdateDeliveryAddressActivity</string>
     <string name="title_activity_update_description">UpdateDescriptionActivity</string>
+    <string name="title_activity_new_orders">NewOrdersActivity</string>
 
 </resources>
