@@ -204,6 +204,7 @@
                 />
 
             <RelativeLayout
+                android:id="@+id/orderScreen1_dish_pic"
                 android:layout_margin="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
@@ -211,7 +212,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginHorizontal="10dp"
-                android:background="@drawable/dish_pic">
+                tools:background="@drawable/dish_pic">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -226,11 +227,12 @@
                         android:layout_weight="1" />
 
                     <TextView
+                        android:id="@+id/orderScreen1_dish_name"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="Tikka Dish"
+                        tools:text="Tikka Dish"
                         android:textColor="@android:color/white"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -241,11 +243,12 @@
                         android:layout_weight="1">
 
                         <TextView
+                            android:id="@+id/orderScreen1_dish_price"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:gravity="center"
-                            android:text="$5.00"
+                            tools:text="$5.00"
                             android:textColor="@android:color/white"
                             android:textSize="30sp"
                             android:textStyle="bold" />
@@ -315,13 +318,14 @@
                         android:text="Meal Name"/>
 
                     <TextView
+                        android:id="@+id/meal_name"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
                         android:textStyle="bold"
                         android:textColor="#3b6498"
-                        android:text="Rice"/>
+                        tools:text="Rice"/>
 
                 </LinearLayout>
                 <LinearLayout
@@ -340,15 +344,18 @@
                         android:text="Meal Price"/>
 
                     <TextView
+                        android:id="@+id/meal_price"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
                         android:textStyle="bold"
                         android:textColor="#3b6498"
-                        android:text="$5.00"/>
+                        tools:text="$5.00"/>
                 </LinearLayout>
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/delivery_view"
                     android:layout_marginHorizontal="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -364,6 +371,7 @@
                         android:text="Delivery Charges"/>
 
                     <TextView
+                        android:id="@+id/delivery_charges"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
@@ -388,13 +396,14 @@
                         android:text="Total Amount"/>
 
                     <TextView
+                        android:id="@+id/total_amount"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
                         android:textStyle="bold"
                         android:textColor="#3b6498"
-                        android:text="$7.00"/>
+                        tools:text="$7.00"/>
                 </LinearLayout>
                 <TextView
                     android:layout_margin="10dp"

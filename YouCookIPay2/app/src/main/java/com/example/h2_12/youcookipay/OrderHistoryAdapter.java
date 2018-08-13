@@ -60,7 +60,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
     @Override
     public int getItemCount() {
-        return 0;
+        return historyList.size();
     }
 
     public class OrderHistoryViewHolder extends RecyclerView.ViewHolder {

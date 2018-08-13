@@ -39,6 +39,7 @@ public class LoginInActivity extends AppCompatActivity {
     EditText email, password;
     TextView forget_password;
     public  static ArrayList<User> users;
+
     ProgressBar mProgressBar;
 
     @Override
@@ -91,8 +92,9 @@ public class LoginInActivity extends AppCompatActivity {
                                                 JSONObject data = obj.getJSONObject("data");
                                                 String user_id = data.getString("user_id");
                                                 String session_id = data.getString("session_id");
+                                                String type = data.getString("type");
                                                 users = new ArrayList<>();
-                                                users.add(new User(user_id, session_id));
+                                                users.add(new User(user_id, session_id,type));
                                                 if (message.equalsIgnoreCase("Sign In successfull")) {
                                                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                                                     startActivity(intent);

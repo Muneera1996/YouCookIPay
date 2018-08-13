@@ -4,11 +4,14 @@ public class User {
 
     private String user_id;
     private String session_id;
+    private String type;
 
-    public User(String user_id, String session_id) {
+    public User(String user_id, String session_id, String type) {
         this.user_id = user_id;
         this.session_id = session_id;
+        this.type = type;
     }
+
     public User(){
 
     }
@@ -27,5 +30,13 @@ public class User {
 
     public void setSession_id(String session_id) {
         this.session_id = session_id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

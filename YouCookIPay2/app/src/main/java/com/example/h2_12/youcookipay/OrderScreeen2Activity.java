@@ -49,22 +49,18 @@ import java.util.Map;
 public class OrderScreeen2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Button placeOrder;
-    View home_menu,delivery,yourself;
+    View home_menu,delivery,yourself,area_street,city_view;
     ImageView filter,delivery_checkbox,yourself_checkbox,image,star1,star2,star3,star4,star5;
     EditText name,email,number,date,time,street,area,city;
-    String pick_option="";
     ProgressBar mProgressBar;
     TextView chef_name,chef_address,chef_type,chef_rating;
     ArrayList<Chef_Profile> profile;
     ArrayList<User> user;
-    ArrayList<OrderScreen> orderScreens;
+    public static ArrayList<OrderScreen> orderScreens;
     View rating_view;
     private double rate=0;
     String delivery_method = "";
     public static String Token = "";
-    public static int REQUEST_CODE = 1;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,11 +68,19 @@ public class OrderScreeen2Activity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Intent intent = getIntent();
+        final String id = intent.getStringExtra("MealId");
+        final String nam = intent.getStringExtra("MealName");
+        final String price = intent.getStringExtra("MealPrice");
+        final String img = intent.getStringExtra("MealImage");
+
 
         user=LoginInActivity.users;
         profile=ProfileViewChefActivity.chef_profile;
         home_menu=findViewById(R.id.home_menu);
         filter=findViewById(R.id.filter);
+        area_street=findViewById(R.id.streetAndAreaView);
+        city_view=findViewById(R.id.cityView);
         rating_view=findViewById(R.id.orderScreen_ratingSection);
         yourself=findViewById(R.id.pick_option_yourself);
         delivery=findViewById(R.id.pick_option_dispatch);
@@ -157,6 +161,7 @@ public class OrderScreeen2Activity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+
         if(isConnected()){
             final String url = "http://www.businessmarkaz.com/test/ucookipayws/user/generate_token?user_id="+user.get(0).getUser_id()+"&session_id="+user.get(0).getSession_id();
             JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -169,9 +174,9 @@ public class OrderScreeen2Activity extends AppCompatActivity
                                 Boolean status=obj.getBoolean("status");
                                 JSONObject data=obj.getJSONObject("data");
                                 if(status){
-                                    Log.d("token generated",Token);
                                     Token=data.getString("token");
-                                    onBraintreeSubmit();
+                                    Log.d("token generated",Token);
+                                    //onBraintreeSubmit();
 
                                 }
                             } catch (Throwable t) {
@@ -197,20 +202,32 @@ public class OrderScreeen2Activity extends AppCompatActivity
             public void onClick(View v) {
 
                 if (isConnected()) {
-                    if (name.getText().toString().trim().equals("") || email.getText().toString().trim().equals("") ||
-                            number.getText().toString().trim().equals("") || date.getText().toString().trim().equals("") ||
-                            time.getText().toString().trim().equals("") || street.getText().toString().trim().equals("") ||
-                            area.getText().toString().trim().equals("") || city.getText().toString().trim().equals("") || pick_option.equals(""))
-                        Toast.makeText(getApplicationContext(), "Fill all the details!", Toast.LENGTH_LONG).show();
+                    if (delivery_method.equalsIgnoreCase("")){
+                        Toast.makeText(OrderScreeen2Activity.this, "Please fill all the details", Toast.LENGTH_SHORT).show();
+                    }
+                    else if(delivery_method.equalsIgnoreCase("take_away")) {
+                        if (name.getText().toString().trim().equals("") || email.getText().toString().trim().equals("") ||
+                                number.getText().toString().trim().equals("") || date.getText().toString().trim().equals("") ||
+                                time.getText().toString().trim().equals("") || delivery_method.equals(""))
+                            Toast.makeText(getApplicationContext(), "Fill all the details!", Toast.LENGTH_LONG).show();
+                        else {
+                            orderScreens.add(new OrderScreen(name.getText().toString(),email.getText().toString(),number.getText().toString(),date.getText().toString(),time.getText().toString(),delivery_method,id,nam,price,img));
+                            Intent intent = new Intent(getApplicationContext(), OrderScreen1Activity.class);
+                            startActivity(intent);
+                        }
+                        }
+                    else if(delivery_method.equalsIgnoreCase("home_delivery")){
+                        if (name.getText().toString().trim().equals("") || email.getText().toString().trim().equals("") ||
+                                number.getText().toString().trim().equals("") || date.getText().toString().trim().equals("") ||
+                                time.getText().toString().trim().equals("") || street.getText().toString().trim().equals("") ||
+                                area.getText().toString().trim().equals("") || city.getText().toString().trim().equals("") || delivery_method.equals(""))
+                            Toast.makeText(getApplicationContext(), "Fill all the details!", Toast.LENGTH_LONG).show();
+                        else{
+                            orderScreens.add(new OrderScreen(name.getText().toString(), email.getText().toString(), number.getText().toString(), date.getText().toString(), time.getText().toString(), delivery_method, id,nam,price,img,street.getText().toString(),area.getText().toString(), city.getText().toString()));
+                            Intent intent=new Intent(getApplicationContext(),OrderScreen1Activity.class);
+                            startActivity(intent);
 
-                        // call AsynTask to perform network operation on separate thread
-                    else
-                    {
-                        if(delivery_method.equalsIgnoreCase("home_delivery"))
-                        orderScreens.add(new OrderScreen(name.getText().toString(),email.getText().toString(),number.getText().toString(),date.getText().toString(),time.getText().toString(),delivery_method,street.getText().toString(),area.getText().toString(),city.getText().toString()));
-                        else
-                            orderScreens.add(new OrderScreen(name.getText().toString(),email.getText().toString(),number.getText().toString(),date.getText().toString(),time.getText().toString(),delivery_method));
-
+                        }
                     }
                 }
                 else {
@@ -225,6 +242,8 @@ public class OrderScreeen2Activity extends AppCompatActivity
                 delivery_method="take_away";
                 yourself_checkbox.setImageResource(R.drawable.option_select_circle);
                 delivery_checkbox.setImageResource(R.drawable.button_bg);
+                area_street.setVisibility(View.GONE);
+                city_view.setVisibility(View.GONE);
             }
         });
         delivery.setOnClickListener(new View.OnClickListener() {
@@ -233,8 +252,9 @@ public class OrderScreeen2Activity extends AppCompatActivity
                 delivery_method="home_delivery";
                 yourself_checkbox.setImageResource(R.drawable.button_bg);
                 delivery_checkbox.setImageResource(R.drawable.option_select_circle);
-
-            }
+                area_street.setVisibility(View.VISIBLE);
+                city_view.setVisibility(View.VISIBLE);
+                }
         });
         rating_view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -306,25 +326,9 @@ public class OrderScreeen2Activity extends AppCompatActivity
         else
             return false;
     }
-    public void onBraintreeSubmit() {
-        DropInRequest dropInRequest = new DropInRequest()
-                .clientToken(Token);
-        startActivityForResult(dropInRequest.getIntent(this), REQUEST_CODE);
-    }
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                DropInResult result = data.getParcelableExtra(DropInResult.EXTRA_DROP_IN_RESULT);
-                // use the result to update your UI and send the payment method nonce to your server
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                // the user canceled
-            } else {
-                // handle errors here, an exception may be available in
-                Exception error = (Exception) data.getSerializableExtra(DropInActivity.EXTRA_ERROR);
-            }
-        }
+    protected void onResume() {
+        super.onResume();
     }
-
-
 }

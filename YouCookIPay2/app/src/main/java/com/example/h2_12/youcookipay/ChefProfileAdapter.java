@@ -62,10 +62,16 @@ public class ChefProfileAdapter extends RecyclerView.Adapter<ChefProfileAdapter.
                         holder.dishPic.setBackgroundDrawable(dr);
                     }
                 });
+
+
         holder.placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(holder.placeOrder.getContext(),OrderScreeen2Activity.class);
+                intent.putExtra("MealId", currentMeal.getMealId());
+                intent.putExtra("MealName", currentMeal.getMealName());
+                intent.putExtra("MealPrice", currentMeal.getMealPrice());
+                intent.putExtra("MealImage", currentMeal.getMealImageUrl());
                 holder.placeOrder.getContext().startActivity(intent);
             }
         });

@@ -71,6 +71,7 @@ public class ProfileViewChefActivity extends AppCompatActivity
         chef_profile=new ArrayList<>();
         recyclerView=findViewById(R.id.recyclerview_profile_view_chef);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         name=findViewById(R.id.profileviewchef_name);
         address=findViewById(R.id.profileviewchef_address);
         type=findViewById(R.id.profileviewchef_sellertype);

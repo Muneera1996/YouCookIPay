@@ -138,86 +138,7 @@ public class SignUpActivity extends AppCompatActivity {
                 else if (num==9)
                     Toast.makeText(getBaseContext(), "Fill all the details!", Toast.LENGTH_LONG).show();
                 else if(num==0)
-                {
-                    mProgressBar.setVisibility(View.VISIBLE);
-                    String url = "http://www.businessmarkaz.com/test/ucookipayws/user/sign_up";
-                    StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                            new Response.Listener<String>()
-                            {
-                                @Override
-                                public void onResponse(String response) {
-                                    // response
-                                    Log.d("Response", response);
-                                    try {
-                                        mProgressBar.setVisibility(View.GONE);
-                                        JSONObject obj = new JSONObject(response);
-                                        String message = obj.getString("message");
-                                        JSONObject data=obj.getJSONObject("data");
-                                        String user_id=data.getString("user_id");
-                                        id=user_id;
-
-                                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                                        if(message.equalsIgnoreCase("signup successfull"))
-                                        {
-                                            Intent intent=new Intent(getApplicationContext(),ThankYouPopUpActivity.class);
-                                            startActivity(intent);
-                                        }
-
-                                    } catch (Throwable t) {
-                                        Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
-                                    }
-                                    }
-                                    },
-                            new Response.ErrorListener()
-                            {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    // error
-                                    Log.d("Error.Response", error.getMessage());
-                                    mProgressBar.setVisibility(View.GONE);
-                                }
-                            }
-                    ) {
-                        @Override
-                        protected Map<String, String> getParams()
-                        {
-                            Map<String, String> params = new HashMap<String, String>();
-                            params.put("name", name.getText().toString());
-                            params.put("email", email.getText().toString());
-                            params.put("password", password.getText().toString());
-                            params.put("phone", phone.getText().toString());
-                            params.put("gender", gender);
-                            params.put("type", type);
-                            params.put("payment_method", paymentMethod.getText().toString());
-                            if (!sellerType.equals("")){
-                                params.put("seller_type", sellerType);
-
-                            }
-
-                            return params;
-                        }
-                    };
-                    VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(postRequest);
-                    postRequest.setRetryPolicy(new RetryPolicy() {
-                        @Override
-                        public int getCurrentTimeout() {
-                            return 30000;
-                        }
-
-                        @Override
-                        public int getCurrentRetryCount() {
-                            return 30000;
-                        }
-
-                        @Override
-                        public void retry(VolleyError error) throws VolleyError {
-
-                        }
-                    });
-
-
-
-                }
+                    signUp();
             }
 
 
@@ -242,6 +163,85 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void signUp() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        String url = "http://www.businessmarkaz.com/test/ucookipayws/user/sign_up";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        Log.d("Response", response);
+                        try {
+                            mProgressBar.setVisibility(View.GONE);
+                            JSONObject obj = new JSONObject(response);
+                            String message = obj.getString("message");
+                            JSONObject data=obj.getJSONObject("data");
+                            String user_id=data.getString("user_id");
+                            id=user_id;
+
+                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                            if(message.equalsIgnoreCase("signup successfull"))
+                            {
+                                Intent intent=new Intent(getApplicationContext(),ThankYouPopUpActivity.class);
+                                startActivity(intent);
+                            }
+
+                        } catch (Throwable t) {
+                            Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Log.d("Error.Response", error.getMessage());
+                        mProgressBar.setVisibility(View.GONE);
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("name", name.getText().toString());
+                params.put("email", email.getText().toString());
+                params.put("password", password.getText().toString());
+                params.put("phone", phone.getText().toString());
+                params.put("gender", gender);
+                params.put("type", type);
+                params.put("payment_method", paymentMethod.getText().toString());
+                if (!sellerType.equals("")){
+                    params.put("seller_type", sellerType);
+
+                }
+
+                return params;
+            }
+        };
+        VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(postRequest);
+        postRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 30000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 30000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+    }
+
     public boolean isConnected(){
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();

@@ -7,26 +7,39 @@ public class OrderScreen {
     private String date;
     private String time;
     private String delivery_method;
+    private String meal_id;
+    private String meal_name;
+    private String meal_price;
+    private String meal_image;
     private String street;
     private String area;
     private String city;
 
-    public OrderScreen(String name, String email, String contact, String date, String time, String delivery_method) {
+
+    public OrderScreen(String name, String email, String contact, String date, String time, String delivery_method, String meal_id, String meal_name, String meal_price, String meal_image) {
         this.name = name;
         this.email = email;
         this.contact = contact;
         this.date = date;
         this.time = time;
         this.delivery_method = delivery_method;
+        this.meal_id = meal_id;
+        this.meal_name = meal_name;
+        this.meal_price = meal_price;
+        this.meal_image = meal_image;
     }
 
-    public OrderScreen(String name, String email, String contact, String date, String time, String delivery_method, String street, String area, String city) {
+    public OrderScreen(String name, String email, String contact, String date, String time, String delivery_method, String meal_id, String meal_name, String meal_price, String meal_image, String street, String area, String city) {
         this.name = name;
         this.email = email;
         this.contact = contact;
         this.date = date;
         this.time = time;
         this.delivery_method = delivery_method;
+        this.meal_id = meal_id;
+        this.meal_name = meal_name;
+        this.meal_price = meal_price;
+        this.meal_image = meal_image;
         this.street = street;
         this.area = area;
         this.city = city;
@@ -102,5 +115,37 @@ public class OrderScreen {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getMeal_id() {
+        return meal_id;
+    }
+
+    public void setMeal_id(String meal_id) {
+        this.meal_id = meal_id;
+    }
+
+    public String getMeal_name() {
+        return meal_name;
+    }
+
+    public void setMeal_name(String meal_name) {
+        this.meal_name = meal_name;
+    }
+
+    public String getMeal_price() {
+        return meal_price;
+    }
+
+    public void setMeal_price(String meal_price) {
+        this.meal_price = meal_price;
+    }
+
+    public String getMeal_image() {
+        return meal_image;
+    }
+
+    public void setMeal_image(String meal_image) {
+        this.meal_image = meal_image;
     }
 }

@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class PaymentMethodPopUpActivity extends AppCompatActivity {
     ImageView submit;
+    TextView bill;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +22,9 @@ public class PaymentMethodPopUpActivity extends AppCompatActivity {
 
         getWindow().setLayout((int) (width*.9),(int)(height*.4));
 
+        bill=findViewById(R.id.bill);
+        String amount = OrderScreen1Activity.total_bill;
+        bill.setText("Your Order Amount is: " + amount);
         submit=findViewById(R.id.paymentMethod_submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override

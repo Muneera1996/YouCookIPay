@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -57,6 +58,8 @@ public class HomeActivity extends AppCompatActivity
      EditText search;
     LinearLayout layout;
     ProgressBar mProgressBar;
+    private Menu menu;
+
 
 
     @Override
@@ -298,6 +301,42 @@ public class HomeActivity extends AppCompatActivity
             }
         });
     }
+    /*
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        // Create your menu...
+        if(LoginInActivity.users.get(0).getType().equalsIgnoreCase("buyer")) {
+            MenuItem homeItem = menu.findItem(R.id.nav_home);
+            MenuItem deliveryItem = menu.findItem(R.id.nav_delivery_address);
+            MenuItem useAppItem = menu.findItem(R.id.nav_how_use_app);
+            MenuItem aboutUsItem = menu.findItem(R.id.nav_about_us);
+
+            homeItem.setVisible(true);
+            deliveryItem.setVisible(true);
+            useAppItem.setVisible(true);
+            aboutUsItem.setVisible(true);
+        }
+        else if (LoginInActivity.users.get(0).getType().equalsIgnoreCase("seller")) {
+            MenuItem homeItem = menu.findItem(R.id.nav_home);
+            MenuItem profileItem = menu.findItem(R.id.nav_Profile);
+            MenuItem useAppItem = menu.findItem(R.id.nav_how_use_app);
+            MenuItem aboutUsItem = menu.findItem(R.id.nav_about_us);
+            MenuItem historyItem = menu.findItem(R.id.nav_order_history);
+            MenuItem newOrderItem = menu.findItem(R.id.nav_new_orders);
+            MenuItem reviewItem = menu.findItem(R.id.nav_reviews);
+            homeItem.setVisible(true);
+            profileItem.setVisible(true);
+            useAppItem.setVisible(true);
+            aboutUsItem.setVisible(true);
+            historyItem.setVisible(true);
+            newOrderItem.setVisible(true);
+            reviewItem.setVisible(true);
+        }
+        return true;
+    }*/
+
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -310,49 +349,127 @@ public class HomeActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        displaySelectedScreen(item.getItemId());
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
 
-        return true;
-    }
-    private void displaySelectedScreen(int itemId) {
+        if (id == R.id.nav_home) {
+            Intent intent=new Intent(getApplicationContext(),HomeActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_Profile) {
+            Intent intent=new Intent(getApplicationContext(),ProfileActivity.class);
+            startActivity(intent);
 
-        //initializing the fragment object which is selected
-        switch (itemId) {
-            case R.id.nav_home:
-                break;
-            case R.id.nav_Profile:
-                Intent intent=new Intent(getApplicationContext(),ProfileActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.nav_order_history:
-                Intent intent1=new Intent(getApplicationContext(),OrderHistory1Activity.class);
-                startActivity(intent1);
-                break;
-            case R.id.nav_delivery_address:
-                Intent intent2=new Intent(getApplicationContext(),UpdateDeliveryAddressActivity.class);
-                startActivity(intent2);
-                break;
-            case R.id.nav_about_us:
-                Intent intent3=new Intent(getApplicationContext(),AboutUsActivity.class);
-                startActivity(intent3);
-                break;
-            case R.id.nav_how_use_app:
-                Intent intent4=new Intent(getApplicationContext(),HowToUseAppActivity.class);
-                startActivity(intent4);
-                break;
-            case R.id.nav_new_orders:
-                Intent intent5=new Intent(getApplicationContext(),NewOrdersActivity.class);
-                startActivity(intent5);
-                break;
-            case R.id.nav_reviews:
-                Intent intent6=new Intent(getApplicationContext(),SeeReviewAndRatingActivity.class);
-                intent6.putExtra("ChefId",arrayList.get(0).getUser_id());
-                startActivity(intent6);
-                break;
+        } else if (id == R.id.nav_order_history) {
+            Intent intent=new Intent(getApplicationContext(),OrderHistory1Activity.class);
+            startActivity(intent);
+
+        } else if (id == R.id.nav_delivery_address) {
+            Intent intent=new Intent(getApplicationContext(),UpdateDeliveryAddressActivity.class);
+            startActivity(intent);
+
+        } else if (id == R.id.nav_about_us) {
+            Intent intent=new Intent(getApplicationContext(),AboutUsActivity.class);
+            startActivity(intent);
+
+        } else if (id == R.id.nav_how_use_app) {
+            Intent intent=new Intent(getApplicationContext(),HowToUseAppActivity.class);
+            startActivity(intent);
 
         }
+        else if (id == R.id.nav_new_orders) {
+            Intent intent = new Intent(getApplicationContext(), NewOrdersActivity.class);
+            startActivity(intent);
 
+        } else if (id == R.id.nav_reviews) {
+            Intent intent=new Intent(getApplicationContext(),SeeReviewAndRatingActivity.class);
+            startActivity(intent);
+        }
 
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+     private void displaySelectedScreen(int itemId) {
+
+        //initializing the fragment object which is selected
+        Toast.makeText(this, LoginInActivity.users.get(0).getType(), Toast.LENGTH_SHORT).show();
+
+       if(LoginInActivity.users.get(0).getType().equalsIgnoreCase("buyer")){
+            MenuItem homeItem = menu.findItem(R.id.nav_home);
+            MenuItem deliveryItem = menu.findItem(R.id.nav_delivery_address);
+            MenuItem useAppItem = menu.findItem(R.id.nav_how_use_app);
+            MenuItem aboutUsItem = menu.findItem(R.id.nav_about_us);
+
+            homeItem.setVisible(true);
+            deliveryItem.setVisible(true);
+            useAppItem.setVisible(true);
+            aboutUsItem.setVisible(true);
+            switch (itemId) {
+                case R.id.nav_home:
+                    break;
+                case R.id.nav_delivery_address:
+                    Intent intent2=new Intent(getApplicationContext(),UpdateDeliveryAddressActivity.class);
+                    startActivity(intent2);
+                    break;
+                case R.id.nav_about_us:
+                    Intent intent3=new Intent(getApplicationContext(),AboutUsActivity.class);
+                    startActivity(intent3);
+                    break;
+                case R.id.nav_how_use_app:
+                    Intent intent4=new Intent(getApplicationContext(),HowToUseAppActivity.class);
+                    startActivity(intent4);
+                    break;
+
+            }
+        }
+        else if (LoginInActivity.users.get(0).getType().equalsIgnoreCase("seller")){
+            MenuItem homeItem = menu.findItem(R.id.nav_home);
+            MenuItem profileItem = menu.findItem(R.id.nav_Profile);
+            MenuItem useAppItem = menu.findItem(R.id.nav_how_use_app);
+            MenuItem aboutUsItem = menu.findItem(R.id.nav_about_us);
+            MenuItem historyItem = menu.findItem(R.id.nav_order_history);
+            MenuItem newOrderItem = menu.findItem(R.id.nav_new_orders);
+            MenuItem reviewItem = menu.findItem(R.id.nav_reviews);
+            homeItem.setVisible(true);
+            profileItem.setVisible(true);
+            useAppItem.setVisible(true);
+            aboutUsItem.setVisible(true);
+            historyItem.setVisible(true);
+            newOrderItem.setVisible(true);
+            reviewItem.setVisible(true);
+
+            switch (itemId) {
+                case R.id.nav_home:
+                    break;
+                case R.id.nav_Profile:
+                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.nav_order_history:
+                    Intent intent1 = new Intent(getApplicationContext(), OrderHistory1Activity.class);
+                    startActivity(intent1);
+                    break;
+
+                case R.id.nav_about_us:
+                    Intent intent3 = new Intent(getApplicationContext(), AboutUsActivity.class);
+                    startActivity(intent3);
+                    break;
+                case R.id.nav_how_use_app:
+                    Intent intent4 = new Intent(getApplicationContext(), HowToUseAppActivity.class);
+                    startActivity(intent4);
+                    break;
+                case R.id.nav_new_orders:
+                    Intent intent5 = new Intent(getApplicationContext(), NewOrdersActivity.class);
+                    startActivity(intent5);
+                    break;
+                case R.id.nav_reviews:
+                    Intent intent6 = new Intent(getApplicationContext(), SeeReviewAndRatingActivity.class);
+                    intent6.putExtra("ChefId", arrayList.get(0).getUser_id());
+                    startActivity(intent6);
+                    break;
+
+            }
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }

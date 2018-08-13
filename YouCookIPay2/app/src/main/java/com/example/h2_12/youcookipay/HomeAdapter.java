@@ -112,7 +112,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
         }
 
-        for (int i=0; i<currentData.getMylist().size();i++){
             final int updateInterval = 1000;
             new Runnable(){
                 @Override
@@ -138,7 +137,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                         currentIndex+=1;
                 }
             }.run();
-        }
      /* Glide.with(holder.mealImage.getContext())
                 .asBitmap()
                 .load(currentData.getMealImage())

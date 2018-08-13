@@ -56,7 +56,7 @@ public class OrderHistory1Activity extends AppCompatActivity
         filter=findViewById(R.id.filter);
         historyList=new ArrayList<>();
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-        recyclerView=findViewById(R.id.recyclerview_orderHistory);
+        recyclerView=findViewById(R.id.recyclerview_orderHistory1);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -102,6 +102,7 @@ public class OrderHistory1Activity extends AppCompatActivity
                                     for(int i=0;i<jsonArray.length();i++){
                                         JSONObject user=jsonArray.getJSONObject(i);
                                         String order_id=user.getString("order_id");
+                                        Log.v("order_id",order_id);
                                         String chef_id=user.getString("chef_id");
                                         String user_id=user.getString("user_id");
                                         String meal_id=user.getString("meal_id");

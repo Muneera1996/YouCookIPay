@@ -463,6 +463,8 @@
                     </RelativeLayout>
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/streetAndAreaView"
+                    android:visibility="gone"
                     android:layout_marginTop="2dp"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -541,6 +543,8 @@
                 </LinearLayout>
 
                 <RelativeLayout
+                    android:visibility="gone"
+                    android:id="@+id/cityView"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:layout_marginHorizontal="10dp"

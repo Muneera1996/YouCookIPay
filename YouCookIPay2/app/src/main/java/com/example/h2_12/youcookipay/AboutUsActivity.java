@@ -21,7 +21,6 @@ public class AboutUsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     View home_menu;
     ImageView filter;
-    LinearLayout layout1,layout2;
     ProgressBar mProgressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +31,6 @@ public class AboutUsActivity extends AppCompatActivity
 
         home_menu=findViewById(R.id.home_menu);
         filter=findViewById(R.id.filter);
-
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
