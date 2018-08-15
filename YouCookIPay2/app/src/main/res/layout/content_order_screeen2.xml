@@ -356,7 +356,6 @@
                                 android:layout_centerInParent="true"
                                 android:background="@drawable/date_icon" />
                         </RelativeLayout>
-
                         <EditText
                             android:id="@+id/orderScreen_date"
                             android:layout_width="match_parent"
@@ -367,8 +366,11 @@
                             android:gravity="start"
                             android:hint="Date"
                             android:textSize="12sp"
+                            android:clickable="true"
                             android:textColor="#3b6498"
-                            android:textColorHint="#3b6498" />
+                            android:textColorHint="#3b6498"
+                            android:inputType="none"
+                            android:focusable="false"/>
                     </RelativeLayout>
                     <RelativeLayout
                         android:layout_margin="2dp"
@@ -463,8 +465,8 @@
                     </RelativeLayout>
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/streetAndAreaView"
                     android:visibility="gone"
+                    android:id="@+id/streetAndAreaView"
                     android:layout_marginTop="2dp"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -490,20 +492,21 @@
                                 android:layout_centerInParent="true"
                                 android:background="@drawable/dropdown_arrow" />
                         </RelativeLayout>
-
-                        <EditText
+                        <AutoCompleteTextView
                             android:id="@+id/orderScreen_street"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_gravity="center"
                             android:layout_toRightOf="@id/street_icon"
-                            android:backgroundTint="@android:color/transparent"
                             android:gravity="start"
                             android:layout_marginLeft="5dp"
                             android:textColor="#3b6498"
                             android:textSize="12sp"
+                            android:completionThreshold="1"
                             android:textColorHint="#3b6498"
-                            android:hint="Street" />
+                            android:hint="Street"
+                            android:popupTheme="@drawable/overlay_bg"
+                            />
+
                     </RelativeLayout>
                     <RelativeLayout
                         android:layout_margin="2dp"
@@ -525,20 +528,20 @@
                                 android:layout_centerInParent="true"
                                 android:background="@drawable/dropdown_arrow" />
                         </RelativeLayout>
-
-                        <EditText
+                        <AutoCompleteTextView
                             android:id="@+id/orderScreen_area"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_gravity="center"
                             android:layout_toRightOf="@id/area_icon"
-                            android:backgroundTint="@android:color/transparent"
                             android:gravity="start"
                             android:layout_marginLeft="5dp"
                             android:textColor="#3b6498"
                             android:textSize="12sp"
+                            android:completionThreshold="1"
                             android:textColorHint="#3b6498"
-                            android:hint="Area" />
+                            android:hint="Area"
+                            android:popupTheme="@drawable/overlay_bg"
+                            />
                     </RelativeLayout>
                 </LinearLayout>
 
@@ -563,20 +566,20 @@
                             android:layout_centerInParent="true"
                             android:background="@drawable/dropdown_arrow" />
                     </RelativeLayout>
-
-                    <EditText
+                    <AutoCompleteTextView
                         android:id="@+id/orderScreen_city"
-                        android:layout_width="253dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="5dp"
                         android:layout_toRightOf="@id/city_icon"
-                        android:backgroundTint="@android:color/transparent"
                         android:gravity="start"
-                        android:hint="City"
+                        android:layout_marginLeft="5dp"
                         android:textColor="#3b6498"
+                        android:textSize="12sp"
+                        android:completionThreshold="1"
                         android:textColorHint="#3b6498"
-                        android:textSize="12sp" />
+                        android:hint="Area"
+                        android:popupTheme="@drawable/overlay_bg"
+                        />
                 </RelativeLayout>
 
                 <Button

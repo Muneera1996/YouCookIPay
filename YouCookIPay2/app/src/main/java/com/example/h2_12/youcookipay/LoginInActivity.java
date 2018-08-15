@@ -68,83 +68,88 @@ public class LoginInActivity extends AppCompatActivity {
             signIn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mProgressBar.setVisibility(View.VISIBLE);
-                    if (email.getText().toString().trim().equals("") || password.getText().toString().trim().equals("")) {
-                        Toast.makeText(LoginInActivity.this, "Fill all the details", Toast.LENGTH_SHORT).show();
+                    if (!isConnected()) {
+                        Toast.makeText(LoginInActivity.this, "Please check your Internet Connection", Toast.LENGTH_SHORT).show();
                     } else {
-                        String url = "http://www.businessmarkaz.com/test/ucookipayws/user/sign_in";
-                        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                                new Response.Listener<String>() {
-                                    @Override
-                                    public void onResponse(String response) {
-                                        // response
-                                        mProgressBar.setVisibility(View.GONE);
 
-                                        Log.d("Response", response);
-                                        // JSONObject parser = new JSONObject();
-                                        try {
+                        mProgressBar.setVisibility(View.VISIBLE);
+                        if (email.getText().toString().trim().equals("") || password.getText().toString().trim().equals("")) {
+                            Toast.makeText(LoginInActivity.this, "Fill all the details", Toast.LENGTH_SHORT).show();
+                        } else {
+                            String url = "http://www.businessmarkaz.com/test/ucookipayws/user/sign_in";
+                            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                                    new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+                                            // response
+                                            mProgressBar.setVisibility(View.GONE);
 
-                                            JSONObject obj = new JSONObject(response);
-                                            String message = obj.getString("message");
-                                            boolean status= obj.getBoolean("status");
-                                            Toast.makeText(LoginInActivity.this, message, Toast.LENGTH_SHORT).show();
-                                            if(status) {
-                                                JSONObject data = obj.getJSONObject("data");
-                                                String user_id = data.getString("user_id");
-                                                String session_id = data.getString("session_id");
-                                                String type = data.getString("type");
-                                                users = new ArrayList<>();
-                                                users.add(new User(user_id, session_id,type));
-                                                if (message.equalsIgnoreCase("Sign In successfull")) {
-                                                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                                                    startActivity(intent);
+                                            Log.d("Response", response);
+                                            // JSONObject parser = new JSONObject();
+                                            try {
+
+                                                JSONObject obj = new JSONObject(response);
+                                                String message = obj.getString("message");
+                                                boolean status = obj.getBoolean("status");
+                                                Toast.makeText(LoginInActivity.this, message, Toast.LENGTH_SHORT).show();
+                                                if (status) {
+                                                    JSONObject data = obj.getJSONObject("data");
+                                                    String user_id = data.getString("user_id");
+                                                    String session_id = data.getString("session_id");
+                                                    String type = data.getString("type");
+                                                    users = new ArrayList<>();
+                                                    users.add(new User(user_id, session_id, type));
+                                                    if (message.equalsIgnoreCase("Sign In successfull")) {
+                                                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                                        startActivity(intent);
+                                                    }
                                                 }
-                                            }
 
-                                        } catch (Throwable t) {
-                                            Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
+                                            } catch (Throwable t) {
+                                                Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
+                                            }
+                                        }
+                                    },
+                                    new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            // error
+                                            Log.d("Error.Response", error.toString());
+                                            mProgressBar.setVisibility(View.GONE);
+
                                         }
                                     }
-                                },
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        // error
-                                        Log.d("Error.Response", error.toString());
-                                        mProgressBar.setVisibility(View.GONE);
-
-                                    }
+                            ) {
+                                @Override
+                                protected Map<String, String> getParams() {
+                                    Map<String, String> params = new HashMap<String, String>();
+                                    params.put("email", email.getText().toString());
+                                    params.put("password", password.getText().toString());
+                                    params.put("device_type", "android");
+                                    params.put("device_token", "token");
+                                    return params;
                                 }
-                        ) {
-                            @Override
-                            protected Map<String, String> getParams() {
-                                Map<String, String> params = new HashMap<String, String>();
-                                params.put("email", email.getText().toString());
-                                params.put("password", password.getText().toString());
-                                params.put("device_type", "android");
-                                params.put("device_token", "token");
-                                return params;
-                            }
 
 
-                        };
-                        VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(postRequest);
-                        postRequest.setRetryPolicy(new RetryPolicy() {
-                            @Override
-                            public int getCurrentTimeout() {
-                                return 30000;
-                            }
+                            };
+                            VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(postRequest);
+                            postRequest.setRetryPolicy(new RetryPolicy() {
+                                @Override
+                                public int getCurrentTimeout() {
+                                    return 30000;
+                                }
 
-                            @Override
-                            public int getCurrentRetryCount() {
-                                return 30000;
-                            }
+                                @Override
+                                public int getCurrentRetryCount() {
+                                    return 30000;
+                                }
 
-                            @Override
-                            public void retry(VolleyError error) throws VolleyError {
+                                @Override
+                                public void retry(VolleyError error) throws VolleyError {
 
-                            }
-                        });
+                                }
+                            });
+                        }
                     }
                 }
             });

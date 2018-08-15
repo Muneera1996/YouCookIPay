@@ -98,8 +98,41 @@ public class ProfileViewChefActivity extends AppCompatActivity
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        arrayList=LoginInActivity.users;
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        arrayList=LoginInActivity.users;NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        // get menu from navigationView
+        Menu menu = navigationView.getMenu();
+
+        // find MenuItem you want to change
+        if(LoginInActivity.users.get(0).getType().equalsIgnoreCase("buyer")) {
+            MenuItem homeItem = menu.findItem(R.id.nav_home);
+            MenuItem deliveryItem = menu.findItem(R.id.nav_delivery_address);
+            MenuItem useAppItem = menu.findItem(R.id.nav_how_use_app);
+            MenuItem aboutUsItem = menu.findItem(R.id.nav_about_us);
+            MenuItem historyItem = menu.findItem(R.id.nav_order_history);
+            MenuItem newOrderItem = menu.findItem(R.id.nav_new_orders);
+            historyItem.setVisible(true);
+            newOrderItem.setVisible(true);
+            homeItem.setVisible(true);
+            deliveryItem.setVisible(true);
+            useAppItem.setVisible(true);
+            aboutUsItem.setVisible(true);
+        }
+        else if (LoginInActivity.users.get(0).getType().equalsIgnoreCase("seller")) {
+            MenuItem homeItem = menu.findItem(R.id.nav_home);
+            MenuItem profileItem = menu.findItem(R.id.nav_Profile);
+            MenuItem useAppItem = menu.findItem(R.id.nav_how_use_app);
+            MenuItem aboutUsItem = menu.findItem(R.id.nav_about_us);
+            MenuItem historyItem = menu.findItem(R.id.nav_order_history);
+            MenuItem newOrderItem = menu.findItem(R.id.nav_new_orders);
+            MenuItem reviewItem = menu.findItem(R.id.nav_reviews);
+            homeItem.setVisible(true);
+            profileItem.setVisible(true);
+            useAppItem.setVisible(true);
+            aboutUsItem.setVisible(true);
+            historyItem.setVisible(true);
+            newOrderItem.setVisible(true);
+            reviewItem.setVisible(true);
+        }
         navigationView.setNavigationItemSelectedListener(this);
         if (!isConnected()) {
             Toast.makeText(getApplicationContext(), "Check your Internet Connection", Toast.LENGTH_SHORT).show();
@@ -283,6 +316,9 @@ public class ProfileViewChefActivity extends AppCompatActivity
             intent.putExtra("ChefId",HomeActivity.arrayList.get(0).getUser_id());
             startActivity(intent);
         }
+        else if (id == R.id.nav_logout) {
+            LogoutApi();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -295,5 +331,38 @@ public class ProfileViewChefActivity extends AppCompatActivity
             return true;
         else
             return false;
+    }
+    public void LogoutApi() {
+        final String url = "http://www.businessmarkaz.com/test/ucookipayws/user/logout?user_id=" + LoginInActivity.users.get(0).getUser_id() + "&session_id=" + LoginInActivity.users.get(0).getSession_id();
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // display response
+                        Log.d("Response", response.toString());
+                        try {
+                            JSONObject obj = new JSONObject(response.toString());
+                            String message = obj.getString("message");
+                            Boolean status = obj.getBoolean("status");
+                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                            if (status) {
+                                Intent intent = new Intent(getApplicationContext(), SplashScreen.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                intent.putExtra("EXIT", true);
+                                startActivity(intent);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+
+        );
     }
 }

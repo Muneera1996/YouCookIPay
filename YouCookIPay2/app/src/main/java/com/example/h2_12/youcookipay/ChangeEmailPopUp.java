@@ -35,7 +35,6 @@ public class ChangeEmailPopUp extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        final RequestQueue queue=AppController.getInstance().getRequestQueue();
 
 
         getWindow().setLayout((int) (width*.9),(int)(height*.3));

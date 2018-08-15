@@ -42,6 +42,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -58,9 +59,6 @@ public class HomeActivity extends AppCompatActivity
      EditText search;
     LinearLayout layout;
     ProgressBar mProgressBar;
-    private Menu menu;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +83,40 @@ public class HomeActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        // get menu from navigationView
+        Menu menu = navigationView.getMenu();
+
+        // find MenuItem you want to change
+        if(LoginInActivity.users.get(0).getType().equalsIgnoreCase("buyer")) {
+            MenuItem homeItem = menu.findItem(R.id.nav_home);
+            MenuItem deliveryItem = menu.findItem(R.id.nav_delivery_address);
+            MenuItem useAppItem = menu.findItem(R.id.nav_how_use_app);
+            MenuItem aboutUsItem = menu.findItem(R.id.nav_about_us);
+            MenuItem historyItem = menu.findItem(R.id.nav_order_history);
+            MenuItem newOrderItem = menu.findItem(R.id.nav_new_orders);
+            historyItem.setVisible(true);
+            newOrderItem.setVisible(true);
+            homeItem.setVisible(true);
+            deliveryItem.setVisible(true);
+            useAppItem.setVisible(true);
+            aboutUsItem.setVisible(true);
+        }
+        else if (LoginInActivity.users.get(0).getType().equalsIgnoreCase("seller")) {
+            MenuItem homeItem = menu.findItem(R.id.nav_home);
+            MenuItem profileItem = menu.findItem(R.id.nav_Profile);
+            MenuItem useAppItem = menu.findItem(R.id.nav_how_use_app);
+            MenuItem aboutUsItem = menu.findItem(R.id.nav_about_us);
+            MenuItem historyItem = menu.findItem(R.id.nav_order_history);
+            MenuItem newOrderItem = menu.findItem(R.id.nav_new_orders);
+            MenuItem reviewItem = menu.findItem(R.id.nav_reviews);
+            homeItem.setVisible(true);
+            profileItem.setVisible(true);
+            useAppItem.setVisible(true);
+            aboutUsItem.setVisible(true);
+            historyItem.setVisible(true);
+            newOrderItem.setVisible(true);
+            reviewItem.setVisible(true);
+        }
         navigationView.setNavigationItemSelectedListener(this);
         Intent intent = getIntent();
         String activity = intent.getStringExtra("Filter");
@@ -301,41 +333,6 @@ public class HomeActivity extends AppCompatActivity
             }
         });
     }
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        // Create your menu...
-        if(LoginInActivity.users.get(0).getType().equalsIgnoreCase("buyer")) {
-            MenuItem homeItem = menu.findItem(R.id.nav_home);
-            MenuItem deliveryItem = menu.findItem(R.id.nav_delivery_address);
-            MenuItem useAppItem = menu.findItem(R.id.nav_how_use_app);
-            MenuItem aboutUsItem = menu.findItem(R.id.nav_about_us);
-
-            homeItem.setVisible(true);
-            deliveryItem.setVisible(true);
-            useAppItem.setVisible(true);
-            aboutUsItem.setVisible(true);
-        }
-        else if (LoginInActivity.users.get(0).getType().equalsIgnoreCase("seller")) {
-            MenuItem homeItem = menu.findItem(R.id.nav_home);
-            MenuItem profileItem = menu.findItem(R.id.nav_Profile);
-            MenuItem useAppItem = menu.findItem(R.id.nav_how_use_app);
-            MenuItem aboutUsItem = menu.findItem(R.id.nav_about_us);
-            MenuItem historyItem = menu.findItem(R.id.nav_order_history);
-            MenuItem newOrderItem = menu.findItem(R.id.nav_new_orders);
-            MenuItem reviewItem = menu.findItem(R.id.nav_reviews);
-            homeItem.setVisible(true);
-            profileItem.setVisible(true);
-            useAppItem.setVisible(true);
-            aboutUsItem.setVisible(true);
-            historyItem.setVisible(true);
-            newOrderItem.setVisible(true);
-            reviewItem.setVisible(true);
-        }
-        return true;
-    }*/
-
 
     @Override
     public void onBackPressed() {
@@ -384,95 +381,15 @@ public class HomeActivity extends AppCompatActivity
             Intent intent=new Intent(getApplicationContext(),SeeReviewAndRatingActivity.class);
             startActivity(intent);
         }
+        else if (id == R.id.nav_logout) {
+             LogoutApi();
+          }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-     private void displaySelectedScreen(int itemId) {
 
-        //initializing the fragment object which is selected
-        Toast.makeText(this, LoginInActivity.users.get(0).getType(), Toast.LENGTH_SHORT).show();
-
-       if(LoginInActivity.users.get(0).getType().equalsIgnoreCase("buyer")){
-            MenuItem homeItem = menu.findItem(R.id.nav_home);
-            MenuItem deliveryItem = menu.findItem(R.id.nav_delivery_address);
-            MenuItem useAppItem = menu.findItem(R.id.nav_how_use_app);
-            MenuItem aboutUsItem = menu.findItem(R.id.nav_about_us);
-
-            homeItem.setVisible(true);
-            deliveryItem.setVisible(true);
-            useAppItem.setVisible(true);
-            aboutUsItem.setVisible(true);
-            switch (itemId) {
-                case R.id.nav_home:
-                    break;
-                case R.id.nav_delivery_address:
-                    Intent intent2=new Intent(getApplicationContext(),UpdateDeliveryAddressActivity.class);
-                    startActivity(intent2);
-                    break;
-                case R.id.nav_about_us:
-                    Intent intent3=new Intent(getApplicationContext(),AboutUsActivity.class);
-                    startActivity(intent3);
-                    break;
-                case R.id.nav_how_use_app:
-                    Intent intent4=new Intent(getApplicationContext(),HowToUseAppActivity.class);
-                    startActivity(intent4);
-                    break;
-
-            }
-        }
-        else if (LoginInActivity.users.get(0).getType().equalsIgnoreCase("seller")){
-            MenuItem homeItem = menu.findItem(R.id.nav_home);
-            MenuItem profileItem = menu.findItem(R.id.nav_Profile);
-            MenuItem useAppItem = menu.findItem(R.id.nav_how_use_app);
-            MenuItem aboutUsItem = menu.findItem(R.id.nav_about_us);
-            MenuItem historyItem = menu.findItem(R.id.nav_order_history);
-            MenuItem newOrderItem = menu.findItem(R.id.nav_new_orders);
-            MenuItem reviewItem = menu.findItem(R.id.nav_reviews);
-            homeItem.setVisible(true);
-            profileItem.setVisible(true);
-            useAppItem.setVisible(true);
-            aboutUsItem.setVisible(true);
-            historyItem.setVisible(true);
-            newOrderItem.setVisible(true);
-            reviewItem.setVisible(true);
-
-            switch (itemId) {
-                case R.id.nav_home:
-                    break;
-                case R.id.nav_Profile:
-                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                    startActivity(intent);
-                    break;
-                case R.id.nav_order_history:
-                    Intent intent1 = new Intent(getApplicationContext(), OrderHistory1Activity.class);
-                    startActivity(intent1);
-                    break;
-
-                case R.id.nav_about_us:
-                    Intent intent3 = new Intent(getApplicationContext(), AboutUsActivity.class);
-                    startActivity(intent3);
-                    break;
-                case R.id.nav_how_use_app:
-                    Intent intent4 = new Intent(getApplicationContext(), HowToUseAppActivity.class);
-                    startActivity(intent4);
-                    break;
-                case R.id.nav_new_orders:
-                    Intent intent5 = new Intent(getApplicationContext(), NewOrdersActivity.class);
-                    startActivity(intent5);
-                    break;
-                case R.id.nav_reviews:
-                    Intent intent6 = new Intent(getApplicationContext(), SeeReviewAndRatingActivity.class);
-                    intent6.putExtra("ChefId", arrayList.get(0).getUser_id());
-                    startActivity(intent6);
-                    break;
-
-            }
-        }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-    }
     public boolean isConnected() {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -481,4 +398,56 @@ public class HomeActivity extends AppCompatActivity
         else
             return false;
     }
+    public void LogoutApi(){
+        final String url = "http://www.businessmarkaz.com/test/ucookipayws/user/logout?user_id="+LoginInActivity.users.get(0).getUser_id()+"&session_id="+LoginInActivity.users.get(0).getSession_id();
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // display response
+                        Log.d("Response", response.toString());
+                        try {
+                            JSONObject obj = new JSONObject(response.toString());
+                            String message=obj.getString("message");
+                            Boolean status=obj.getBoolean("status");
+                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                            if (status){
+                                Intent intent = new Intent(getApplicationContext(), SplashScreen.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                intent.putExtra("EXIT", true);
+                                startActivity(intent);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+
+        );
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(getRequest);
+        getRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 30000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 30000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+    }
+
 }

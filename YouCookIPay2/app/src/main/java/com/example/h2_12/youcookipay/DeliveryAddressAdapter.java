@@ -35,11 +35,10 @@ public class DeliveryAddressAdapter extends RecyclerView.Adapter<DeliveryAddress
 
     @Override
     public void onBindViewHolder(@NonNull DeliveryAddressViewHolder holder, int position) {
-        for(int i=0;i<street.size();i++){
-            holder.text1.setText(Integer.toString(i+1));
-            String address=street.get(i) + " " + areas.get(i)+ " "+cities.get(i)+ " " + codes.get(i);
+
+            holder.text1.setText(Integer.toString(position+1));
+            String address=street.get(position) + " " + areas.get(position)+ " "+cities.get(position)+ " " + codes.get(position);
             holder.text2.setText(address);
-        }
 
     }
 

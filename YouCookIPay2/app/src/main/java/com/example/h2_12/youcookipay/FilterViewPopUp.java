@@ -45,7 +45,6 @@ public class FilterViewPopUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter_view_pop_up);
 
-        final RequestQueue queue=AppController.getInstance().getRequestQueue();
 
         DisplayMetrics dm=new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);

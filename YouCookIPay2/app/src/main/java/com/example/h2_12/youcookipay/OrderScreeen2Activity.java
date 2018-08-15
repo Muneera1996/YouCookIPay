@@ -1,7 +1,12 @@
 package com.example.h2_12.youcookipay;
 
+import android.app.DatePickerDialog;
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -17,12 +22,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -40,9 +51,12 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,7 +65,7 @@ public class OrderScreeen2Activity extends AppCompatActivity
     Button placeOrder;
     View home_menu,delivery,yourself,area_street,city_view;
     ImageView filter,delivery_checkbox,yourself_checkbox,image,star1,star2,star3,star4,star5;
-    EditText name,email,number,date,time,street,area,city;
+    EditText name,email,number,date,time;
     ProgressBar mProgressBar;
     TextView chef_name,chef_address,chef_type,chef_rating;
     ArrayList<Chef_Profile> profile;
@@ -61,6 +75,15 @@ public class OrderScreeen2Activity extends AppCompatActivity
     private double rate=0;
     String delivery_method = "";
     public static String Token = "";
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+    static ArrayList<String> streets;
+    ArrayList<String> areas=new ArrayList<>();
+    ArrayList<String> cities=new ArrayList<>();
+    private AutoCompleteTextView street_txt;
+    private AutoCompleteTextView area_txt;
+    private AutoCompleteTextView city_txt;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +99,7 @@ public class OrderScreeen2Activity extends AppCompatActivity
 
 
         user=LoginInActivity.users;
+        streets=new ArrayList<>();
         profile=ProfileViewChefActivity.chef_profile;
         home_menu=findViewById(R.id.home_menu);
         filter=findViewById(R.id.filter);
@@ -91,10 +115,10 @@ public class OrderScreeen2Activity extends AppCompatActivity
         number=findViewById(R.id.orderScreen_number);
         date=findViewById(R.id.orderScreen_date);
         time=findViewById(R.id.orderScreen_time);
-        street=findViewById(R.id.orderScreen_street);
+        street_txt=findViewById(R.id.orderScreen_street);
         orderScreens=new ArrayList<>();
-        area=findViewById(R.id.orderScreen_area);
-        city=findViewById(R.id.orderScreen_city);
+        area_txt=findViewById(R.id.orderScreen_area);
+        city_txt=findViewById(R.id.orderScreen_city);
         chef_name=findViewById(R.id.orderScreen1_chef_name);
         chef_address=findViewById(R.id.orderScreen1_chef_place);
         chef_rating=findViewById(R.id.orderScreen1_rating);
@@ -146,6 +170,40 @@ public class OrderScreeen2Activity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        // get menu from navigationView
+        Menu menu = navigationView.getMenu();
+
+        // find MenuItem you want to change
+        if(LoginInActivity.users.get(0).getType().equalsIgnoreCase("buyer")) {
+            MenuItem homeItem = menu.findItem(R.id.nav_home);
+            MenuItem deliveryItem = menu.findItem(R.id.nav_delivery_address);
+            MenuItem useAppItem = menu.findItem(R.id.nav_how_use_app);
+            MenuItem aboutUsItem = menu.findItem(R.id.nav_about_us);
+            MenuItem historyItem = menu.findItem(R.id.nav_order_history);
+            MenuItem newOrderItem = menu.findItem(R.id.nav_new_orders);
+            historyItem.setVisible(true);
+            newOrderItem.setVisible(true);
+            homeItem.setVisible(true);
+            deliveryItem.setVisible(true);
+            useAppItem.setVisible(true);
+            aboutUsItem.setVisible(true);
+        }
+        else if (LoginInActivity.users.get(0).getType().equalsIgnoreCase("seller")) {
+            MenuItem homeItem = menu.findItem(R.id.nav_home);
+            MenuItem profileItem = menu.findItem(R.id.nav_Profile);
+            MenuItem useAppItem = menu.findItem(R.id.nav_how_use_app);
+            MenuItem aboutUsItem = menu.findItem(R.id.nav_about_us);
+            MenuItem historyItem = menu.findItem(R.id.nav_order_history);
+            MenuItem newOrderItem = menu.findItem(R.id.nav_new_orders);
+            MenuItem reviewItem = menu.findItem(R.id.nav_reviews);
+            homeItem.setVisible(true);
+            profileItem.setVisible(true);
+            useAppItem.setVisible(true);
+            aboutUsItem.setVisible(true);
+            historyItem.setVisible(true);
+            newOrderItem.setVisible(true);
+            reviewItem.setVisible(true);
+        }
         navigationView.setNavigationItemSelectedListener(this);
 
         home_menu.setOnClickListener(new View.OnClickListener() {
@@ -161,6 +219,123 @@ public class OrderScreeen2Activity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar cal=Calendar.getInstance();
+                int year=cal.get(Calendar.YEAR);
+                int month=cal.get(Calendar.MONTH);
+                int day=cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog=new DatePickerDialog(
+                        OrderScreeen2Activity.this,android.R.style.Theme_Holo_Dialog_MinWidth,mDateSetListener,year,month,day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+        mDateSetListener=new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month=month+1;
+                String str1 = Integer.toString(month);
+                if(str1.length()==1)
+                    str1="0"+str1;
+                String str2 = Integer.toString(day);
+                if(str2.length()==1)
+                    str2="0"+str2;
+                String dates= year + "-" + str1 + "-" + str2;
+                Toast.makeText(getApplicationContext(), dates, Toast.LENGTH_SHORT).show();
+                date.setText(dates);
+            }
+        };
+        time.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(OrderScreeen2Activity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        time.setText( selectedHour + ":" + selectedMinute);
+                        Toast.makeText(OrderScreeen2Activity.this, selectedHour + ":" + selectedMinute , Toast.LENGTH_SHORT).show();
+                    }
+                }, hour, minute, true);//Yes 24 hour time
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+
+            }
+        });
+        if (isConnected()){
+            final String url = "http://www.businessmarkaz.com/test/ucookipayws/user/delivery_addresses?user_id="+LoginInActivity.users.get(0).getUser_id()+"&session_id="+LoginInActivity.users.get(0).getSession_id();
+            JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            // display response
+                            try {
+
+                                JSONObject obj = new JSONObject(response.toString());
+                                Boolean status=obj.getBoolean("status");
+                                JSONObject data=obj.getJSONObject("data");
+                                if(status){
+                                    JSONArray street=data.getJSONArray("streets");
+                                    for(int i=0;i<street.length();i++)
+                                        streets.add(street.getString(i));
+                                    JSONArray area=data.getJSONArray("areas");
+                                    for(int i=0;i<area.length();i++)
+                                        areas.add(area.getString(i));
+                                    JSONArray city=data.getJSONArray("cities");
+                                    for(int i=0;i<city.length();i++)
+                                        cities.add(city.getString(i));
+                                    setSpinner(streets,areas,cities);
+
+                                }
+
+
+
+                            } catch (Throwable t) {
+                                Log.e("Order Screen", "Could not parse malformed JSON: \"" + response + "\"");
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("Error.Response", error.toString());
+
+                        }
+                    }
+
+            );
+            VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(getRequest);
+            getRequest.setRetryPolicy(new RetryPolicy() {
+                @Override
+                public int getCurrentTimeout() {
+                    return 30000;
+                }
+
+                @Override
+                public int getCurrentRetryCount() {
+                    return 30000;
+                }
+
+                @Override
+                public void retry(VolleyError error) throws VolleyError {
+
+                }
+            });
+
+
+
+
+        }
+        else {
+            Toast.makeText(this, "Check your Internet Connection", Toast.LENGTH_SHORT).show();
+        }
 
         if(isConnected()){
             final String url = "http://www.businessmarkaz.com/test/ucookipayws/user/generate_token?user_id="+user.get(0).getUser_id()+"&session_id="+user.get(0).getSession_id();
@@ -219,11 +394,11 @@ public class OrderScreeen2Activity extends AppCompatActivity
                     else if(delivery_method.equalsIgnoreCase("home_delivery")){
                         if (name.getText().toString().trim().equals("") || email.getText().toString().trim().equals("") ||
                                 number.getText().toString().trim().equals("") || date.getText().toString().trim().equals("") ||
-                                time.getText().toString().trim().equals("") || street.getText().toString().trim().equals("") ||
-                                area.getText().toString().trim().equals("") || city.getText().toString().trim().equals("") || delivery_method.equals(""))
+                                time.getText().toString().trim().equals("") || street_txt.getText().toString().trim().equals("") ||
+                                area_txt.getText().toString().trim().equals("") || city_txt.getText().toString().trim().equals("") || delivery_method.equals(""))
                             Toast.makeText(getApplicationContext(), "Fill all the details!", Toast.LENGTH_LONG).show();
                         else{
-                            orderScreens.add(new OrderScreen(name.getText().toString(), email.getText().toString(), number.getText().toString(), date.getText().toString(), time.getText().toString(), delivery_method, id,nam,price,img,street.getText().toString(),area.getText().toString(), city.getText().toString()));
+                            orderScreens.add(new OrderScreen(name.getText().toString(), email.getText().toString(), number.getText().toString(), date.getText().toString(), time.getText().toString(), delivery_method, id,nam,price,img,street_txt.getText().toString(),area_txt.getText().toString(), city_txt.getText().toString()));
                             Intent intent=new Intent(getApplicationContext(),OrderScreen1Activity.class);
                             startActivity(intent);
 
@@ -265,6 +440,19 @@ public class OrderScreeen2Activity extends AppCompatActivity
             }
         });
     }
+
+    private void setSpinner(ArrayList<String> streets, ArrayList<String> areas, ArrayList<String> cities) {
+        Toast.makeText(this, Integer.toString(streets.size()), Toast.LENGTH_SHORT).show();
+        ArrayAdapter<String> streetAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,streets);
+        street_txt.setAdapter(streetAdapter);
+        ArrayAdapter<String> areaAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,areas);
+        area_txt.setAdapter(areaAdapter);
+        ArrayAdapter<String> cityAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,cities);
+        city_txt.setAdapter(cityAdapter);
+
+
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -314,6 +502,9 @@ public class OrderScreeen2Activity extends AppCompatActivity
             intent.putExtra("ChefId",HomeActivity.arrayList.get(0).getUser_id());
             startActivity(intent);
         }
+        else if (id == R.id.nav_logout) {
+            LogoutApi();
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -326,6 +517,41 @@ public class OrderScreeen2Activity extends AppCompatActivity
         else
             return false;
     }
+    public void LogoutApi() {
+        final String url = "http://www.businessmarkaz.com/test/ucookipayws/user/logout?user_id=" + LoginInActivity.users.get(0).getUser_id() + "&session_id=" + LoginInActivity.users.get(0).getSession_id();
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // display response
+                        Log.d("Response", response.toString());
+                        try {
+                            JSONObject obj = new JSONObject(response.toString());
+                            String message = obj.getString("message");
+                            Boolean status = obj.getBoolean("status");
+                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                            if (status) {
+                                Intent intent = new Intent(OrderScreeen2Activity.this, SplashScreen.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                intent.putExtra("EXIT", true);
+                                startActivity(intent);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+
+        );
+    }
+
+
 
     @Override
     protected void onResume() {

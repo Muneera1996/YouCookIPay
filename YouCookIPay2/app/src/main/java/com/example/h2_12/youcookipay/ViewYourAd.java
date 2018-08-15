@@ -1,6 +1,6 @@
 package com.example.h2_12.youcookipay;
 
-public class ViewYourAd {
+public class  ViewYourAd {
     private String mealId;
     private String mealName;
     private String placeName;

@@ -1,5 +1,6 @@
 package com.example.h2_12.youcookipay;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -111,12 +112,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             Glide.with(holder.chefImage.getContext()).load(R.drawable.profile_pic).into(holder.chefImage);
 
         }
-
+      //  if (!((Activity) context).isFinishing()){
             final int updateInterval = 1000;
             new Runnable(){
                 @Override
                 public void run() {
                     int currentIndex=0;
+
                     Glide.with(holder.mealImage.getContext())
                             .asBitmap()
                             .load(currentData.getMylist().get(currentIndex))
@@ -137,6 +139,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                         currentIndex+=1;
                 }
             }.run();
+        //}
+
+
      /* Glide.with(holder.mealImage.getContext())
                 .asBitmap()
                 .load(currentData.getMealImage())
