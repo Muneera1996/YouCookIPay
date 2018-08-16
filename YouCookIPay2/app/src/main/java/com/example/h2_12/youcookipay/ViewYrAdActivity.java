@@ -339,5 +339,22 @@ public class ViewYrAdActivity extends AppCompatActivity
                 }
 
         );
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(getRequest);
+        getRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 30000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 30000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
     }
 }

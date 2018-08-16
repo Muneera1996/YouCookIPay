@@ -283,19 +283,23 @@ public class OrderScreeen2Activity extends AppCompatActivity
                                 JSONObject data=obj.getJSONObject("data");
                                 if(status){
                                     JSONArray street=data.getJSONArray("streets");
-                                    for(int i=0;i<street.length();i++)
+                                    for(int i=0;i<street.length();i++){
+                                        if(!streets.contains(street.getString(i)))
                                         streets.add(street.getString(i));
+                                        }
                                     JSONArray area=data.getJSONArray("areas");
-                                    for(int i=0;i<area.length();i++)
-                                        areas.add(area.getString(i));
+                                        for (int i = 0; i < area.length(); i++){
+                                            if(!areas.contains(area.getString(i)))
+                                                areas.add(area.getString(i));
+                                    }
                                     JSONArray city=data.getJSONArray("cities");
-                                    for(int i=0;i<city.length();i++)
-                                        cities.add(city.getString(i));
+                                    for(int i=0;i<city.length();i++) {
+                                        if(!cities.contains(city.getString(i)))
+                                            cities.add(city.getString(i));
+                                    }
                                     setSpinner(streets,areas,cities);
 
                                 }
-
-
 
                             } catch (Throwable t) {
                                 Log.e("Order Screen", "Could not parse malformed JSON: \"" + response + "\"");
@@ -351,7 +355,6 @@ public class OrderScreeen2Activity extends AppCompatActivity
                                 if(status){
                                     Token=data.getString("token");
                                     Log.d("token generated",Token);
-                                    //onBraintreeSubmit();
 
                                 }
                             } catch (Throwable t) {
@@ -442,7 +445,6 @@ public class OrderScreeen2Activity extends AppCompatActivity
     }
 
     private void setSpinner(ArrayList<String> streets, ArrayList<String> areas, ArrayList<String> cities) {
-        Toast.makeText(this, Integer.toString(streets.size()), Toast.LENGTH_SHORT).show();
         ArrayAdapter<String> streetAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,streets);
         street_txt.setAdapter(streetAdapter);
         ArrayAdapter<String> areaAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,areas);
@@ -476,23 +478,18 @@ public class OrderScreeen2Activity extends AppCompatActivity
         } else if (id == R.id.nav_Profile) {
             Intent intent=new Intent(getApplicationContext(),ProfileActivity.class);
             startActivity(intent);
-
         } else if (id == R.id.nav_order_history) {
             Intent intent=new Intent(getApplicationContext(),OrderHistory1Activity.class);
             startActivity(intent);
-
         } else if (id == R.id.nav_delivery_address) {
             Intent intent=new Intent(getApplicationContext(),UpdateDeliveryAddressActivity.class);
             startActivity(intent);
-
-        } else if (id == R.id.nav_about_us) {
+            } else if (id == R.id.nav_about_us) {
             Intent intent=new Intent(getApplicationContext(),AboutUsActivity.class);
             startActivity(intent);
-
         } else if (id == R.id.nav_how_use_app) {
             Intent intent=new Intent(getApplicationContext(),HowToUseAppActivity.class);
             startActivity(intent);
-
         }
         else if (id == R.id.nav_new_orders) {
             Intent intent = new Intent(getApplicationContext(), NewOrdersActivity.class);
@@ -549,9 +546,24 @@ public class OrderScreeen2Activity extends AppCompatActivity
                 }
 
         );
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(getRequest);
+        getRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 30000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 30000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
     }
-
-
 
     @Override
     protected void onResume() {

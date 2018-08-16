@@ -577,7 +577,7 @@
                         android:textSize="12sp"
                         android:completionThreshold="1"
                         android:textColorHint="#3b6498"
-                        android:hint="Area"
+                        android:hint="City"
                         android:popupTheme="@drawable/overlay_bg"
                         />
                 </RelativeLayout>

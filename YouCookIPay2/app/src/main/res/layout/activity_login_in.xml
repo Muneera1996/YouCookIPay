@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    >
 <ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
-    android:gravity="center"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/background">
 
     <LinearLayout
+        android:layout_marginTop="100dp"
+        android:foregroundGravity="center"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -217,7 +221,7 @@
                     android:gravity="end"
                     android:layout_width="0dp"
                     android:layout_height="25dp"
-                    android:layout_weight="0.7">
+                    android:layout_weight="0.6">
                     <ImageView
                         android:id="@+id/instra_btn"
                         android:src="@drawable/instra_icon"
@@ -225,12 +229,27 @@
                         android:layout_height="25dp"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true" />
-                    <ImageView
-                        android:id="@+id/fb_btn"
-                        android:src="@drawable/fb_icon"
+
+
+                    <FrameLayout
+                        android:id="@+id/FrameLayout1"
                         android:layout_width="20dp"
-                        android:layout_height="25dp"
-                        android:layout_toLeftOf="@id/instra_btn"/>
+                        android:layout_height="25dp">
+
+                        <com.facebook.login.widget.LoginButton
+                            android:id="@+id/login_button"
+                            android:layout_width="20dp"
+                            android:layout_height="25dp"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/fb_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:layout_toLeftOf="@id/instra_btn"
+                            android:src="@drawable/fb_icon" />
+
+                    </FrameLayout>
 
                 </RelativeLayout>
 
@@ -240,5 +259,5 @@
 
         </LinearLayout>
     </LinearLayout>
-    </RelativeLayout>
 </ScrollView>
+</LinearLayout>
