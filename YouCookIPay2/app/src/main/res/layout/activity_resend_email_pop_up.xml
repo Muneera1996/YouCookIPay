@@ -27,11 +27,12 @@
             android:text="We have sent the Confirmation email to"
             android:textSize="12sp"/>
         <TextView
+            android:id="@+id/txt_email"
             android:gravity="center"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="demo@incisivesoft.com"
+            tools:text="demo@incisivesoft.com"
             android:textSize="12sp"
             />
 

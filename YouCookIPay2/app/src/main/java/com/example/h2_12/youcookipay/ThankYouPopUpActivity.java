@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class ThankYouPopUpActivity extends AppCompatActivity {
-    TextView resend_email,change_email_address;
+    TextView resend_email,change_email_address,txt_email;
     ImageView thanks_btn;
     ProgressBar mProgressBar;
     @Override
@@ -27,9 +27,13 @@ public class ThankYouPopUpActivity extends AppCompatActivity {
         int height = dm.heightPixels;
 
         getWindow().setLayout((int) (width*.9),(int)(height*.5));
+        Intent intent = getIntent();
+        final String email = intent.getStringExtra("Email");
         resend_email=findViewById(R.id.resend_email);
         change_email_address=findViewById(R.id.change_your_email_address);
         thanks_btn=findViewById(R.id.thankyou_btn);
+        txt_email=findViewById(R.id.thank_you_email);
+        txt_email.setText("An Email has been sent to " + email);
 
 
         String mystring=new String("Resend Email");
@@ -48,6 +52,7 @@ public class ThankYouPopUpActivity extends AppCompatActivity {
             public void onClick(View v) {
                 finish();
                Intent intent=new Intent(getApplicationContext(),ResendEmailPopUp.class);
+               intent.putExtra("Email",email);
                startActivity(intent);
             }
         });

@@ -98,7 +98,8 @@ public class ProfileViewChefActivity extends AppCompatActivity
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        arrayList=LoginInActivity.users;NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        arrayList=LoginInActivity.users;
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         // get menu from navigationView
         Menu menu = navigationView.getMenu();
 
@@ -347,8 +348,6 @@ public class ProfileViewChefActivity extends AppCompatActivity
                             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                             if (status) {
                                 Intent intent = new Intent(getApplicationContext(), SplashScreen.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                intent.putExtra("EXIT", true);
                                 startActivity(intent);
                             }
                         } catch (JSONException e) {

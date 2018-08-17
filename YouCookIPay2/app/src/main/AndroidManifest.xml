@@ -124,7 +124,8 @@
             android:name=".NewOrdersActivity"
             android:label="@string/title_activity_new_orders"
             android:theme="@style/AppTheme" />
-        <activity android:name=".SocialViewPopUpActivity"></activity>
+        <activity android:name=".SocialViewPopUpActivity"
+            android:theme="@style/AppTheme.CustomTheme"></activity>
     </application>
 
 </manifest>

@@ -72,7 +72,7 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        arrayList=ProfileViewChefActivity.chef_profile;
+        arrayList=OrderScreeen2Activity.profile;
         arrayList1=LoginInActivity.users;
         home_menu=findViewById(R.id.home_menu);
         filter=findViewById(R.id.filter);

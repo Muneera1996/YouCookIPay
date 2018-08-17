@@ -1,5 +1,6 @@
 package com.example.h2_12.youcookipay;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -54,8 +55,13 @@ public class ChangeEmailPopUp extends AppCompatActivity {
                                 Log.d("Response", response.toString());
                                 try {
                                     JSONObject obj = new JSONObject(response.toString());
+                                    Boolean status=obj.getBoolean("status");
                                     String message=obj.getString("message");
                                     Toast.makeText(ChangeEmailPopUp.this, message, Toast.LENGTH_SHORT).show();
+                                    if(status){
+                                        Intent intent = new Intent(getApplicationContext(),LoginInActivity.class);
+                                        startActivity(intent);
+                                    }
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();

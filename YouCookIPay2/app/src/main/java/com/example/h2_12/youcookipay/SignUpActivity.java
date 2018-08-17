@@ -35,6 +35,7 @@ public class SignUpActivity extends AppCompatActivity {
     public static String id;
     ProgressBar mProgressBar;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,7 +156,7 @@ public class SignUpActivity extends AppCompatActivity {
         consumer_option.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                type="consumer";
+                type="buyer";
                 sellerType="";
                 checkBox_seller.setImageResource(R.drawable.checkbox);
                 checkBox_consumer.setImageResource(R.drawable.ic_check_box);
@@ -178,14 +179,14 @@ public class SignUpActivity extends AppCompatActivity {
                             mProgressBar.setVisibility(View.GONE);
                             JSONObject obj = new JSONObject(response);
                             String message = obj.getString("message");
+                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                             JSONObject data=obj.getJSONObject("data");
                             String user_id=data.getString("user_id");
                             id=user_id;
-
-                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                             if(message.equalsIgnoreCase("signup successfull"))
                             {
                                 Intent intent=new Intent(getApplicationContext(),ThankYouPopUpActivity.class);
+                                intent.putExtra("Email",email.getText().toString());
                                 startActivity(intent);
                             }
 

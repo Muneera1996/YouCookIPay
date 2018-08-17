@@ -112,7 +112,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             Glide.with(holder.chefImage.getContext()).load(R.drawable.profile_pic).into(holder.chefImage);
 
         }
-      //  if (!((Activity) context).isFinishing()){
+      // if (!((Activity) context).isFinishing()){
             final int updateInterval = 1000;
             new Runnable(){
                 @Override
@@ -158,8 +158,19 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         holder.orderMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(holder.orderMeal.getContext(),ProfileViewChefActivity.class);
+                Intent intent=new Intent(holder.orderMeal.getContext(),OrderScreeen2Activity.class);
+                intent.putExtra("Screen","home");
                 intent.putExtra("Chef_Id", currentData.getUserId());
+                intent.putExtra("MealId", currentData.getMealId());
+                intent.putExtra("MealName", currentData.getMealName());
+                intent.putExtra("MealPrice", currentData.getPortionPrice());
+                intent.putExtra("MealImage", currentData.getMylist().get(0));
+                intent.putExtra("Chef_Name", currentData.getUserName());
+                intent.putExtra("Chef_Address",currentData.getUserAddress());
+                intent.putExtra("Chef_Type",currentData.getSeller_type());
+                intent.putExtra("Rating",currentData.getRating());
+                intent.putExtra("Description",currentData.getUserDescription());
+                intent.putExtra("ImageUrl",currentData.getUserImage());
                 holder.orderMeal.getContext().startActivity(intent);
             }
         });

@@ -66,72 +66,7 @@ public class UpdateDeliveryAddressActivity extends AppCompatActivity
 
         if (isConnected()){
             mProgressBar.setVisibility(View.VISIBLE);
-            final String url = "http://www.businessmarkaz.com/test/ucookipayws/user/delivery_addresses?user_id="+LoginInActivity.users.get(0).getUser_id()+"&session_id="+LoginInActivity.users.get(0).getSession_id();
-            JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            // display response
-                            try {
-                                ArrayList<String> streets=new ArrayList<>();
-                                ArrayList<String> areas=new ArrayList<>();
-                                ArrayList<String> cities=new ArrayList<>();
-                                ArrayList<String> codes=new ArrayList<>();
-
-                                JSONObject obj = new JSONObject(response.toString());
-                                Boolean status=obj.getBoolean("status");
-                                JSONObject data=obj.getJSONObject("data");
-                                if(status){
-                                    mProgressBar.setVisibility(View.GONE);
-                                    JSONArray street=data.getJSONArray("streets");
-                                    for(int i=0;i<street.length();i++)
-                                       streets.add(street.getString(i));
-                                    JSONArray area=data.getJSONArray("areas");
-                                    for(int i=0;i<area.length();i++)
-                                        areas.add(area.getString(i));
-                                    JSONArray city=data.getJSONArray("cities");
-                                    for(int i=0;i<city.length();i++)
-                                        cities.add(city.getString(i));
-                                    JSONArray code=data.getJSONArray("postal_codes");
-                                    for(int i=0;i<code.length();i++)
-                                        codes.add(code.getString(i));
-                                }
-                                recyclerView.setAdapter(new DeliveryAddressAdapter(getApplicationContext(),streets,areas,cities,codes));
-
-
-                            } catch (Throwable t) {
-                                mProgressBar.setVisibility(View.GONE);
-                                Log.e("Order Screen", "Could not parse malformed JSON: \"" + response + "\"");
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d("Error.Response", error.toString());
-                            mProgressBar.setVisibility(View.GONE);
-
-                        }
-                    }
-
-            );
-            VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(getRequest);
-            getRequest.setRetryPolicy(new RetryPolicy() {
-                @Override
-                public int getCurrentTimeout() {
-                    return 30000;
-                }
-
-                @Override
-                public int getCurrentRetryCount() {
-                    return 30000;
-                }
-
-                @Override
-                public void retry(VolleyError error) throws VolleyError {
-
-                }
-            });
+            updateAddress();
         }
         else {
             Toast.makeText(this, "Check your Internet Connection", Toast.LENGTH_SHORT).show();
@@ -226,6 +161,7 @@ public class UpdateDeliveryAddressActivity extends AppCompatActivity
                                                 city.setText("");
                                                 area.setText("");
                                                 code.setText("");
+                                                updateAddress();
 
                                          }
 
@@ -365,8 +301,6 @@ public class UpdateDeliveryAddressActivity extends AppCompatActivity
                             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                             if (status) {
                                 Intent intent = new Intent(getApplicationContext(), SplashScreen.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                intent.putExtra("EXIT", true);
                                 startActivity(intent);
                             }
                         } catch (JSONException e) {
@@ -383,6 +317,74 @@ public class UpdateDeliveryAddressActivity extends AppCompatActivity
 
         );
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(getRequest);
+        getRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 30000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 30000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+    }
+    private void updateAddress(){
+        final String url = "http://www.businessmarkaz.com/test/ucookipayws/user/delivery_addresses?user_id="+LoginInActivity.users.get(0).getUser_id()+"&session_id="+LoginInActivity.users.get(0).getSession_id();
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // display response
+                        try {
+                            ArrayList<String> streets=new ArrayList<>();
+                            ArrayList<String> areas=new ArrayList<>();
+                            ArrayList<String> cities=new ArrayList<>();
+                            ArrayList<String> codes=new ArrayList<>();
+
+                            JSONObject obj = new JSONObject(response.toString());
+                            Boolean status=obj.getBoolean("status");
+                            JSONObject data=obj.getJSONObject("data");
+                            if(status){
+                                mProgressBar.setVisibility(View.GONE);
+                                JSONArray street=data.getJSONArray("streets");
+                                for(int i=0;i<street.length();i++)
+                                    streets.add(street.getString(i));
+                                JSONArray area=data.getJSONArray("areas");
+                                for(int i=0;i<area.length();i++)
+                                    areas.add(area.getString(i));
+                                JSONArray city=data.getJSONArray("cities");
+                                for(int i=0;i<city.length();i++)
+                                    cities.add(city.getString(i));
+                                JSONArray code=data.getJSONArray("postal_codes");
+                                for(int i=0;i<code.length();i++)
+                                    codes.add(code.getString(i));
+                            }
+                            recyclerView.setAdapter(new DeliveryAddressAdapter(getApplicationContext(),streets,areas,cities,codes));
+
+
+                        } catch (Throwable t) {
+                            mProgressBar.setVisibility(View.GONE);
+                            Log.e("Order Screen", "Could not parse malformed JSON: \"" + response + "\"");
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                        mProgressBar.setVisibility(View.GONE);
+
+                    }
+                }
+
+        );
+        VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(getRequest);
         getRequest.setRetryPolicy(new RetryPolicy() {
             @Override
             public int getCurrentTimeout() {

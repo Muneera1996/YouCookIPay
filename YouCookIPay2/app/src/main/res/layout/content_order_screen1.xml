@@ -464,14 +464,16 @@
 
                     </RelativeLayout>
                 </RelativeLayout>
-                <ImageView
-                    android:layout_margin="10dp"
+                <Button
+                    android:layout_marginTop="20dp"
                     android:id="@+id/orderScreen_btn"
+                    android:paddingHorizontal="20dp"
                     android:layout_gravity="center"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/splash_btn"/>
-
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:textColor="#fff"
+                    android:background="#3b6498"
+                    android:text="Process Your Order"/>
 
             </LinearLayout>
         </LinearLayout>

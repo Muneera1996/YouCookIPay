@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -55,10 +56,10 @@ import static com.example.h2_12.youcookipay.OrderScreeen2Activity.Token;
 public class
 OrderScreen1Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    ImageView orderScreen;
+    Button orderScreen;
     View home_menu,quant,plus_quanity,minus_quantity,dish_image_view;
     ImageView filter,image,star1,star2,star3,star4,star5;
-    int quantity;
+    int quantity=1;
     TextView txt_quanity,meal_name,meal_price;
     TextView total_amount;
     TextView chef_name,chef_address,chef_type,chef_rating,dish_name,dish_price;
@@ -78,7 +79,7 @@ OrderScreen1Activity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        profile=ProfileViewChefActivity.chef_profile;
+        profile=OrderScreeen2Activity.profile;
         home_menu=findViewById(R.id.home_menu);
         filter=findViewById(R.id.filter);
         quant=findViewById(R.id.select_quality);
@@ -116,11 +117,18 @@ OrderScreen1Activity extends AppCompatActivity
         if(OrderScreeen2Activity.orderScreens.get(0).getDelivery_method().equalsIgnoreCase("home_delivery")){
             delivery_view.setVisibility(View.VISIBLE);
             check=true;
+            total_bill = Double.toString((quantity * Double.parseDouble(OrderScreeen2Activity.orderScreens.get(0).getMeal_price())) + 2.00);
+
         }
         else{
             delivery_view.setVisibility(View.GONE);
             check=false;
+            total_bill = Double.toString(quantity * Double.parseDouble(OrderScreeen2Activity.orderScreens.get(0).getMeal_price()));
+
         }
+        total_amount.setText(total_bill);
+
+
         Glide.with(dish_image_view.getContext())
                 .asBitmap()
                 .load(OrderScreeen2Activity.orderScreens.get(0).getMeal_image())
@@ -235,9 +243,10 @@ OrderScreen1Activity extends AppCompatActivity
               quantity++;
               txt_quanity.setText(Integer.toString(quantity));
               if(check)
-              total_bill=Double.toString((quantity*Double.parseDouble(OrderScreeen2Activity.orderScreens.get(0).getMeal_price()))+2.00);
+                  total_bill = Double.toString((quantity * Double.parseDouble(OrderScreeen2Activity.orderScreens.get(0).getMeal_price())) + 2.00);
               else
-                  total_bill=Double.toString(quantity*Double.parseDouble(OrderScreeen2Activity.orderScreens.get(0).getMeal_price()));
+                  total_bill = Double.toString(quantity * Double.parseDouble(OrderScreeen2Activity.orderScreens.get(0).getMeal_price()));
+
               total_amount.setText(total_bill);
             }
         });
@@ -491,8 +500,6 @@ OrderScreen1Activity extends AppCompatActivity
                             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                             if (status) {
                                 Intent intent = new Intent(getApplicationContext(), SplashScreen.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                intent.putExtra("EXIT", true);
                                 startActivity(intent);
                             }
                         } catch (JSONException e) {

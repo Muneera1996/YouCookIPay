@@ -404,6 +404,8 @@
                             android:layout_marginLeft="5dp"
                             android:textColor="#3b6498"
                             android:textSize="12sp"
+                            android:inputType="none"
+                            android:focusable="false"
                             android:textColorHint="#3b6498"
                             android:hint="Time" />
                     </RelativeLayout>
@@ -448,13 +450,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
-
                         <ImageView
                             android:id="@+id/checkbox_dispatch"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:src="@drawable/button_bg" />
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -586,8 +586,8 @@
                     android:id="@+id/orderScreen_place_order"
                     android:layout_margin="20dp"
                     android:layout_gravity="center"
-                    android:layout_width="200dp"
-                    android:layout_height="40dp"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
                     android:background="@drawable/place_your_order"
 
                     />

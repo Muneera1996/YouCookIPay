@@ -18,12 +18,13 @@
             android:textSize="20sp"
             android:textStyle="bold"/>
         <TextView
+            android:id="@+id/thank_you_email"
             android:gravity="center"
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="An Email has been sent to demo@incisivesoft.com"
+            tools:text="An Email has been sent to"
             android:textSize="12sp"
             />
         <TextView

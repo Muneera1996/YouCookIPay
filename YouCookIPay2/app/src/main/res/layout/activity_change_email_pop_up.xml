@@ -47,8 +47,11 @@
                 android:layout_marginLeft="2dp"
                 android:layout_toRightOf="@id/email_icon"
                 android:backgroundTint="@android:color/transparent"
-                android:gravity="center"
-                android:hint="Email Address"
+                android:ellipsize="end"
+                android:hint="Email"
+                android:paddingLeft="5dp"
+                android:inputType="text"
+                android:maxLines="1"
                 android:textColor="#3b6498"
                 android:textColorHint="#3b6498" />
         </RelativeLayout>

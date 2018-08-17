@@ -68,6 +68,7 @@ public class ChefProfileAdapter extends RecyclerView.Adapter<ChefProfileAdapter.
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(holder.placeOrder.getContext(),OrderScreeen2Activity.class);
+                intent.putExtra("Screen","profile");
                 intent.putExtra("MealId", currentMeal.getMealId());
                 intent.putExtra("MealName", currentMeal.getMealName());
                 intent.putExtra("MealPrice", currentMeal.getMealPrice());

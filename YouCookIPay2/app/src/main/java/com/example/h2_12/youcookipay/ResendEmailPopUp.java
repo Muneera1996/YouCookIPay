@@ -23,7 +23,7 @@ import org.json.JSONObject;
 
 public class ResendEmailPopUp extends AppCompatActivity {
 
-    TextView resend_email,change_email_address;
+    TextView resend_email,change_email_address,txt_email;
     String id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,19 +34,20 @@ public class ResendEmailPopUp extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         int height = dm.heightPixels;
-
+        Intent intent = getIntent();
+        String email = intent.getStringExtra("Email");
         id=SignUpActivity.id;
 
         getWindow().setLayout((int) (width*.9),(int)(height*.5));
         resend_email=findViewById(R.id.resend_email);
         change_email_address=findViewById(R.id.change_your_email_address);
-
+        txt_email=findViewById(R.id.txt_email);
+        txt_email.setText(email);
 
         String mystring=new String("Resend Email");
         SpannableString content = new SpannableString(mystring);
         content.setSpan(new UnderlineSpan(), 0, mystring.length(), 0);
         resend_email.setText(content);
-
 
         String mystring1=new String("Change Your Email Address");
         SpannableString content1 = new SpannableString(mystring1);
@@ -68,7 +69,12 @@ public class ResendEmailPopUp extends AppCompatActivity {
                                 try {
                                     JSONObject obj = new JSONObject(response.toString());
                                     String message=obj.getString("message");
+                                    Boolean status=obj.getBoolean("status");
                                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                                    if(status){
+                                        Intent intent = new Intent(getApplicationContext(),LoginInActivity.class);
+                                        startActivity(intent);
+                                    }
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();

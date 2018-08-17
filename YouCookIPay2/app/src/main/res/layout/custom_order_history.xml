@@ -6,7 +6,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,82 +16,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.6"
-            android:text="Order Id"
+            android:text="Chef Name"
             android:textStyle="bold"
             android:textColor="#3b6498"/>
         <TextView
-            android:id="@+id/order_id"
+            android:id="@+id/chef_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             tools:text="Elena Arzak"
             android:textColor="#3b6498"/>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="5dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.6"
-            android:text="Chef Id"
-            android:textStyle="bold"
-            android:textColor="#3b6498"/>
-        <TextView
-            android:id="@+id/chef_id"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            tools:text="Elena Arzak"
-            android:textColor="#3b6498"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="5dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.6"
-            android:text="User Id"
-            android:textStyle="bold"
-            android:textColor="#3b6498"/>
-        <TextView
-            android:id="@+id/user_id"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            tools:text="Elena Arzak"
-            android:textColor="#3b6498"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="5dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.6"
-            android:text="Meal Id"
-            android:textStyle="bold"
-            android:textColor="#3b6498"/>
-        <TextView
-            android:id="@+id/meal_id"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            tools:text="Elena Arzak"
-            android:textColor="#3b6498"/>
-    </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -125,7 +59,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.6"
-            android:text="Meal Classsification"
+            android:text="Classsification"
             android:textStyle="bold"
             android:textColor="#3b6498"/>
         <TextView
@@ -560,27 +494,7 @@
                 tools:text="Elena Arzak"
                 android:textColor="#3b6498"/>
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="5dp"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.6"
-                android:text="Chef Name"
-                android:textStyle="bold"
-                android:textColor="#3b6498"/>
-            <TextView
-                android:id="@+id/chef_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                tools:text="Elena Arzak"
-                android:textColor="#3b6498"/>
-        </LinearLayout>
+
 
     <ImageView
         android:layout_margin="10dp"

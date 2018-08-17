@@ -59,6 +59,7 @@ public class LoginInActivity extends AppCompatActivity {
     private final String EMAIL = "email";
     ProgressBar mProgressBar;
     LoginButton loginButton;
+    Boolean check=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,39 +75,41 @@ public class LoginInActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
 
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
 
-        fb_btn.setOnClickListener(new View.OnClickListener() {
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginButton.performClick();
+
+                loginButton.registerCallback(callbackManager,
+                        new FacebookCallback<LoginResult>() {
+                            @Override
+                            public void onSuccess(LoginResult loginResult) {
+                                // App code
+                                socialLogin("facebook", loginResult.getAccessToken().getToken());
+                            }
+
+                            @Override
+                            public void onCancel() {
+                                // App code
+                                Toast.makeText(LoginInActivity.this, "Login Cancel", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onError(FacebookException exception) {
+                                // App code
+                                Toast.makeText(LoginInActivity.this, "Error", Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
             }
         });
 
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
-        // the inflating code that's causing the crash
-        loginButton.registerCallback(callbackManager,
-                new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        // App code
-                        Toast.makeText(LoginInActivity.this,loginResult.getAccessToken().getToken().toString()
-                                , Toast.LENGTH_SHORT).show();
-                        //socialLogin();
-                        }
 
-                    @Override
-                    public void onCancel() {
-                        // App code
-                        Toast.makeText(LoginInActivity.this, "Login Cancel", Toast.LENGTH_SHORT).show();
-                    }
+            // the inflating code that's causing the crash
 
-                    @Override
-                    public void onError(FacebookException exception) {
-                        // App code
-                        Toast.makeText(LoginInActivity.this, "Error", Toast.LENGTH_SHORT).show();
 
-                    }
-                });
+
         /*LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
 
         LoginManager.getInstance().registerCallback(callbackManager,
@@ -295,79 +298,11 @@ public class LoginInActivity extends AppCompatActivity {
         }
     }
 
-    private void socialLogin() {
-        mProgressBar.setVisibility(View.VISIBLE);
-        String url = "http://www.businessmarkaz.com/test/ucookipayws/user/social_login";
-        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // response
-                        mProgressBar.setVisibility(View.GONE);
-                        Log.d("Response", response);
-                        // JSONObject parser = new JSONObject();
-                        try {
-                            JSONObject obj = new JSONObject(response);
-                            String message = obj.getString("message");
-                            boolean status = obj.getBoolean("status");
-                            Toast.makeText(LoginInActivity.this, message, Toast.LENGTH_SHORT).show();
-                            if (status) {
-                                JSONObject data = obj.getJSONObject("data");
-                                String user_id = data.getString("user_id");
-                                String session_id = data.getString("session_id");
-                                String type = data.getString("type");
-                                users = new ArrayList<>();
-                                users.add(new User(user_id, session_id, type));
-                                if (message.equalsIgnoreCase("Sign In successfull")) {
-                                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                                    startActivity(intent);
-                                }
-                            }
-
-                        } catch (Throwable t) {
-                            Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // error
-                        Log.d("Error.Response", error.toString());
-                        mProgressBar.setVisibility(View.GONE);
-
-                    }
-                }
-        ) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("social_type", email.getText().toString());
-                params.put("social_id", password.getText().toString());
-                params.put("device_type", "android");
-                params.put("device_token", "token");
-                params.put("user_type","hh");
-                params.put("seller_type","byhfg");
-                return params;
-            }
-        };
-        VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(postRequest);
-        postRequest.setRetryPolicy(new RetryPolicy() {
-            @Override
-            public int getCurrentTimeout() {
-                return 30000;
-            }
-
-            @Override
-            public int getCurrentRetryCount() {
-                return 30000;
-            }
-
-            @Override
-            public void retry(VolleyError error) throws VolleyError {
-
-            }
-        });
+    private void socialLogin(String social_type,String social_id) {
+       Intent intent = new Intent(getApplicationContext(),SocialViewPopUpActivity.class);
+       intent.putExtra("Social_Type",social_type);
+       intent.putExtra("Social_Id",social_id);
+       startActivity(intent);
     }
 
     public boolean isConnected() {

@@ -29,10 +29,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     @Override
     public void onBindViewHolder(@NonNull OrderHistoryViewHolder holder, int position) {
         final OrderHistory orderHistory=historyList.get(position);
-        holder.text1.setText(orderHistory.getOrderId());
-        holder.text2.setText(orderHistory.getChefId());
-        holder.text3.setText(orderHistory.getUserId());
-        holder.text4.setText(orderHistory.getMealId());
         holder.text5.setText(orderHistory.getMealName());
         holder.text6.setText(orderHistory.getMealClassification());
         holder.text7.setText(orderHistory.getMealType());
@@ -49,9 +45,18 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.text18.setText(orderHistory.getDate());
         holder.text19.setText(orderHistory.getTime());
         holder.text20.setText(orderHistory.getDeliveryOption());
-        holder.text21.setText(orderHistory.getStreet());
-        holder.text22.setText(orderHistory.getCity());
-        holder.text23.setText(orderHistory.getArea());
+        if(orderHistory.getDeliveryOption().equalsIgnoreCase("home_delivery")){
+            holder.text21.setText(orderHistory.getStreet());
+            holder.text22.setText(orderHistory.getCity());
+            holder.text23.setText(orderHistory.getArea());
+        }
+        else
+        {
+            holder.text21.setText("-");
+            holder.text22.setText("-");
+            holder.text23.setText("-");
+        }
+
         holder.text24.setText(orderHistory.getPaymentMethod());
         holder.text25.setText(orderHistory.getTransactionId());
         holder.text26.setText(orderHistory.getOrderStatus());
@@ -64,13 +69,9 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     }
 
     public class OrderHistoryViewHolder extends RecyclerView.ViewHolder {
-        TextView text1,text2,text3,text4,text5,text6,text9,text7,text8,text10,text11,text12,text13,text14,text15,text16,text17,text18,text19,text20,text21,text22,text23,text24,text25,text26,text27;
+        TextView text5,text6,text9,text7,text8,text10,text11,text12,text13,text14,text15,text16,text17,text18,text19,text20,text21,text22,text23,text24,text25,text26,text27;
         public OrderHistoryViewHolder(View itemView) {
             super(itemView);
-            text1=itemView.findViewById(R.id.order_id);
-            text2=itemView.findViewById(R.id.chef_id);
-            text3=itemView.findViewById(R.id.user_id);
-            text4=itemView.findViewById(R.id.meal_id);
             text5=itemView.findViewById(R.id.meal_name);
             text6=itemView.findViewById(R.id.meal_classification);
             text7=itemView.findViewById(R.id.meal_type);

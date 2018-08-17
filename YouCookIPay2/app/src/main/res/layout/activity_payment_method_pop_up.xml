@@ -9,7 +9,7 @@
         android:focusableInTouchMode="true"
         android:padding="10dp"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:context=".PaymentMethodPopUp">
 
@@ -19,39 +19,18 @@
             android:padding="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Select Type"
+            android:text="Payment Method"
             android:textSize="20sp"
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/bill"
             android:padding="10dp"
             android:layout_gravity="center"
             android:layout_margin="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="We will look forward to serving you our best meal again!"
+            android:text="Standard Process of online payment through Debit card, Credit card, Prepaid Card or Paypal will be integrated."
             android:textSize="15sp"
             />
-
-        <TextView
-            android:padding="10dp"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="We will look forward to serving you our best meal again!"
-            android:textSize="15sp"
-            />
-        <ImageView
-            android:layout_gravity="center"
-            android:id="@+id/paymentMethod_submit"
-            android:src="@drawable/submit"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            />
-
-
     </LinearLayout>
 </ScrollView>
