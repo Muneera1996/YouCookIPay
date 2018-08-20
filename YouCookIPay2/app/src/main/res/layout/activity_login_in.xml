@@ -65,9 +65,9 @@
                     android:layout_marginLeft="2dp"
                     android:layout_toRightOf="@id/user_icon"
                     android:backgroundTint="@android:color/transparent"
-                    android:ellipsize="end"
                     android:hint="Email"
                     android:inputType="text"
+                    android:ellipsize="end"
                     android:maxLines="1"
                     android:scrollHorizontally="true"
                     android:textColor="#3b6498"
@@ -243,6 +243,7 @@
                             android:visibility="gone" />
 
                         <ImageView
+                            android:onClick="onClick"
                             android:id="@+id/fb_btn"
                             android:layout_width="match_parent"
                             android:layout_height="25dp"

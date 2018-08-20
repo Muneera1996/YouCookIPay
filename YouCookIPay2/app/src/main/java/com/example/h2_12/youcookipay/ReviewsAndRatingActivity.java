@@ -237,7 +237,8 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
                         Map<String, String> params = new HashMap<String, String>();
                         params.put("user_id",arrayList1.get(0).getUser_id());
                         params.put("session_id",arrayList1.get(0).getSession_id());
-                        params.put("seller_id",ProfileViewChefActivity.iid);
+                        params.put("seller_id",arrayList.get(0).getId());
+                        Log.i("seller_id",arrayList.get(0).getId());
                         params.put("quality",quality);
                         params.put("taste",taste);
                         params.put("text",comment_box.getText().toString());
@@ -425,7 +426,7 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SeeReviewAndRatingActivity.class);
-                intent.putExtra("ChefId", ProfileViewChefActivity.iid);
+                intent.putExtra("ChefId", arrayList.get(0).getId());
                 startActivity(intent);
             }
         });
@@ -509,8 +510,6 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
                             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                             if (status) {
                                 Intent intent = new Intent(getApplicationContext(), SplashScreen.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                intent.putExtra("EXIT", true);
                                 startActivity(intent);
                             }
                         } catch (JSONException e) {

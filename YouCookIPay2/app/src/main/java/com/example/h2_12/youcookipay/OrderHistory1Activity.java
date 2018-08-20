@@ -136,9 +136,9 @@ public class OrderHistory1Activity extends AppCompatActivity
                                     for(int i=0;i<jsonArray.length();i++){
                                         JSONObject user=jsonArray.getJSONObject(i);
                                         String order_id=user.getString("order_id");
-                                        Log.v("order_id",order_id);
                                         String chef_id=user.getString("chef_id");
                                         String user_id=user.getString("user_id");
+                                        Log.v("user_id",user_id);
                                         String meal_id=user.getString("meal_id");
                                         String meal_name=user.getString("meal_name");
                                         String meal_classification=user.getString("meal_classification");
@@ -274,7 +274,7 @@ public class OrderHistory1Activity extends AppCompatActivity
                     @Override
                     public void onResponse(JSONObject response) {
                         // display response
-                        Log.d("Response", response.toString());
+                        Log.v("Response", response.toString());
                         try {
                             JSONObject obj = new JSONObject(response.toString());
                             String message = obj.getString("message");
@@ -282,8 +282,6 @@ public class OrderHistory1Activity extends AppCompatActivity
                             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                             if (status) {
                                 Intent intent = new Intent(getApplicationContext(), SplashScreen.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                intent.putExtra("EXIT", true);
                                 startActivity(intent);
                             }
                         } catch (JSONException e) {

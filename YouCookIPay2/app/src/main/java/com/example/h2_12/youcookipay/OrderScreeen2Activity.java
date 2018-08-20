@@ -257,7 +257,6 @@ public class OrderScreeen2Activity extends AppCompatActivity
                 if (str2.length() == 1)
                     str2 = "0" + str2;
                 String dates = year + "-" + str1 + "-" + str2;
-                Toast.makeText(getApplicationContext(), dates, Toast.LENGTH_SHORT).show();
                 date.setText(dates);
             }
         };
@@ -440,7 +439,7 @@ public class OrderScreeen2Activity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SeeReviewAndRatingActivity.class);
-                intent.putExtra("ChefId", ProfileViewChefActivity.iid);
+                intent.putExtra("ChefId", profile.get(0).getId());
                 startActivity(intent);
             }
         });

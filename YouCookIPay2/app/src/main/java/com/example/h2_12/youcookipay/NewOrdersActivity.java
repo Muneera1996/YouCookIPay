@@ -281,8 +281,6 @@ public class NewOrdersActivity extends AppCompatActivity
                             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                             if (status) {
                                 Intent intent = new Intent(getApplicationContext(), SplashScreen.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                intent.putExtra("EXIT", true);
                                 startActivity(intent);
                             }
                         } catch (JSONException e) {

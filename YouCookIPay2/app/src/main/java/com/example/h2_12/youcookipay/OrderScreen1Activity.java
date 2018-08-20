@@ -269,7 +269,7 @@ OrderScreen1Activity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getApplicationContext(),SeeReviewAndRatingActivity.class);
-                intent.putExtra("ChefId", ProfileViewChefActivity.iid);
+                intent.putExtra("ChefId", profile.get(0).getId());
                 startActivity(intent);
             }
         });

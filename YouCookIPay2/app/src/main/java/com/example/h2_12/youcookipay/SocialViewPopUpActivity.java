@@ -49,8 +49,6 @@ public class SocialViewPopUpActivity extends AppCompatActivity {
         final String social_id = intent.getStringExtra("Social_Id");
         Log.v("social_type",social_type);
         Log.v("social_id",social_id);
-        Toast.makeText(this, social_id, Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, social_type, Toast.LENGTH_SHORT).show();
 
         DisplayMetrics dm=new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);

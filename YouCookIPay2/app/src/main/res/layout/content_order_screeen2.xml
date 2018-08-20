@@ -227,6 +227,8 @@
                     </RelativeLayout>
 
                     <EditText
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         android:id="@+id/orderScreen_name"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -260,6 +262,8 @@
                     </RelativeLayout>
 
                     <EditText
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         android:id="@+id/orderScreen_email_address"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -295,6 +299,8 @@
                     </RelativeLayout>
 
                     <EditText
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         android:id="@+id/orderScreen_number"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -493,6 +499,8 @@
                                 android:background="@drawable/dropdown_arrow" />
                         </RelativeLayout>
                         <AutoCompleteTextView
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             android:id="@+id/orderScreen_street"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -536,6 +544,8 @@
                             android:gravity="start"
                             android:layout_marginLeft="5dp"
                             android:textColor="#3b6498"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             android:textSize="12sp"
                             android:completionThreshold="1"
                             android:textColorHint="#3b6498"
@@ -578,6 +588,8 @@
                         android:completionThreshold="1"
                         android:textColorHint="#3b6498"
                         android:hint="City"
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         android:popupTheme="@drawable/overlay_bg"
                         />
                 </RelativeLayout>
