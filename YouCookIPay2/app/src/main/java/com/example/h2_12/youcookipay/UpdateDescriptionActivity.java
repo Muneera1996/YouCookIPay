@@ -51,7 +51,7 @@ import java.util.Map;
 public class UpdateDescriptionActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     View home_menu;
-    ImageView filter,update_description,image;
+    ImageView update_description,image;
     EditText description,name,address;
     ArrayList<User> users;
     private final int IMG_REQUEST=1;
@@ -71,7 +71,6 @@ public class UpdateDescriptionActivity extends AppCompatActivity
         name=findViewById(R.id.updateDescription_name);
         address=findViewById(R.id.updateDescription_address);
         image=findViewById(R.id.updateDescription_upload_image);
-        filter=findViewById(R.id.filter);
         update_description=findViewById(R.id.updateDescription_update);
         users=LoginInActivity.users;
         myProfile=ProfileActivity.myProfile;
@@ -80,7 +79,14 @@ public class UpdateDescriptionActivity extends AppCompatActivity
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         layout=findViewById(R.id.layout_updateDescription);
         description.setText(myProfile.get(0).getDescription());
-        Glide.with(image.getContext()).load(myProfile.get(0).getImage()).into(image);
+        if(!myProfile.get(0).getImage().equals("")) {
+            Glide.with(image.getContext()).load(myProfile.get(0).getImage()).into(image);
+        }
+        else if(myProfile.get(0).getImage().equals(""))
+        {
+            Glide.with(image.getContext()).load(R.drawable.profile_pic).into(image);
+
+        }
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -131,13 +137,6 @@ public class UpdateDescriptionActivity extends AppCompatActivity
             }
         });
 
-        filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),FilterViewPopUp.class);
-                startActivity(intent);
-            }
-        });
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,6 +174,7 @@ public class UpdateDescriptionActivity extends AppCompatActivity
                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                     if(message.equalsIgnoreCase("profile updated successfully"))
                     {
+                        finish();
                         Intent intent=new Intent(getApplicationContext(),ProfileActivity.class);
                         startActivity(intent);
                     } else {

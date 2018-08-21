@@ -223,7 +223,7 @@
                     android:layout_height="25dp"
                     android:layout_weight="0.6">
                     <ImageView
-                        android:id="@+id/instra_btn"
+                        android:id="@+id/insta_btn"
                         android:src="@drawable/instra_icon"
                         android:layout_width="20dp"
                         android:layout_height="25dp"
@@ -247,7 +247,7 @@
                             android:id="@+id/fb_btn"
                             android:layout_width="match_parent"
                             android:layout_height="25dp"
-                            android:layout_toLeftOf="@id/instra_btn"
+                            android:layout_toLeftOf="@id/insta_btn"
                             android:src="@drawable/fb_icon" />
 
                     </FrameLayout>

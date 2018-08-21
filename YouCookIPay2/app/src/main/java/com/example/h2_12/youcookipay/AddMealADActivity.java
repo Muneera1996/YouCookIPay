@@ -56,7 +56,7 @@ public class AddMealADActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     View home_menu,sell,donate,commercial_food,private_food,food,beverages,image_visibilty;
     ImageView sell_checkbox,donate_checkbox,commercial_food_checkbox,private_food_checkbox,food_checkbox,beverages_checkbox;
-    ImageView filter;
+
     ImageView publish,image1,image2,image3;
     String type1="",type2="",type3="",meal_id;
     EditText meal,resturant,price,description;
@@ -78,7 +78,6 @@ public class AddMealADActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         home_menu=findViewById(R.id.home_menu);
-        filter=findViewById(R.id.filter);
         publish=findViewById(R.id.addMealAd_publish_btn);
         sell=findViewById(R.id.pick_sell);
         donate=findViewById(R.id.pick_donate);
@@ -157,13 +156,7 @@ public class AddMealADActivity extends AppCompatActivity
             }
         });
 
-        filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),FilterViewPopUp.class);
-                startActivity(intent);
-            }
-        });
+
         if(activity.equalsIgnoreCase("Edit")){
             mProgressBar.setVisibility(View.VISIBLE);
             String id=intent.getStringExtra("Chef_Id");
@@ -279,6 +272,7 @@ public class AddMealADActivity extends AppCompatActivity
                                             Log.d("onResponseEditMeal", resultResponse);
                                             Toast.makeText(AddMealADActivity.this, message, Toast.LENGTH_SHORT).show();
                                             if (message.equalsIgnoreCase("Ad updated successfully")) {
+                                                finish();
                                                 Intent intent=new Intent(getApplicationContext(),ProfileActivity.class);
                                                 startActivity(intent);
                                             } else {
@@ -614,6 +608,7 @@ public class AddMealADActivity extends AppCompatActivity
                     String message = result.getString("message");
                     Toast.makeText(AddMealADActivity.this, message, Toast.LENGTH_SHORT).show();
                     if (message.equalsIgnoreCase("Ad successfully published")) {
+                        finish();
                         Intent intent=new Intent(getApplicationContext(),ProfileActivity.class);
                         startActivity(intent);
                     } else {

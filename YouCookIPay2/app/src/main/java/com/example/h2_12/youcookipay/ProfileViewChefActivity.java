@@ -47,7 +47,7 @@ import java.util.ArrayList;
 public class ProfileViewChefActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     View home_menu;
-    ImageView filter,image,star1,star2,star3,star4,star5;
+    ImageView image,star1,star2,star3,star4,star5;
     RecyclerView recyclerView;
     private ArrayList<Meal> mealsList;
     ArrayList<User> arrayList;
@@ -66,7 +66,6 @@ public class ProfileViewChefActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         home_menu=findViewById(R.id.home_menu);
-        filter=findViewById(R.id.filter);
         mealsList=new ArrayList<>();
         chef_profile=new ArrayList<>();
         recyclerView=findViewById(R.id.recyclerview_profile_view_chef);
@@ -254,13 +253,7 @@ public class ProfileViewChefActivity extends AppCompatActivity
                 drawer.openDrawer(GravityCompat.START);
             }
         });
-        filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),FilterViewPopUp.class);
-                startActivity(intent);
-            }
-        });
+
         rating_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

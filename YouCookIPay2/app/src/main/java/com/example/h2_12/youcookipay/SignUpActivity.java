@@ -30,7 +30,7 @@ import java.util.Map;
 public class SignUpActivity extends AppCompatActivity {
     View signup_header,payment_method,gender_male,gender_female,seller_option,consumer_option,seller_type,homemade_option,restaurant_option;
     ImageView checkBox_male,checkBox_female,signup_btn,checkBox_seller,checkBox_consumer,checkbox_homemade,checkbox_restaurant;
-    EditText name,email,password,confirm_password,phone,paymentMethod;
+    EditText name,email,password,confirm_password,phone;
     String gender="",type="",sellerType="";
     public static String id;
     ProgressBar mProgressBar;
@@ -64,7 +64,6 @@ public class SignUpActivity extends AppCompatActivity {
         password=findViewById(R.id.signup_password);
         confirm_password=findViewById(R.id.signup_confirm_password);
         phone=findViewById(R.id.signup_phone);
-        paymentMethod=findViewById(R.id.signup_payment);
         seller_type=findViewById(R.id.sign_seller_type);
         payment_method=findViewById(R.id.payment_method);
         homemade_option=findViewById(R.id.homemade_option);
@@ -90,13 +89,7 @@ public class SignUpActivity extends AppCompatActivity {
                 checkbox_restaurant.setImageResource(R.drawable.ic_check_box);
             }
         });
-        payment_method.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),PaymentMethodPopUp.class);
-                startActivity(intent);
-            }
-        });
+
         gender_male.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,8 +124,6 @@ public class SignUpActivity extends AppCompatActivity {
                 else if (num==5)
                     Toast.makeText(getBaseContext(), "Rewrite your password", Toast.LENGTH_LONG).show();
                 else if (num==6)
-                    Toast.makeText(getBaseContext(), "Fill all the details!", Toast.LENGTH_LONG).show();
-                else if (num==7)
                     Toast.makeText(getBaseContext(), "Fill all the details!", Toast.LENGTH_LONG).show();
                 else if (num==8)
                     Toast.makeText(getBaseContext(), "Fill all the details!", Toast.LENGTH_LONG).show();
@@ -188,6 +179,14 @@ public class SignUpActivity extends AppCompatActivity {
                                 Intent intent=new Intent(getApplicationContext(),ThankYouPopUpActivity.class);
                                 intent.putExtra("Email",email.getText().toString());
                                 startActivity(intent);
+                                name.setText("");
+                                email.setText("");
+                                password.setText("");
+                                confirm_password.setText("");
+                                phone.setText("");
+                                gender="";
+                                type="";
+                                sellerType="";
                             }
 
                         } catch (Throwable t) {
@@ -215,7 +214,7 @@ public class SignUpActivity extends AppCompatActivity {
                 params.put("phone", phone.getText().toString());
                 params.put("gender", gender);
                 params.put("type", type);
-                params.put("payment_method", paymentMethod.getText().toString());
+                params.put("payment_method", "");
                 if (!sellerType.equals("")){
                     params.put("seller_type", sellerType);
 
@@ -265,8 +264,6 @@ public class SignUpActivity extends AppCompatActivity {
             return 5;
         if(phone.getText().toString().equals(""))
             return 6;
-        if (paymentMethod.getText().toString().equals(""))
-            return 7;
         if(gender.equals(""))
             return 8;
         if(type.equals(""))

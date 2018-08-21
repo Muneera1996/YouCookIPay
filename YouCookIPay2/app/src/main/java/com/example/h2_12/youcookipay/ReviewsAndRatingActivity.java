@@ -53,7 +53,7 @@ import java.util.Map;
 public class ReviewsAndRatingActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     View home_menu;
-    ImageView image,filter,submit,quality_star1,quality_star2,quality_star3,quality_star4,quality_star5;
+    ImageView image,submit,quality_star1,quality_star2,quality_star3,quality_star4,quality_star5;
     ImageView taste_star1,taste_star2,taste_star3,taste_star4,taste_star5;
     ImageView star1,star2,star3,star4,star5;
     EditText comment_box;
@@ -75,7 +75,6 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
         arrayList=OrderScreeen2Activity.profile;
         arrayList1=LoginInActivity.users;
         home_menu=findViewById(R.id.home_menu);
-        filter=findViewById(R.id.filter);
         submit=findViewById(R.id.ReviewAndRating_submit);
         comment_box=findViewById(R.id.ReviewAndRating_comment_box);
         image=findViewById(R.id.reviews_and_rating_image);
@@ -189,13 +188,7 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
                 drawer.openDrawer(GravityCompat.START);
             }
         });
-        filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),FilterViewPopUp.class);
-                startActivity(intent);
-            }
-        });
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -437,8 +430,6 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
     }
 

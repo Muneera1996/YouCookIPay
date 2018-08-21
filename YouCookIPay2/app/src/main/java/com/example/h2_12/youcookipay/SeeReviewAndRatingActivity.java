@@ -43,7 +43,6 @@ import java.util.ArrayList;
 public class SeeReviewAndRatingActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     View home_menu;
-    ImageView filter;
     RecyclerView recyclerView;
     ArrayList<Reviews_Rating> ratingList;
     ArrayList<User> arrayList;
@@ -56,7 +55,6 @@ public class SeeReviewAndRatingActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         home_menu=findViewById(R.id.home_menu);
-        filter=findViewById(R.id.filter);
         recyclerView=findViewById(R.id.recyclerview_SeeReviews);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -114,12 +112,7 @@ public class SeeReviewAndRatingActivity extends AppCompatActivity
                 drawer.openDrawer(GravityCompat.START);
             }
         });
-        filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),FilterViewPopUp.class);
-                startActivity(intent); }
-        });
+
         if (!isConnected()) {
             Toast.makeText(getApplicationContext(), "There is no Internet Connection", Toast.LENGTH_SHORT).show();
         }

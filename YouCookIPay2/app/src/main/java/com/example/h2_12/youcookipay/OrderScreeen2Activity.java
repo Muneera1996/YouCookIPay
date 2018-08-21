@@ -64,7 +64,7 @@ public class OrderScreeen2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Button placeOrder;
     View home_menu,delivery,yourself,area_street,city_view;
-    ImageView filter,delivery_checkbox,yourself_checkbox,image,star1,star2,star3,star4,star5;
+    ImageView delivery_checkbox,yourself_checkbox,image,star1,star2,star3,star4,star5;
     EditText name,email,number,date,time;
     ProgressBar mProgressBar;
     TextView chef_name,chef_address,chef_type,chef_rating;
@@ -119,7 +119,6 @@ public class OrderScreeen2Activity extends AppCompatActivity
 
         }
         home_menu = findViewById(R.id.home_menu);
-        filter = findViewById(R.id.filter);
         area_street = findViewById(R.id.streetAndAreaView);
         city_view = findViewById(R.id.cityView);
         rating_view = findViewById(R.id.orderScreen_ratingSection);
@@ -225,13 +224,7 @@ public class OrderScreeen2Activity extends AppCompatActivity
                 drawer.openDrawer(GravityCompat.START);
             }
         });
-        filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), FilterViewPopUp.class);
-                startActivity(intent);
-            }
-        });
+
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

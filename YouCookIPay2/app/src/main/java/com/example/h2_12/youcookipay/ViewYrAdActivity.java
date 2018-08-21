@@ -49,7 +49,6 @@ import java.util.List;
 public class ViewYrAdActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     View home_menu;
-    ImageView filter;
     EditText search_bar;
     RecyclerView recyclerView;
     private ArrayList<ViewYourAd> mealsList;
@@ -73,7 +72,6 @@ public class ViewYrAdActivity extends AppCompatActivity
         mProgressBar.setVisibility(View.VISIBLE);
         layout1.setVisibility(View.VISIBLE);
         home_menu=findViewById(R.id.home_menu);
-        filter=findViewById(R.id.filter);
         search_bar=findViewById(R.id.search_bar);
         if (!isConnected()) {
             Toast.makeText(getApplicationContext(), "Check Your Internet Connection", Toast.LENGTH_SHORT).show();
@@ -236,13 +234,7 @@ public class ViewYrAdActivity extends AppCompatActivity
                 drawer.openDrawer(GravityCompat.START);
             }
         });
-        filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),FilterViewPopUp.class);
-                startActivity(intent);
-            }
-        });
+
 
     }
     @Override

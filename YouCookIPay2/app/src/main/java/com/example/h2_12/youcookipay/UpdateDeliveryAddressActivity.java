@@ -49,7 +49,7 @@ import java.util.Map;
 public class UpdateDeliveryAddressActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     View home_menu;
-    ImageView filter,update;
+    ImageView update;
     EditText street,area,city,code;
     ProgressBar mProgressBar;
     RecyclerView recyclerView;
@@ -73,7 +73,6 @@ public class UpdateDeliveryAddressActivity extends AppCompatActivity
         }
 
         home_menu=findViewById(R.id.home_menu);
-        filter=findViewById(R.id.filter);
         update=findViewById(R.id.updateDeliveryAddress_update);
         street=findViewById(R.id.updateDeliveryAddress_street);
         area=findViewById(R.id.updateDeliveryAddress_area);
@@ -129,13 +128,7 @@ public class UpdateDeliveryAddressActivity extends AppCompatActivity
                 drawer.openDrawer(GravityCompat.START);
             }
         });
-        filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),FilterViewPopUp.class);
-                startActivity(intent);
-            }
-        });
+
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

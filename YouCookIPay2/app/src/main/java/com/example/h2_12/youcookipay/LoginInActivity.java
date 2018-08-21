@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -57,13 +58,14 @@ public class LoginInActivity extends AppCompatActivity {
     EditText email, password;
     TextView forget_password;
     public  static ArrayList<User> users;
-    ImageView fb_btn;
+    ImageView fb_btn,insta_btn;
     CallbackManager callbackManager;
     private final String EMAIL = "email";
     ProgressBar mProgressBar;
     LoginButton loginButton;
     Boolean check=false;
-    String id,name,mail,gender,birthday;
+    String id,name,mail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +80,18 @@ public class LoginInActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
         fb_btn = findViewById(R.id.fb_btn);
         loginButton = findViewById(R.id.login_button);
+        insta_btn=findViewById(R.id.insta_btn);
+
+
+
+        insta_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signInWithInstagram();
+                checkForInstagramData();
+
+            }
+        });
 
         List< String > permissionNeeds = Arrays.asList("user_photos", "email",
                 "user_birthday", "public_profile", "AccessToken");
@@ -297,6 +311,33 @@ public class LoginInActivity extends AppCompatActivity {
         }
     }
 
+    private void signInWithInstagram() {
+        final Uri.Builder uriBuilder = new Uri.Builder();
+        uriBuilder.scheme("https")
+                .authority("api.instagram.com")
+                .appendPath("oauth")
+                .appendPath("authorize")
+                .appendQueryParameter("client_id", "8bfd4a26802a422ab2df08d6301da09e")
+                .appendQueryParameter("redirect_uri", "http://incisivesoft.com/")
+                .appendQueryParameter("response_type", "token");
+        final Intent browser = new Intent(Intent.ACTION_VIEW, uriBuilder.build());
+        startActivity(browser);
+
+
+    }
+    private void checkForInstagramData() {
+        Log.i("Instagram data","check for instagram");
+        final Uri data = this.getIntent().getData();
+        if (data != null && data.getScheme().equals("http") && data.getFragment() != null) {
+            final String accessToken = data.getFragment().replaceFirst("access_token=", "");
+            Log.i("access token",accessToken);
+            if (accessToken != null) {
+
+            } else {
+               // handleSignInResult(null);
+            }
+        }
+    }
     private void socialLogin(String social_type,String social_id) {
        Intent intent = new Intent(getApplicationContext(),SocialViewPopUpActivity.class);
        intent.putExtra("Social_Type",social_type);
@@ -319,5 +360,11 @@ public class LoginInActivity extends AppCompatActivity {
         if (v == fb_btn) {
             loginButton.performClick();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent=new Intent(getApplicationContext(),LoginInActivity.class);
+        startActivity(intent);
     }
 }

@@ -41,7 +41,6 @@ import java.util.ArrayList;
 public class OrderHistory1Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     View home_menu;
-    ImageView filter;
     ProgressBar mProgressBar;
     RecyclerView recyclerView;
     ArrayList<OrderHistory> historyList;
@@ -54,7 +53,6 @@ public class OrderHistory1Activity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         home_menu=findViewById(R.id.home_menu);
-        filter=findViewById(R.id.filter);
         historyList=new ArrayList<>();
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         recyclerView=findViewById(R.id.recyclerview_orderHistory1);
@@ -109,13 +107,7 @@ public class OrderHistory1Activity extends AppCompatActivity
                 drawer.openDrawer(GravityCompat.START);
             }
         });
-        filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),FilterViewPopUp.class);
-                startActivity(intent);
-            }
-        });
+
         if (isConnected()){
             mProgressBar.setVisibility(View.VISIBLE);
             final String url = "http://www.businessmarkaz.com/test/ucookipayws/user/order_history?user_id="+LoginInActivity.users.get(0).getUser_id()+"&session_id="+LoginInActivity.users.get(0).getSession_id();

@@ -31,7 +31,6 @@ import org.json.JSONObject;
 public class HowToUseAppActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     View home_menu;
-    ImageView filter;
     LinearLayout layout1,layout2;
     ProgressBar mProgressBar;
     @Override
@@ -39,7 +38,6 @@ public class HowToUseAppActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_how_to_use_app2);
         home_menu=findViewById(R.id.home_menu);
-        filter=findViewById(R.id.filter);
 
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -90,13 +88,7 @@ public class HowToUseAppActivity extends AppCompatActivity
                 drawer.openDrawer(GravityCompat.START);
             }
         });
-        filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),FilterViewPopUp.class);
-                startActivity(intent);
-            }
-        });
+
     }
 
     @Override

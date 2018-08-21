@@ -112,7 +112,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             Glide.with(holder.chefImage.getContext()).load(R.drawable.profile_pic).into(holder.chefImage);
 
         }
-      // if (!((Activity) context).isFinishing()){
+      /* if (!((Activity) context).isFinishing()){
             final int updateInterval = 1000;
             new Runnable(){
                 @Override
@@ -139,19 +139,19 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                         currentIndex+=1;
                 }
             }.run();
-        //}
+        }*/
 
 
-     /* Glide.with(holder.mealImage.getContext())
+      Glide.with(holder.mealImage.getContext())
                 .asBitmap()
-                .load(currentData.getMealImage())
+                .load(currentData.getMylist().get(0))
                 .into(new SimpleTarget<Bitmap>(120,170) {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         Drawable dr = new BitmapDrawable(resource);
                         holder.mealImage.setBackgroundDrawable(dr);
                     }
-                });*/
+                });
 
 
 

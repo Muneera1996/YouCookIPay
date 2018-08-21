@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
-                    tools:text="$5.00"
+                    tools:text="5.00"
                     android:textColor="@android:color/white"
                     android:textSize="30sp"
                     android:textStyle="bold" />
@@ -72,7 +72,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="5dp"
                     android:gravity="end"
-                    android:text="Lag"
+                    android:text="Euro"
                     android:textColor="@android:color/white"
                     android:textSize="20sp" />
             </RelativeLayout>

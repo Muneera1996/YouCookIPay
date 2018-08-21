@@ -58,7 +58,7 @@ OrderScreen1Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Button orderScreen;
     View home_menu,quant,plus_quanity,minus_quantity,dish_image_view;
-    ImageView filter,image,star1,star2,star3,star4,star5;
+    ImageView image,star1,star2,star3,star4,star5;
     int quantity=1;
     TextView txt_quanity,meal_name,meal_price;
     TextView total_amount;
@@ -71,6 +71,7 @@ OrderScreen1Activity extends AppCompatActivity
     public static String nonce_str = "";
     public static String total_bill = "";
     boolean check=false;
+    boolean back_check=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +82,6 @@ OrderScreen1Activity extends AppCompatActivity
 
         profile=OrderScreeen2Activity.profile;
         home_menu=findViewById(R.id.home_menu);
-        filter=findViewById(R.id.filter);
         quant=findViewById(R.id.select_quality);
         plus_quanity=findViewById(R.id.plus_btn);
         minus_quantity=findViewById(R.id.minus_btn);
@@ -217,13 +217,7 @@ OrderScreen1Activity extends AppCompatActivity
                 drawer.openDrawer(GravityCompat.START);
             }
         });
-        filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),FilterViewPopUp.class);
-                startActivity(intent);
-            }
-        });
+
         orderScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -292,6 +286,7 @@ OrderScreen1Activity extends AppCompatActivity
                                 String message = obj.getString("message");
                                 Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                                 if (message.equalsIgnoreCase("payment proccessed successfully")) {
+                                    back_check=true;
                                     Intent intent = new Intent(getApplicationContext(), PaymentMethodPopUpActivity.class);
                                     startActivity(intent);
                                 }
@@ -400,7 +395,13 @@ OrderScreen1Activity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            if(!back_check)
             super.onBackPressed();
+            else
+            {
+                Intent intent=new Intent(getApplicationContext(),HomeActivity.class);
+                startActivity(intent);
+            }
         }
     }
 

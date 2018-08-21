@@ -51,7 +51,7 @@ public class ProfileActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Button add_meals,view_meal_add,update;
     View home_menu;
-    ImageView filter,profile_info,star1,star2,star3,star4,star5,image;
+    ImageView profile_info,star1,star2,star3,star4,star5,image;
     TextView profile_description,name,place,type,rating;
     String message;
     private double rate = 0;
@@ -62,6 +62,7 @@ public class ProfileActivity extends AppCompatActivity
     LinearLayout layout,profile_layout;
     ProgressBar mProgressBar;
     public static boolean check= true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +74,6 @@ public class ProfileActivity extends AppCompatActivity
         arrayList=LoginInActivity.users;
         myProfile=new ArrayList<>();
         home_menu=findViewById(R.id.home_menu);
-        filter=findViewById(R.id.filter);
         profile_description=findViewById(R.id.profile_Description);
         layout = (LinearLayout) findViewById(R.id.progressbar_view);
         profile_layout = (LinearLayout) findViewById(R.id.profile_layout);
@@ -149,13 +149,7 @@ public class ProfileActivity extends AppCompatActivity
                 drawer.openDrawer(GravityCompat.START);
             }
         });
-        filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),FilterViewPopUp.class);
-                startActivity(intent);
-            }
-        });
+
         add_meals=findViewById(R.id.add_meals_ad);
         add_meals.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,9 +209,8 @@ public class ProfileActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
+
     }
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -297,6 +290,7 @@ public class ProfileActivity extends AppCompatActivity
                             profile_description.setText(user.getString("user_description"));
                             rating.setText(user.getString("rating"));
                             String imageUrl=user.getString("user_image");
+
                             profile_layout.setVisibility(View.VISIBLE);
 
 
@@ -331,7 +325,14 @@ public class ProfileActivity extends AppCompatActivity
                                 Glide.with(star4.getContext()).load(R.drawable.fill_star).into(star4);
                                 Glide.with(star5.getContext()).load(R.drawable.fill_star).into(star5);
                             }
-                            Glide.with(image.getContext()).load(imageUrl).into(image);
+                            if(!imageUrl.equals("")) {
+                                Glide.with(image.getContext()).load(imageUrl).into(image);
+                            }
+                            else if(imageUrl.equals(""))
+                            {
+                                Glide.with(image.getContext()).load(R.drawable.profile_pic).into(image);
+
+                            }
                             myProfile.add(new Chef_Profile(id,name.getText().toString(),place.getText().toString(),type.getText().toString(),profile_description.getText().toString(),rating.getText().toString(),imageUrl));
                         } catch (JSONException e) {
                             e.printStackTrace();
