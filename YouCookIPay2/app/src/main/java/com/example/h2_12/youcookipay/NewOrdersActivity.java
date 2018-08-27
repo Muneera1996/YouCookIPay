@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -44,6 +45,7 @@ public class NewOrdersActivity extends AppCompatActivity
     ProgressBar mProgressBar;
     RecyclerView recyclerView;
     ArrayList<OrderHistory> historyList;
+    TextView order_history;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,7 @@ public class NewOrdersActivity extends AppCompatActivity
         historyList=new ArrayList<>();
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         recyclerView=findViewById(R.id.recyclerview_orderHistory);
+        order_history=findViewById(R.id.no_history);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -159,6 +162,10 @@ public class NewOrdersActivity extends AppCompatActivity
 
                                     }
                                     recyclerView.setAdapter(new OrderHistoryAdapter(getApplicationContext(),historyList));
+                                }
+                                else
+                                {
+                                    order_history.setVisibility(View.VISIBLE);
                                 }
                             } catch (Throwable t) {
                                 Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");

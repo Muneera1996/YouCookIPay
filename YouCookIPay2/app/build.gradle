@@ -4,7 +4,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.example.h2_12.youcookipay"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -38,6 +38,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.braintreepayments.api:drop-in:3.+'
     implementation 'com.facebook.android:facebook-login:[4,5)'
-
+    implementation 'com.github.charlieAndroidDev:Instagram4Android:0.2.7'
+    implementation  'com.github.thelester:Instagram-Helper:1.1.1'
 
 }

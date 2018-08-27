@@ -16,9 +16,9 @@
     <LinearLayout
         android:visibility="gone"
         android:id="@+id/progressbar_view"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="horizontal" >
 
         <ProgressBar
@@ -160,21 +160,21 @@
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
                                 android:layout_margin="2dp"
-                                android:src="@drawable/fill_star" />
+                                android:src="@drawable/unfill_star" />
 
                             <ImageView
                                 android:id="@+id/orderScreen1_star_two"
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
                                 android:layout_margin="2dp"
-                                android:src="@drawable/fill_star" />
+                                android:src="@drawable/unfill_star" />
 
                             <ImageView
                                 android:id="@+id/orderScreen1_star_three"
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
                                 android:layout_margin="2dp"
-                                android:src="@drawable/fill_star" />
+                                android:src="@drawable/unfill_star" />
 
                             <ImageView
                                 android:id="@+id/orderScreen1_star_four"
@@ -464,16 +464,29 @@
 
                     </RelativeLayout>
                 </RelativeLayout>
-                <Button
+                <RelativeLayout
                     android:layout_marginTop="20dp"
-                    android:id="@+id/orderScreen_btn"
-                    android:paddingHorizontal="20dp"
+                    android:layout_width="200dp"
                     android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:textColor="#fff"
-                    android:background="#3b6498"
-                    android:text="Process Your Order"/>
+                    android:layout_height="35dp">
+                    <Button
+                        android:id="@+id/orderScreen_btn"
+                        android:paddingHorizontal="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="#fff"
+                        android:background="#3b6498"
+                        android:text="Process Your Order"/>
+                    <ProgressBar
+                        android:id="@+id/progressBar2"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true" />
+
+
+                </RelativeLayout>
+
 
             </LinearLayout>
         </LinearLayout>

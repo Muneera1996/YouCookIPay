@@ -23,8 +23,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SocialViewPopUpActivity extends AppCompatActivity {
-    View seller_option,consumer_option,seller_type,homemade_option,restaurant_option;
-    ImageView signup_btn,checkBox_seller,checkBox_consumer,checkbox_homemade,checkbox_restaurant;
+    View signup_btn,seller_option,consumer_option,seller_type,homemade_option,restaurant_option;
+    ImageView checkBox_seller,checkBox_consumer,checkbox_homemade,checkbox_restaurant;
     String sellerType="";
     String type = "";
     ProgressBar mProgressBar;

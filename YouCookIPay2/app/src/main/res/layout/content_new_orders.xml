@@ -13,6 +13,15 @@
     tools:showIn="@layout/app_bar_order_history1"
     xmlns:android="http://schemas.android.com/apk/res/android">
     >
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/no_history"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="No History"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
     <ProgressBar
         android:visibility="gone"
         android:id="@+id/progressBar"

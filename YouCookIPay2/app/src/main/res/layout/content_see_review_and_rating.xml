@@ -2,7 +2,7 @@
 
 <LinearLayout android:background="@drawable/overlay_bg"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
@@ -13,10 +13,19 @@
     tools:showIn="@layout/app_bar_see_review_and_rating"
     xmlns:android="http://schemas.android.com/apk/res/android">
     >
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/no_reviews_rating"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="No Reviews"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
     <LinearLayout
         android:id="@+id/progressbar_view"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="horizontal" >
 

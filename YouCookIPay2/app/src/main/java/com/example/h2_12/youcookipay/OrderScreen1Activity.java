@@ -66,6 +66,7 @@ OrderScreen1Activity extends AppCompatActivity
     ArrayList<Chef_Profile> profile;
     private double rate=0;
     ProgressBar mProgressBar;
+    ProgressBar mProgressBar2;
     View rating_view,delivery_view;
     public static int REQUEST_CODE = 1;
     public static String nonce_str = "";
@@ -110,6 +111,7 @@ OrderScreen1Activity extends AppCompatActivity
         chef_address.setText(profile.get(0).getAddress());
         chef_type.setText(profile.get(0).getType());
         chef_rating.setText(profile.get(0).getRating());
+        mProgressBar2 = (ProgressBar) findViewById(R.id.progressBar2);
         dish_name.setText(OrderScreeen2Activity.orderScreens.get(0).getMeal_name());
         dish_price.setText(OrderScreeen2Activity.orderScreens.get(0).getMeal_price());
         meal_name.setText(OrderScreeen2Activity.orderScreens.get(0).getMeal_name());
@@ -269,7 +271,7 @@ OrderScreen1Activity extends AppCompatActivity
         });
     }
     private void placeOrder() {
-       // mProgressBar.setVisibility(View.VISIBLE);
+        mProgressBar2.setVisibility(View.VISIBLE);
         String url = "http://www.businessmarkaz.com/test/ucookipayws/meal_ads/place_order";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>()
@@ -281,7 +283,7 @@ OrderScreen1Activity extends AppCompatActivity
 
                             Log.e("Response", response);
                             try {
-                                // mProgressBar.setVisibility(View.GONE);
+                                 mProgressBar2.setVisibility(View.GONE);
                                 JSONObject obj = new JSONObject(response);
                                 String message = obj.getString("message");
                                 Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();

@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -48,6 +49,7 @@ public class SeeReviewAndRatingActivity extends AppCompatActivity
     ArrayList<User> arrayList;
     ProgressBar mProgressBar;
     LinearLayout layout;
+    TextView reviews;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +63,7 @@ public class SeeReviewAndRatingActivity extends AppCompatActivity
         mProgressBar.setVisibility(View.VISIBLE);
         layout=findViewById(R.id.progressbar_view);
         layout.setVisibility(View.VISIBLE);
+        reviews=findViewById(R.id.no_reviews_rating);
         arrayList=LoginInActivity.users;
         ratingList=new ArrayList<>();
         Intent intent = getIntent();
@@ -126,13 +129,13 @@ public class SeeReviewAndRatingActivity extends AppCompatActivity
                             Log.d("Response", response.toString());
                             mProgressBar.setVisibility(View.GONE);
                             layout.setVisibility(View.GONE);
-                            GsonBuilder gsonBuilder = new GsonBuilder();
-                            Gson gson = gsonBuilder.create();
-                            Home home  = gson.fromJson(response.toString(),Home.class);
-                            boolean success = home.getStatus();
                             try {
+                                JSONObject obj = new JSONObject(response.toString());
+                                String message=obj.getString("message");
+                                Boolean success=obj.getBoolean("status");
+                                Log.v("message",message);
+
                                 if (success) {
-                                    JSONObject obj = new JSONObject(response.toString());
                                     JSONArray jsonArray=obj.getJSONArray("data");
                                     for(int i=0;i<jsonArray.length();i++){
                                         JSONObject user=jsonArray.getJSONObject(i);
@@ -145,6 +148,8 @@ public class SeeReviewAndRatingActivity extends AppCompatActivity
                                     }
                                     recyclerView.setAdapter(new ReviewsRatingAdapter(getApplicationContext(),ratingList));
                                 }
+                                else
+                                    reviews.setVisibility(View.VISIBLE);
                             } catch (Throwable t) {
                                 Log.e("see Reviews and Rating", "Could not parse malformed JSON: \"" + response + "\"");
                             }

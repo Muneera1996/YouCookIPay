@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -44,6 +45,7 @@ public class OrderHistory1Activity extends AppCompatActivity
     ProgressBar mProgressBar;
     RecyclerView recyclerView;
     ArrayList<OrderHistory> historyList;
+    TextView order_history;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class OrderHistory1Activity extends AppCompatActivity
 
         home_menu=findViewById(R.id.home_menu);
         historyList=new ArrayList<>();
+        order_history=findViewById(R.id.no_history);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         recyclerView=findViewById(R.id.recyclerview_orderHistory1);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -159,7 +162,12 @@ public class OrderHistory1Activity extends AppCompatActivity
                                         historyList.add(new OrderHistory(order_id,chef_id,user_id,meal_id,meal_name,meal_classification,meal_type,meal_category,portion_price,quantity,total_quantity_cost,service_charges,delivery_charges,grand_total,user_name,user_email,user_contact,date,time,delivery_options,street,city,area,payment_method,transaction_id,order_status,chef_name));
 
                                     }
+
                                     recyclerView.setAdapter(new OrderHistoryAdapter(getApplicationContext(),historyList));
+                                }
+                                else
+                                {
+                                    order_history.setVisibility(View.VISIBLE);
                                 }
                             } catch (Throwable t) {
                                 Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");

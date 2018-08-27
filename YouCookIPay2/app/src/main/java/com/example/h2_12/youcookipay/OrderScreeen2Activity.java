@@ -62,8 +62,8 @@ import java.util.Map;
 
 public class OrderScreeen2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    Button placeOrder;
-    View home_menu,delivery,yourself,area_street,city_view;
+
+    View home_menu,delivery,yourself,area_street,city_view,placeOrder;
     ImageView delivery_checkbox,yourself_checkbox,image,star1,star2,star3,star4,star5;
     EditText name,email,number,date,time;
     ProgressBar mProgressBar;
@@ -132,6 +132,7 @@ public class OrderScreeen2Activity extends AppCompatActivity
         date = findViewById(R.id.orderScreen_date);
         time = findViewById(R.id.orderScreen_time);
         street_txt = findViewById(R.id.orderScreen_street);
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         orderScreens = new ArrayList<>();
         area_txt = findViewById(R.id.orderScreen_area);
         city_txt = findViewById(R.id.orderScreen_city);
@@ -385,9 +386,12 @@ public class OrderScreeen2Activity extends AppCompatActivity
                                 time.getText().toString().trim().equals("") || delivery_method.equals(""))
                             Toast.makeText(getApplicationContext(), "Fill all the details!", Toast.LENGTH_LONG).show();
                         else {
+                            mProgressBar.setVisibility(View.VISIBLE);
                             orderScreens.add(new OrderScreen(name.getText().toString(), email.getText().toString(), number.getText().toString(), date.getText().toString(), time.getText().toString(), delivery_method, id, nam, price, img));
                             Intent intent = new Intent(getApplicationContext(), OrderScreen1Activity.class);
                             startActivity(intent);
+                            mProgressBar.setVisibility(View.GONE);
+
                         }
                     } else if (delivery_method.equalsIgnoreCase("home_delivery")) {
                         if (name.getText().toString().trim().equals("") || email.getText().toString().trim().equals("") ||
@@ -396,9 +400,11 @@ public class OrderScreeen2Activity extends AppCompatActivity
                                 area_txt.getText().toString().trim().equals("") || city_txt.getText().toString().trim().equals("") || delivery_method.equals(""))
                             Toast.makeText(getApplicationContext(), "Fill all the details!", Toast.LENGTH_LONG).show();
                         else {
+                            mProgressBar.setVisibility(View.VISIBLE);
                             orderScreens.add(new OrderScreen(name.getText().toString(), email.getText().toString(), number.getText().toString(), date.getText().toString(), time.getText().toString(), delivery_method, id, nam, price, img, street_txt.getText().toString(), area_txt.getText().toString(), city_txt.getText().toString()));
                             Intent intent = new Intent(getApplicationContext(), OrderScreen1Activity.class);
                             startActivity(intent);
+                            mProgressBar.setVisibility(View.GONE);
 
                         }
                     }

@@ -52,8 +52,8 @@ import java.util.Map;
 
 public class ReviewsAndRatingActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    View home_menu;
-    ImageView image,submit,quality_star1,quality_star2,quality_star3,quality_star4,quality_star5;
+    View home_menu,submit;
+    ImageView image,quality_star1,quality_star2,quality_star3,quality_star4,quality_star5;
     ImageView taste_star1,taste_star2,taste_star3,taste_star4,taste_star5;
     ImageView star1,star2,star3,star4,star5;
     EditText comment_box;

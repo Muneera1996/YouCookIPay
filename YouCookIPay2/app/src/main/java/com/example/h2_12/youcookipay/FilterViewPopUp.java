@@ -35,7 +35,7 @@ public class FilterViewPopUp extends AppCompatActivity {
     View commercial,beverages,privte,food,purchase,donation;
     ImageView commercial_checkbox,beverages_checkbox,privte_checkbox,food_checkbox,purchase_checkbox,donation_checkbox;
     String classification="",category="",type="";
-    ImageView search;
+    View search;
     ArrayList<User> arrayList;
     static ArrayList<Datum> homeList;
     ProgressBar mProgressBar;

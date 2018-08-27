@@ -54,10 +54,10 @@ import java.util.Map;
 
 public class AddMealADActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    View home_menu,sell,donate,commercial_food,private_food,food,beverages,image_visibilty;
+    View publish,home_menu,sell,donate,commercial_food,private_food,food,beverages,image_visibilty;
     ImageView sell_checkbox,donate_checkbox,commercial_food_checkbox,private_food_checkbox,food_checkbox,beverages_checkbox;
 
-    ImageView publish,image1,image2,image3;
+    ImageView image1,image2,image3;
     String type1="",type2="",type3="",meal_id;
     EditText meal,resturant,price,description;
     ImageView upload_img1,upload_img2,upload_img3;

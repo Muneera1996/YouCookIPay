@@ -28,8 +28,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
-    View signup_header,payment_method,gender_male,gender_female,seller_option,consumer_option,seller_type,homemade_option,restaurant_option;
-    ImageView checkBox_male,checkBox_female,signup_btn,checkBox_seller,checkBox_consumer,checkbox_homemade,checkbox_restaurant;
+    View signup_btn,signup_header,payment_method,gender_male,gender_female,seller_option,consumer_option,seller_type,homemade_option,restaurant_option;
+    ImageView checkBox_male,checkBox_female,checkBox_seller,checkBox_consumer,checkbox_homemade,checkbox_restaurant;
     EditText name,email,password,confirm_password,phone;
     String gender="",type="",sellerType="";
     public static String id;

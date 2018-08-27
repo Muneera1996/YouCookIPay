@@ -14,27 +14,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     >
 
-    <LinearLayout
-        android:visibility="gone"
-        android:id="@+id/progressbar_view"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal" >
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:text="Loading data..." />
-    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -157,21 +137,21 @@
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
                                 android:layout_margin="2dp"
-                                android:src="@drawable/fill_star" />
+                                android:src="@drawable/unfill_star" />
 
                             <ImageView
                                 android:id="@+id/orderScreen1_star_two"
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
                                 android:layout_margin="2dp"
-                                android:src="@drawable/fill_star" />
+                                android:src="@drawable/unfill_star" />
 
                             <ImageView
                                 android:id="@+id/orderScreen1_star_three"
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
                                 android:layout_margin="2dp"
-                                android:src="@drawable/fill_star" />
+                                android:src="@drawable/unfill_star" />
 
                             <ImageView
                                 android:id="@+id/orderScreen1_star_four"
@@ -594,15 +574,22 @@
                         />
                 </RelativeLayout>
 
-                <Button
+                <RelativeLayout
                     android:id="@+id/orderScreen_place_order"
                     android:layout_margin="20dp"
                     android:layout_gravity="center"
                     android:layout_width="150dp"
                     android:layout_height="30dp"
-                    android:background="@drawable/place_your_order"
+                    android:background="@drawable/place_your_order">
+                    <ProgressBar
+                        android:visibility="gone"
+                        android:id="@+id/progressBar"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"/>
 
-                    />
+                </RelativeLayout>
 
             </LinearLayout>
 
