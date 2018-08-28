@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
@@ -113,6 +114,12 @@ public class AddMealADActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header=navigationView.getHeaderView(0);
+        /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
+        TextView user_name = (TextView)header.findViewById(R.id.nav_header_home_name);
+        TextView user_email = (TextView)header.findViewById(R.id.nav_header_home_email);
+        //  user_name.setText(personName);
+        user_email.setText(LoginInActivity.Email);
         // get menu from navigationView
         Menu menu = navigationView.getMenu();
 

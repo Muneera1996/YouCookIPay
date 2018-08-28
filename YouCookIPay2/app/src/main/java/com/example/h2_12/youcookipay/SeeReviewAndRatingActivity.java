@@ -74,6 +74,12 @@ public class SeeReviewAndRatingActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header=navigationView.getHeaderView(0);
+        /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
+        TextView user_name = (TextView)header.findViewById(R.id.nav_header_home_name);
+        TextView user_email = (TextView)header.findViewById(R.id.nav_header_home_email);
+        //  user_name.setText(personName);
+        user_email.setText(LoginInActivity.Email);
         // get menu from navigationView
         Menu menu = navigationView.getMenu();
 
@@ -135,7 +141,12 @@ public class SeeReviewAndRatingActivity extends AppCompatActivity
                                 Boolean success=obj.getBoolean("status");
                                 Log.v("message",message);
 
-                                if (success) {
+                                if(!message.equals("Seller reviews found"))
+                                {
+                                    reviews.setVisibility(View.VISIBLE);
+
+                                }
+                                else if (success) {
                                     JSONArray jsonArray=obj.getJSONArray("data");
                                     for(int i=0;i<jsonArray.length();i++){
                                         JSONObject user=jsonArray.getJSONObject(i);
@@ -148,8 +159,7 @@ public class SeeReviewAndRatingActivity extends AppCompatActivity
                                     }
                                     recyclerView.setAdapter(new ReviewsRatingAdapter(getApplicationContext(),ratingList));
                                 }
-                                else
-                                    reviews.setVisibility(View.VISIBLE);
+
                             } catch (Throwable t) {
                                 Log.e("see Reviews and Rating", "Could not parse malformed JSON: \"" + response + "\"");
                             }

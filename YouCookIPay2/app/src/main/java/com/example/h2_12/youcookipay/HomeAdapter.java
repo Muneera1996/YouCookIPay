@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
     public void onBindViewHolder(@NonNull final HomeViewHolder holder, int position) {
         final Datum currentData=homeList.get(position);
         holder.chefName.setText(currentData.getUserName());
+        Log.v("user name",currentData.getUserName());
         holder.chefAddress.setText(currentData.getUserAddress());
         holder.chefDescription.setText(currentData.getUserDescription());
         holder.mealName.setText(currentData.getMealName());
@@ -58,11 +60,19 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         mealDesc="";
         holder.sellerType.setText(currentData.getSeller_type());
         holder.chefRating.setText(currentData.getRating());
+        Log.v("user rating",currentData.getRating());
+
         if(currentData.getRating() != null && !currentData.getRating().trim().isEmpty()){
             rating = Double.parseDouble(currentData.getRating());
         }
-
-         if(rating>=1&&rating<2) {
+         if(rating>=0&&rating<1){
+             Glide.with(holder.star1.getContext()).load(R.drawable.unfill_star).into(holder.star1);
+             Glide.with(holder.star2.getContext()).load(R.drawable.unfill_star).into(holder.star2);
+             Glide.with(holder.star3.getContext()).load(R.drawable.unfill_star).into(holder.star3);
+             Glide.with(holder.star4.getContext()).load(R.drawable.unfill_star).into(holder.star4);
+             Glide.with(holder.star5.getContext()).load(R.drawable.unfill_star).into(holder.star5);
+         }
+        else if(rating>=1&&rating<2) {
             Glide.with(holder.star1.getContext()).load(R.drawable.fill_star).into(holder.star1);
 
         }
@@ -87,7 +97,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             Glide.with(holder.star4.getContext()).load(R.drawable.fill_star).into(holder.star4);
             Glide.with(holder.star5.getContext()).load(R.drawable.unfill_star).into(holder.star5);
         }
-        else if(rating>=5) {
+        else  {
             Glide.with(holder.star1.getContext()).load(R.drawable.fill_star).into(holder.star1);
             Glide.with(holder.star2.getContext()).load(R.drawable.fill_star).into(holder.star2);
             Glide.with(holder.star3.getContext()).load(R.drawable.fill_star).into(holder.star3);

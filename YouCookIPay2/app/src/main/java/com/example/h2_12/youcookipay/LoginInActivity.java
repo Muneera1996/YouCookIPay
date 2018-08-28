@@ -55,7 +55,7 @@ import java.util.Map;
 
 import static java.util.Arrays.*;
 
-public class LoginInActivity extends AppCompatActivity {
+public class  LoginInActivity extends AppCompatActivity {
     Button signUp;
     EditText email, password;
     TextView forget_password;
@@ -67,6 +67,7 @@ public class LoginInActivity extends AppCompatActivity {
     String id,name,mail;
     InstagramHelper instagramHelper;
     View signIn;
+    public static String Email="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -223,6 +224,7 @@ public class LoginInActivity extends AppCompatActivity {
                                 users = new ArrayList<>();
                                 users.add(new User(user_id, session_id, type));
                                 if (message.equalsIgnoreCase("Sign In successfull")) {
+                                    Email=email.getText().toString();
                                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                                     startActivity(intent);
                                 }

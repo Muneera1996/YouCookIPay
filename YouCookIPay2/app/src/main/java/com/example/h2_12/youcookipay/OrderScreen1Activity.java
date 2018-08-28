@@ -169,7 +169,13 @@ OrderScreen1Activity extends AppCompatActivity
             Glide.with(star4.getContext()).load(R.drawable.fill_star).into(star4);
             Glide.with(star5.getContext()).load(R.drawable.fill_star).into(star5);
         }
-        Glide.with(image.getContext()).load(profile.get(0).getImage()).into(image);
+        if(!profile.get(0).getImage().equals("")) {
+            Glide.with(image.getContext()).load(profile.get(0).getImage()).into(image);
+        }
+        else if(profile.get(0).getImage().equals(""))
+        {
+            Glide.with(image.getContext()).load(R.drawable.profile_pic).into(image);
+        }
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -177,6 +183,12 @@ OrderScreen1Activity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header=navigationView.getHeaderView(0);
+        /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
+        TextView user_name = (TextView)header.findViewById(R.id.nav_header_home_name);
+        TextView user_email = (TextView)header.findViewById(R.id.nav_header_home_email);
+        //  user_name.setText(personName);
+        user_email.setText(LoginInActivity.Email);
         // get menu from navigationView
         Menu menu = navigationView.getMenu();
 

@@ -93,7 +93,13 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
         name.setText(arrayList.get(0).getName());
         address.setText(arrayList.get(0).getAddress());
         type.setText(arrayList.get(0).getType());
-        Glide.with(image.getContext()).load(arrayList.get(0).getImage()).into(image);
+        if(!arrayList.get(0).getImage().equals("")) {
+            Glide.with(image.getContext()).load(arrayList.get(0).getImage()).into(image);
+        }
+        else if(arrayList.get(0).getImage().equals(""))
+        {
+            Glide.with(image.getContext()).load(R.drawable.profile_pic).into(image);
+        }
         rating.setText(arrayList.get(0).getRating());
         rate = Double.parseDouble(arrayList.get(0).getRating());
         if(rate>=1&&rate<2) {
@@ -146,6 +152,12 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header=navigationView.getHeaderView(0);
+        /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
+        TextView user_name = (TextView)header.findViewById(R.id.nav_header_home_name);
+        TextView user_email = (TextView)header.findViewById(R.id.nav_header_home_email);
+        //  user_name.setText(personName);
+        user_email.setText(LoginInActivity.Email);
         // get menu from navigationView
         Menu menu = navigationView.getMenu();
 

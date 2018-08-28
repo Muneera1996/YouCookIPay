@@ -30,12 +30,6 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_margin="5dp"
-                            android:id="@+id/see_reviews_image"
-                            android:layout_width="88dp"
-                            android:layout_height="88dp"
-                            tools:src="@drawable/profile_pic"/>
 
                         <LinearLayout
                             android:layout_margin="5dp"

@@ -71,13 +71,7 @@ public class ReviewsRatingAdapter extends RecyclerView.Adapter<ReviewsRatingAdap
             Glide.with(holder.star4.getContext()).load(R.drawable.fill_star).into(holder.star4);
             Glide.with(holder.star5.getContext()).load(R.drawable.fill_star).into(holder.star5);
         }
-        if(!currentData.getImage().equals("")) {
-            Glide.with(holder.image.getContext()).load(currentData.getImage()).into(holder.image);
-        }
-        else if(currentData.getImage().equals(""))
-        {
-            Glide.with(holder.image.getContext()).load(R.drawable.profile_pic).into(holder.image);
-        }
+
     }
     @Override
     public int getItemCount() {
@@ -85,7 +79,7 @@ public class ReviewsRatingAdapter extends RecyclerView.Adapter<ReviewsRatingAdap
     }
     public class ReviewsRatingHolder extends RecyclerView.ViewHolder {
         TextView name,comment;
-        ImageView image,star1,star2,star3,star4,star5;
+        ImageView star1,star2,star3,star4,star5;
 
         public ReviewsRatingHolder(View itemView) {
             super(itemView);
@@ -96,7 +90,6 @@ public class ReviewsRatingAdapter extends RecyclerView.Adapter<ReviewsRatingAdap
             star3=itemView.findViewById(R.id.see_rating_star3);
             star4=itemView.findViewById(R.id.see_rating_star4);
             star5=itemView.findViewById(R.id.see_rating_star5);
-            image=itemView.findViewById(R.id.see_reviews_image);
         }
     }
 }

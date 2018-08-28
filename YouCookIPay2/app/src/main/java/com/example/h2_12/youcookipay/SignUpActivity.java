@@ -6,7 +6,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -41,12 +43,10 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        if(isConnected()){
-
-        }
-        else{
+        if(!isConnected()){
             Toast.makeText(this, "Not connected with the Internet", Toast.LENGTH_SHORT).show();
         }
+
 
         signup_header=findViewById(R.id.signup_header);
         gender_male=findViewById(R.id.gender_male);
@@ -111,30 +111,25 @@ public class SignUpActivity extends AppCompatActivity {
         signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int num=validate();
-                if(num==1)
-                    Toast.makeText(getBaseContext(), "Fill all the details!", Toast.LENGTH_LONG).show();
-                    // call AsynTask to perform network operation on separate thread
-                else if(num==2)
-                    Toast.makeText(getBaseContext(), "Fill all the details!", Toast.LENGTH_LONG).show();
-                else if (num==3)
-                    Toast.makeText(getBaseContext(), "Fill all the details!", Toast.LENGTH_LONG).show();
-                else if (num==4)
-                    Toast.makeText(getBaseContext(), "Fill all the details!", Toast.LENGTH_LONG).show();
-                else if (num==5)
-                    Toast.makeText(getBaseContext(), "Rewrite your password", Toast.LENGTH_LONG).show();
-                else if (num==6)
-                    Toast.makeText(getBaseContext(), "Fill all the details!", Toast.LENGTH_LONG).show();
-                else if (num==8)
-                    Toast.makeText(getBaseContext(), "Fill all the details!", Toast.LENGTH_LONG).show();
-                else if (num==9)
-                    Toast.makeText(getBaseContext(), "Fill all the details!", Toast.LENGTH_LONG).show();
-                else if(num==0)
-                    signUp();
+                if(name.getText().toString().trim().equals("")||email.getText().toString().trim().equals("")||
+                        password.getText().toString().equals("")|| phone.getText().toString().equals("")||gender.equals("")||type.equals("") )
+                    Toast.makeText(SignUpActivity.this, "Please Fill all the details", Toast.LENGTH_SHORT).show();
+                else if(!name.getText().toString().trim().matches("[a-zA-Z ]+"))
+                    Toast.makeText(SignUpActivity.this, "Please enter valid user name", Toast.LENGTH_SHORT).show();
+                else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.getText().toString().trim()).matches())
+                    Toast.makeText(SignUpActivity.this, "please enter valid email address", Toast.LENGTH_SHORT).show();
+                else if (password.getText().toString().trim().length() < 6)
+                    Toast.makeText(SignUpActivity.this, "password must contain atleast 6 character", Toast.LENGTH_SHORT).show();
+                else if (!password.getText().toString().trim().equals(confirm_password.getText().toString().trim()))
+                    Toast.makeText(SignUpActivity.this, "please confirm your password again", Toast.LENGTH_SHORT).show();
+                else if (!isValidMobile())
+                    Toast.makeText(SignUpActivity.this, "please enter valid phone number", Toast.LENGTH_SHORT).show();
+                else signUp();
             }
 
 
         });
+
         seller_option.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,6 +149,16 @@ public class SignUpActivity extends AppCompatActivity {
                 seller_type.setVisibility(View.GONE);
             }
         });
+    }
+    private boolean isValidMobile()
+    {
+        if(phone.getText().toString().trim().length() < 6 || phone.getText().toString().trim().length() > 13)
+        {
+            return false;
+
+        }
+
+        return true;
     }
 
     private void signUp() {
@@ -187,6 +192,9 @@ public class SignUpActivity extends AppCompatActivity {
                                 gender="";
                                 type="";
                                 sellerType="";
+                                checkBox_seller.setImageResource(R.drawable.ic_check_box);
+                                checkBox_consumer.setImageResource(R.drawable.ic_check_box);
+
                             }
 
                         } catch (Throwable t) {
@@ -249,26 +257,6 @@ public class SignUpActivity extends AppCompatActivity {
             return true;
         else
             return false;
-    }
-
-    private int validate(){
-        if(name.getText().toString().trim().equals(""))
-            return 1;
-        if(email.getText().toString().trim().equals(""))
-            return 2;
-        if(password.getText().toString().equals(""))
-            return 3;
-        if(confirm_password.getText().toString().equals(""))
-            return 4;
-        if(!password.getText().toString().equals(confirm_password.getText().toString()))
-            return 5;
-        if(phone.getText().toString().equals(""))
-            return 6;
-        if(gender.equals(""))
-            return 8;
-        if(type.equals(""))
-            return 9;
-        return  0;
     }
 
 

@@ -99,6 +99,12 @@ public class ProfileViewChefActivity extends AppCompatActivity
         toggle.syncState();
         arrayList=LoginInActivity.users;
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header=navigationView.getHeaderView(0);
+        /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
+        TextView user_name = (TextView)header.findViewById(R.id.nav_header_home_name);
+        TextView user_email = (TextView)header.findViewById(R.id.nav_header_home_email);
+        //  user_name.setText(personName);
+        user_email.setText(LoginInActivity.Email);
         // get menu from navigationView
         Menu menu = navigationView.getMenu();
 
@@ -193,7 +199,14 @@ public class ProfileViewChefActivity extends AppCompatActivity
                                     Glide.with(star4.getContext()).load(R.drawable.fill_star).into(star4);
                                     Glide.with(star5.getContext()).load(R.drawable.fill_star).into(star5);
                                 }
-                                Glide.with(image.getContext()).load(imageUrl).into(image);
+                                if(!imageUrl.equals("")) {
+                                    Glide.with(image.getContext()).load(imageUrl).into(image);
+                                }
+                                else if(imageUrl.equals(""))
+                                {
+                                    Glide.with(image.getContext()).load(R.drawable.profile_pic).into(image);
+                                }
+
                                 chef_profile.add(new Chef_Profile(id,name.getText().toString(),address.getText().toString(),type.getText().toString(),description.getText().toString(),rating.getText().toString(),imageUrl));
 
                                 } catch (JSONException e) {

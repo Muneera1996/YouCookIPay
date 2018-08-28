@@ -83,7 +83,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="bottom"
-                    tools:text="Elena Arzak"
+                    android:text="Update your Name"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
@@ -94,7 +94,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="0.7"
                     android:gravity="top"
-                    tools:text="San Jose, CA"
+                    android:text="update Address"
                     android:textAppearance="?android:textAppearanceSmall"
                     android:textColor="@android:color/black" />
 
@@ -104,7 +104,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="0.7"
                     android:gravity="top"
-                    tools:text="Home Made"
+                    android:text="Update seller type"
                     android:textAppearance="?android:textAppearanceSmall"
                     android:textColor="@android:color/black" />
                 <ImageView

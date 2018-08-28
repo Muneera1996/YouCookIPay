@@ -52,19 +52,24 @@
                             android:background="@drawable/dropdown_arrow" />
                     </RelativeLayout>
 
-                    <EditText
+                    <AutoCompleteTextView
+                        android:inputType="none"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:scrollHorizontally="true"
                         android:id="@+id/updateDeliveryAddress_street"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center"
                         android:layout_toRightOf="@id/street_icon"
-                        android:backgroundTint="@android:color/transparent"
                         android:gravity="start"
                         android:layout_marginLeft="5dp"
                         android:textColor="#3b6498"
                         android:textSize="12sp"
+                        android:completionThreshold="1"
                         android:textColorHint="#3b6498"
-                        android:hint="Street" />
+                        android:hint="Street"
+                        android:popupTheme="@drawable/overlay_bg"
+                        />
                 </RelativeLayout>
                 <RelativeLayout
                     android:layout_margin="2dp"
@@ -87,19 +92,24 @@
                             android:background="@drawable/dropdown_arrow" />
                     </RelativeLayout>
 
-                    <EditText
+                    <AutoCompleteTextView
                         android:id="@+id/updateDeliveryAddress_area"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center"
                         android:layout_toRightOf="@id/area_icon"
-                        android:backgroundTint="@android:color/transparent"
                         android:gravity="start"
                         android:layout_marginLeft="5dp"
                         android:textColor="#3b6498"
+                        android:inputType="none"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:scrollHorizontally="true"
                         android:textSize="12sp"
+                        android:completionThreshold="1"
                         android:textColorHint="#3b6498"
-                        android:hint="Area" />
+                        android:hint="Area"
+                        android:popupTheme="@drawable/overlay_bg"
+                        />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -123,19 +133,23 @@
                         android:background="@drawable/dropdown_arrow" />
                 </RelativeLayout>
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/updateDeliveryAddress_city"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
                     android:layout_toRightOf="@id/city_icon"
-                    android:backgroundTint="@android:color/transparent"
                     android:gravity="start"
                     android:layout_marginLeft="5dp"
                     android:textColor="#3b6498"
-                    android:textColorHint="#3b6498"
                     android:textSize="12sp"
-                    android:hint="City" />
+                    android:completionThreshold="1"
+                    android:textColorHint="#3b6498"
+                    android:hint="City"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:scrollHorizontally="true"
+                    android:popupTheme="@drawable/overlay_bg"
+                    />
             </RelativeLayout>
 
             <RelativeLayout
@@ -158,27 +172,39 @@
                         android:background="@drawable/postal_code" />
                 </RelativeLayout>
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/updatedeliveryAddress_postalCode"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
                     android:layout_toRightOf="@id/postal_icon"
-                    android:backgroundTint="@android:color/transparent"
                     android:gravity="start"
                     android:layout_marginLeft="5dp"
                     android:textColor="#3b6498"
-                    android:textColorHint="#3b6498"
                     android:textSize="12sp"
-                    android:hint="Postal Code" />
+                    android:completionThreshold="1"
+                    android:textColorHint="#3b6498"
+                    android:hint="Postal Code"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:scrollHorizontally="true"
+                    android:popupTheme="@drawable/overlay_bg"
+                    />
             </RelativeLayout>
-            <ImageView
+            <RelativeLayout
                 android:id="@+id/updateDeliveryAddress_update"
                 android:layout_margin="10dp"
                 android:layout_width="100dp"
-                android:layout_height="50dp"
+                android:layout_height="35dp"
                 android:layout_gravity="center"
-                android:src="@drawable/update"/>
+                android:background="@drawable/update">
+                <ProgressBar
+                    android:visibility="invisible"
+                    android:id="@+id/progressBar2"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
 
             <ImageView
                 android:layout_marginHorizontal="10dp"
