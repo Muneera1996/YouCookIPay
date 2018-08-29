@@ -57,7 +57,7 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
     ImageView taste_star1,taste_star2,taste_star3,taste_star4,taste_star5;
     ImageView star1,star2,star3,star4,star5;
     EditText comment_box;
-    String quality,taste;
+    String quality="0",taste="0";
     TextView name,address,type,rating;
     ArrayList<Chef_Profile> arrayList;
     ArrayList<User> arrayList1;
@@ -71,6 +71,22 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
         setContentView(R.layout.activity_reviews_and_rating);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header=navigationView.getHeaderView(0);
+        /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
+        TextView user_name = (TextView) header.findViewById(R.id.nav_header_home_name);
+        TextView user_email = (TextView) header.findViewById(R.id.nav_header_home_email);
+        user_name.setText(LoginInActivity.users.get(0).getName());
+        user_email.setText(LoginInActivity.users.get(0).getEmail());
+        // get menu from navigationView
+        Menu menu = navigationView.getMenu();
 
         arrayList=OrderScreeen2Activity.profile;
         arrayList1=LoginInActivity.users;
@@ -89,6 +105,17 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
         star3=findViewById(R.id.star_three);
         star4=findViewById(R.id.star_four);
         star5=findViewById(R.id.star_five);
+        quality_star1=findViewById(R.id.star_one1);
+        quality_star2=findViewById(R.id.star_two1);
+        quality_star3=findViewById(R.id.star_three1);
+        quality_star4=findViewById(R.id.star_four1);
+        quality_star5=findViewById(R.id.star_five1);
+
+        taste_star1=findViewById(R.id.star_one2);
+        taste_star2=findViewById(R.id.star_two2);
+        taste_star3=findViewById(R.id.star_three2);
+        taste_star4=findViewById(R.id.star_four2);
+        taste_star5=findViewById(R.id.star_five2);
 
         name.setText(arrayList.get(0).getName());
         address.setText(arrayList.get(0).getAddress());
@@ -133,33 +160,6 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
             Glide.with(star4.getContext()).load(R.drawable.fill_star).into(star4);
             Glide.with(star5.getContext()).load(R.drawable.fill_star).into(star5);
         }
-        quality_star1=findViewById(R.id.star_one1);
-        quality_star2=findViewById(R.id.star_two1);
-        quality_star3=findViewById(R.id.star_three1);
-        quality_star4=findViewById(R.id.star_four1);
-        quality_star5=findViewById(R.id.star_five1);
-
-        taste_star1=findViewById(R.id.star_one2);
-        taste_star2=findViewById(R.id.star_two2);
-        taste_star3=findViewById(R.id.star_three2);
-        taste_star4=findViewById(R.id.star_four2);
-        taste_star5=findViewById(R.id.star_five2);
-
-        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        View header=navigationView.getHeaderView(0);
-        /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
-        TextView user_name = (TextView)header.findViewById(R.id.nav_header_home_name);
-        TextView user_email = (TextView)header.findViewById(R.id.nav_header_home_email);
-        //  user_name.setText(personName);
-        user_email.setText(LoginInActivity.Email);
-        // get menu from navigationView
-        Menu menu = navigationView.getMenu();
 
         // find MenuItem you want to change
         if(LoginInActivity.users.get(0).getType().equalsIgnoreCase("buyer")) {
@@ -204,116 +204,15 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mProgressBar.setVisibility(View.VISIBLE);
+                if (isConnected()) {
 
-                final String url = "http://www.businessmarkaz.com/test/ucookipayws/user/review_seller";
-                StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                // response
-                                Log.d("Response", response);
-                                // JSONObject parser = new JSONObject();
-                                try {
-                                    JSONObject obj = new JSONObject(response);
-                                    mProgressBar.setVisibility(View.GONE);
-                                    String message=obj.getString("message");
-                                    Toast.makeText(ReviewsAndRatingActivity.this, message, Toast.LENGTH_SHORT).show();
-                                    if (message.equalsIgnoreCase("review posted successfully")) {
-                                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                                        startActivity(intent);
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // error
-                                Log.d("Error.Response", error.toString());
-                                mProgressBar.setVisibility(View.GONE);
-                                Toast.makeText(getApplicationContext(),error.toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                ) {
-                    @Override
-                    protected Map<String, String> getParams() {
-                        Map<String, String> params = new HashMap<String, String>();
-                        params.put("user_id",arrayList1.get(0).getUser_id());
-                        params.put("session_id",arrayList1.get(0).getSession_id());
-                        params.put("seller_id",arrayList.get(0).getId());
-                        Log.i("seller_id",arrayList.get(0).getId());
-                        params.put("quality",quality);
-                        params.put("taste",taste);
-                        params.put("text",comment_box.getText().toString());
-                        return params;
-                    }
-
-                    @Override
-                    protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                        //TODO if you want to use the status code for any other purpose like to handle 401, 403, 404
-                        String statusCode = String.valueOf(response.statusCode);
-                        //Handling logic
-                        return super.parseNetworkResponse(response);
-                    }
-
-                };
-                VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(postRequest);
-                postRequest.setRetryPolicy(new RetryPolicy() {
-                    @Override
-                    public int getCurrentTimeout() {
-                        return 20000;
-                    }
-
-                    @Override
-                    public int getCurrentRetryCount() {
-                        return 20000;
-                    }
-
-                    @Override
-                    public void retry(VolleyError error) throws VolleyError {
-
-                    }
-                });
-
-
-
-
+                    submitReview();
+                } else {
+                    Toast.makeText(ReviewsAndRatingActivity.this, "Please Check your Internet Connection", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
-        /*submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String url = "http://www.businessmarkaz.com/test/ucookipayws/user/review_seller?user_id="+arrayList1.get(0).getUser_id()+"&session_id="+arrayList1.get(0).getSession_id()+"&seller_id="+ProfileViewChefActivity.iid+"&quality="+quality+"&taste="+taste+"&text="+comment_box.getText().toString();
-                JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-
-                                try {
-                                    JSONObject obj = new JSONObject(response.toString());
-                                    String message=obj.getString("message");
-                                    Toast.makeText(ReviewsAndRatingActivity.this, message, Toast.LENGTH_SHORT).show();
-
-
-                                } catch (Throwable t) {
-                                    Log.e("Reviews and Rating", "Could not parse malformed JSON: \"" + response + "\"");
-                                }
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d("Error.Response", error.toString());
-
-                            }
-                        });
-
-                queue.add(getRequest);
-            }
-        });*/
 
         quality_star1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -443,6 +342,79 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
+    }
+    private void submitReview(){
+        final String url = "http://www.businessmarkaz.com/test/ucookipayws/user/review_seller";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        Log.d("Response", response);
+                        // JSONObject parser = new JSONObject();
+                        try {
+                            JSONObject obj = new JSONObject(response);
+                            mProgressBar.setVisibility(View.GONE);
+                            String message=obj.getString("message");
+                            Toast.makeText(ReviewsAndRatingActivity.this, message, Toast.LENGTH_SHORT).show();
+                            if (message.equalsIgnoreCase("review posted successfully")) {
+                                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                startActivity(intent);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Log.d("Error.Response", error.toString());
+                        mProgressBar.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(),error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("user_id",arrayList1.get(0).getUser_id());
+                params.put("session_id",arrayList1.get(0).getSession_id());
+                params.put("seller_id",arrayList.get(0).getId());
+                Log.i("seller_id",arrayList.get(0).getId());
+                params.put("quality",quality);
+                params.put("taste",taste);
+                params.put("text",comment_box.getText().toString());
+                return params;
+            }
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                //TODO if you want to use the status code for any other purpose like to handle 401, 403, 404
+                String statusCode = String.valueOf(response.statusCode);
+                //Handling logic
+                return super.parseNetworkResponse(response);
+            }
+
+        };
+        VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(postRequest);
+        postRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 20000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 20000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

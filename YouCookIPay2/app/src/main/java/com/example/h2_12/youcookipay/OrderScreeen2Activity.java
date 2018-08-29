@@ -192,10 +192,10 @@ public class OrderScreeen2Activity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View header=navigationView.getHeaderView(0);
         /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
-        TextView user_name = (TextView)header.findViewById(R.id.nav_header_home_name);
-        TextView user_email = (TextView)header.findViewById(R.id.nav_header_home_email);
-        //  user_name.setText(personName);
-        user_email.setText(LoginInActivity.Email);
+        TextView user_name = (TextView) header.findViewById(R.id.nav_header_home_name);
+        TextView user_email = (TextView) header.findViewById(R.id.nav_header_home_email);
+        user_name.setText(LoginInActivity.users.get(0).getName());
+        user_email.setText(LoginInActivity.users.get(0).getEmail());
         // get menu from navigationView
         Menu menu = navigationView.getMenu();
 
@@ -400,12 +400,19 @@ public class OrderScreeen2Activity extends AppCompatActivity
                                 number.getText().toString().trim().equals("") || date.getText().toString().trim().equals("") ||
                                 time.getText().toString().trim().equals("") || delivery_method.equals(""))
                             Toast.makeText(getApplicationContext(), "Fill all the details!", Toast.LENGTH_LONG).show();
+                        else if(!name.getText().toString().trim().matches("[a-zA-Z ]+"))
+                            Toast.makeText(OrderScreeen2Activity.this, "Please enter valid user name", Toast.LENGTH_SHORT).show();
+                        else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.getText().toString().trim()).matches())
+                            Toast.makeText(OrderScreeen2Activity.this, "please enter valid email address", Toast.LENGTH_SHORT).show();
+                        else if (!isValidMobile())
+                            Toast.makeText(OrderScreeen2Activity.this, "please enter valid phone number", Toast.LENGTH_SHORT).show();
                         else {
                             mProgressBar.setVisibility(View.VISIBLE);
                             orderScreens.add(new OrderScreen(name.getText().toString(), email.getText().toString(), number.getText().toString(), date.getText().toString(), time.getText().toString(), delivery_method, id, nam, price, img));
                             Intent intent = new Intent(getApplicationContext(), OrderScreen1Activity.class);
                             startActivity(intent);
                             mProgressBar.setVisibility(View.GONE);
+
 
                         }
                     } else if (delivery_method.equalsIgnoreCase("home_delivery")) {
@@ -414,6 +421,12 @@ public class OrderScreeen2Activity extends AppCompatActivity
                                 time.getText().toString().trim().equals("") || street_txt.getText().toString().trim().equals("") ||
                                 area_txt.getText().toString().trim().equals("") || city_txt.getText().toString().trim().equals("") || delivery_method.equals(""))
                             Toast.makeText(getApplicationContext(), "Fill all the details!", Toast.LENGTH_LONG).show();
+                        else if(!name.getText().toString().trim().matches("[a-zA-Z ]+"))
+                            Toast.makeText(OrderScreeen2Activity.this, "Please enter valid user name", Toast.LENGTH_SHORT).show();
+                        else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.getText().toString().trim()).matches())
+                            Toast.makeText(OrderScreeen2Activity.this, "please enter valid email address", Toast.LENGTH_SHORT).show();
+                        else if (!isValidMobile())
+                            Toast.makeText(OrderScreeen2Activity.this, "please enter valid phone number", Toast.LENGTH_SHORT).show();
                         else {
                             mProgressBar.setVisibility(View.VISIBLE);
                             orderScreens.add(new OrderScreen(name.getText().toString(), email.getText().toString(), number.getText().toString(), date.getText().toString(), time.getText().toString(), delivery_method, id, nam, price, img, street_txt.getText().toString(), area_txt.getText().toString(), city_txt.getText().toString()));
@@ -481,7 +494,15 @@ public class OrderScreeen2Activity extends AppCompatActivity
             super.onBackPressed();
         }
     }
+    private boolean isValidMobile()
+    {
+        if(number.getText().toString().trim().length() < 6 || number.getText().toString().trim().length() > 13)
+        {
+            return false;
 
+        }
+        return true;
+    }
     @Override
     protected void onRestart() {
         super.onRestart();

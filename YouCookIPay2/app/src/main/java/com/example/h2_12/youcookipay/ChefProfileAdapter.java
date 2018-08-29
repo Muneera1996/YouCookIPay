@@ -62,6 +62,9 @@ public class ChefProfileAdapter extends RecyclerView.Adapter<ChefProfileAdapter.
                         holder.dishPic.setBackgroundDrawable(dr);
                     }
                 });
+        if(LoginInActivity.users.get(0).getType().equals("buyer")) {
+            holder.placeOrder.setVisibility(View.VISIBLE);
+        }
 
 
         holder.placeOrder.setOnClickListener(new View.OnClickListener() {

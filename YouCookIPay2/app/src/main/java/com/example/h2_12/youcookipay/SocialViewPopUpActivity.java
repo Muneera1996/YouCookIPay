@@ -27,6 +27,7 @@ public class SocialViewPopUpActivity extends AppCompatActivity {
     ImageView checkBox_seller,checkBox_consumer,checkbox_homemade,checkbox_restaurant;
     String sellerType="";
     String type = "";
+    public static ArrayList<User> users;
     ProgressBar mProgressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,20 +109,22 @@ public class SocialViewPopUpActivity extends AppCompatActivity {
                                     JSONObject obj = new JSONObject(response);
                                     String message = obj.getString("message");
                                     boolean status = obj.getBoolean("status");
-                                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                                     if (status) {
                                         JSONObject data = obj.getJSONObject("data");
                                         String user_id = data.getString("user_id");
                                         String session_id = data.getString("session_id");
                                         String type = data.getString("type");
-                                        LoginInActivity.users=new ArrayList<>();
-                                        LoginInActivity.users.add(new User(user_id, session_id, type));
-                                        if (message.equalsIgnoreCase("login success")) {
-                                            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                                            startActivity(intent);
-                                        }
+                                        String name = data.getString("name");
+                                        String email = data.getString("email");
+                                        users = new ArrayList<>();
+                                        users.add(new User(user_id,session_id,type,name,email));
+                                        LoginInActivity.users=users;
+                                        Toast.makeText(SocialViewPopUpActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                        startActivity(intent); }
+                                    else {
+                                        Toast.makeText(SocialViewPopUpActivity.this, message, Toast.LENGTH_SHORT).show();
                                     }
-
                                 } catch (Throwable t) {
                                     Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
                                 }
@@ -133,7 +136,6 @@ public class SocialViewPopUpActivity extends AppCompatActivity {
                                 // error
                                 Log.d("Error.Response", error.toString());
                                 mProgressBar.setVisibility(View.GONE);
-
                             }
                         }
                 ) {

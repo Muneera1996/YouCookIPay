@@ -109,10 +109,10 @@ public class ProfileActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View header=navigationView.getHeaderView(0);
         /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
-        TextView user_name = (TextView)header.findViewById(R.id.nav_header_home_name);
-        TextView user_email = (TextView)header.findViewById(R.id.nav_header_home_email);
-        //  user_name.setText(personName);
-        user_email.setText(LoginInActivity.Email);
+        TextView user_name = (TextView) header.findViewById(R.id.nav_header_home_name);
+        TextView user_email = (TextView) header.findViewById(R.id.nav_header_home_email);
+        user_name.setText(LoginInActivity.users.get(0).getName());
+        user_email.setText(LoginInActivity.users.get(0).getEmail());
         // get menu from navigationView
         Menu menu = navigationView.getMenu();
 
@@ -291,7 +291,11 @@ public class ProfileActivity extends AppCompatActivity
                             JSONObject user=obj.getJSONObject("data");
                             String id=user.getString("user_id");
                             name.setText(user.getString("user_name"));
-                            place.setText(user.getString("user_adress"));
+                            String places = user.getString("user_adress");
+                            if(places != null && !places.trim().isEmpty())
+                                place.setText(places);
+                            else
+                                place.setText("No Address");
                             type.setText(user.getString("seller_type"));
                             profile_description.setText(user.getString("user_description"));
                             rating.setText(user.getString("rating"));

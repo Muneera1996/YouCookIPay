@@ -277,32 +277,6 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="0.8"
-                        android:layout_height="wrap_content"
-                        android:textSize="17sp"
-                        android:textStyle="bold"
-                        android:textColor="#3b6498"
-                        android:text="Meal Type"/>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:textSize="17sp"
-                        android:textStyle="bold"
-                        android:textColor="#3b6498"
-                        android:text="Perchasing"/>
-
-                </LinearLayout>
-                <LinearLayout
                     android:layout_marginHorizontal="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -479,7 +453,7 @@
                         android:text="Process Your Order"/>
                     <ProgressBar
                         android:id="@+id/progressBar2"
-                        style="?android:attr/progressBarStyle"
+                        android:indeterminateDrawable="@drawable/progress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true" />

@@ -29,7 +29,6 @@ public class PaymentMethodPopUpActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent=new Intent(getApplicationContext(),ReviewsAndRatingActivity.class);
                 startActivity(intent);
             }

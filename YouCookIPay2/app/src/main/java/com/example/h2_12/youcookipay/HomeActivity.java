@@ -52,12 +52,12 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-     View home_menu;
-     ImageView filter;
-     RecyclerView recyclerView;
-     private ArrayList<Datum> homeList;
-     static ArrayList<User> arrayList;
-     EditText search;
+    View home_menu;
+    ImageView filter;
+    RecyclerView recyclerView;
+    private ArrayList<Datum> homeList;
+    static ArrayList<User> arrayList;
+    EditText search;
     LinearLayout layout;
     ProgressBar mProgressBar;
 
@@ -67,14 +67,14 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        home_menu=findViewById(R.id.home_menu);
-        filter=findViewById(R.id.filter);
-        homeList=new ArrayList<>();
-        recyclerView=findViewById(R.id.recyclerview_home);
-        search=findViewById(R.id.search_bar);
+        home_menu = findViewById(R.id.home_menu);
+        filter = findViewById(R.id.filter);
+        homeList = new ArrayList<>();
+        recyclerView = findViewById(R.id.recyclerview_home);
+        search = findViewById(R.id.search_bar);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        arrayList=LoginInActivity.users;
-        homeList=new ArrayList<>();
+        arrayList = LoginInActivity.users;
+        homeList = new ArrayList<>();
         layout = (LinearLayout) findViewById(R.id.progressbar_view);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mProgressBar.setVisibility(View.VISIBLE);
@@ -84,17 +84,16 @@ public class HomeActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        View header=navigationView.getHeaderView(0);
+        View header = navigationView.getHeaderView(0);
         /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
-        TextView user_name = (TextView)header.findViewById(R.id.nav_header_home_name);
-        TextView user_email = (TextView)header.findViewById(R.id.nav_header_home_email);
-      //  user_name.setText(personName);
-        user_email.setText(LoginInActivity.Email);
+        TextView user_name = (TextView) header.findViewById(R.id.nav_header_home_name);
+        TextView user_email = (TextView) header.findViewById(R.id.nav_header_home_email);
+        user_name.setText(LoginInActivity.users.get(0).getName());
+        user_email.setText(LoginInActivity.users.get(0).getEmail());
         // get menu from navigationView
         Menu menu = navigationView.getMenu();
-
         // find MenuItem you want to change
-        if(LoginInActivity.users.get(0).getType().equalsIgnoreCase("buyer")) {
+        if (LoginInActivity.users.get(0).getType().equalsIgnoreCase("buyer")) {
             MenuItem homeItem = menu.findItem(R.id.nav_home);
             MenuItem deliveryItem = menu.findItem(R.id.nav_delivery_address);
             MenuItem useAppItem = menu.findItem(R.id.nav_how_use_app);
@@ -107,8 +106,7 @@ public class HomeActivity extends AppCompatActivity
             deliveryItem.setVisible(true);
             useAppItem.setVisible(true);
             aboutUsItem.setVisible(true);
-        }
-        else if (LoginInActivity.users.get(0).getType().equalsIgnoreCase("seller")) {
+        } else if (LoginInActivity.users.get(0).getType().equalsIgnoreCase("seller")) {
             MenuItem homeItem = menu.findItem(R.id.nav_home);
             MenuItem profileItem = menu.findItem(R.id.nav_Profile);
             MenuItem useAppItem = menu.findItem(R.id.nav_how_use_app);
@@ -130,101 +128,15 @@ public class HomeActivity extends AppCompatActivity
 
         if (!isConnected()) {
             Toast.makeText(getApplicationContext(), "There is no Internet Connection", Toast.LENGTH_SHORT).show();
-        }
-        else if (activity!=null&&activity.equalsIgnoreCase("filter"))
-        {
+        } else if (activity != null && activity.equalsIgnoreCase("filter")) {
             mProgressBar.setVisibility(View.INVISIBLE);
             layout.setVisibility(View.GONE);
-            homeList=new ArrayList<>();
-            homeList=FilterViewPopUp.homeList;
-            recyclerView.setAdapter(new HomeAdapter(getApplicationContext(),homeList));
+            homeList = new ArrayList<>();
+            homeList = FilterViewPopUp.homeList;
+            recyclerView.setAdapter(new HomeAdapter(getApplicationContext(), homeList));
+        } else {
+            HomeData();
         }
-        else {
-            final String url = "http://www.businessmarkaz.com/test/ucookipayws/meal_ads/home?user_id=" + arrayList.get(0).getUser_id() + "&session_id=" + arrayList.get(0).getSession_id();
-            final JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            // display response
-                            Log.d("Response", response.toString());
-                            mProgressBar.setVisibility(View.INVISIBLE);
-                            layout.setVisibility(View.GONE);
-                            GsonBuilder gsonBuilder = new GsonBuilder();
-                            Gson gson = gsonBuilder.create();
-                            Home home  = gson.fromJson(response.toString(),Home.class);
-                            boolean success = home.getStatus();
-
-                            try {
-                                if (success) {
-                                    JSONObject obj = new JSONObject(response.toString());
-                                    JSONArray jsonArray=obj.getJSONArray("data");
-                                    for(int i=0;i<jsonArray.length();i++){
-                                        JSONObject user=jsonArray.getJSONObject(i);
-                                        String user_id=user.getString("user_id");
-                                        String user_name=user.getString("user_name");
-                                        String user_description=user.getString("user_description");
-                                        String user_address=user.getString("user_address");
-                                        String user_image=user.getString("user_image");
-                                        String rating=user.getString("rating");
-                                        String seller_type=user.getString("seller_type");
-                                        String meal_id=user.getString("meal_id");
-                                        String meal_name=user.getString("meal_name");
-                                        String place_name=user.getString("place_name");
-                                        String meal_description=user.getString("meal_description");
-                                        String classification=user.getString("classification");
-                                        String category=user.getString("category");
-                                        String type=user.getString("type");
-                                        String portion_price=user.getString("portion_price");
-                                       ArrayList<String> mylist = new ArrayList<String>();
-                                       int images=user.getJSONArray("meal_images").length();
-                                        for(int ii=0;ii<images;ii++) {
-                                            String  meal_images = user.getJSONArray("meal_images").getString(ii);
-                                            if(meal_images != null && !meal_images.isEmpty())
-                                            {
-                                                mylist.add(meal_images); //this adds an element to the list.
-                                                Log.i("onResponseImage", meal_images);
-                                            }
-                                            else
-                                            {
-                                                break;
-                                            }
-                                        }
-                                        homeList.add(new Datum(user_id,user_name,user_description,user_address,user_image,rating,seller_type,meal_id,meal_name,place_name,meal_description,classification,category,type,portion_price,mylist));
-
-                                    }
-                                    recyclerView.setAdapter(new HomeAdapter(getApplicationContext(),homeList));
-                                    }
-                                    } catch (Throwable t) {
-                                Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            mProgressBar.setVisibility(View.INVISIBLE);
-                            layout.setVisibility(View.GONE);
-                            Log.d("Error.Response", error.toString());
-                        }});
-            VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(getRequest);
-            getRequest.setRetryPolicy(new RetryPolicy() {
-                @Override
-                public int getCurrentTimeout() {
-                    return 30000;
-                }
-
-                @Override
-                public int getCurrentRetryCount() {
-                    return 30000;
-                }
-
-                @Override
-                public void retry(VolleyError error) throws VolleyError {
-
-                }
-            });
-        }
-
         home_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -234,20 +146,17 @@ public class HomeActivity extends AppCompatActivity
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),FilterViewPopUp.class);
+                Intent intent = new Intent(getApplicationContext(), FilterViewPopUp.class);
                 startActivity(intent);
             }
         });
         search.addTextChangedListener(new TextWatcher() {
-
             public void afterTextChanged(Editable s) {
-                final ArrayList<Datum> homeSearchData=new ArrayList<>();
-                String searchData=search.getText().toString();
+                final ArrayList<Datum> homeSearchData = new ArrayList<>();
+                String searchData = search.getText().toString();
                 if (!isConnected()) {
                     Toast.makeText(getApplicationContext(), "There is no Internet Connection", Toast.LENGTH_SHORT).show();
-
-                }
-                else {
+                } else {
                     final String url = "http://www.businessmarkaz.com/test/ucookipayws/meal_ads/home?user_id=" + arrayList.get(0).getUser_id() + "&session_id=" + arrayList.get(0).getSession_id() + "&search_term=" + searchData;
                     final JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                             new Response.Listener<JSONObject>() {
@@ -257,48 +166,45 @@ public class HomeActivity extends AppCompatActivity
                                     Log.d("Response", response.toString());
                                     GsonBuilder gsonBuilder = new GsonBuilder();
                                     Gson gson = gsonBuilder.create();
-                                    Home home  = gson.fromJson(response.toString(),Home.class);
+                                    Home home = gson.fromJson(response.toString(), Home.class);
                                     boolean success = home.getStatus();
                                     String message = home.getMessage();
                                     try {
                                         if (success) {
                                             JSONObject obj = new JSONObject(response.toString());
-                                            JSONArray jsonArray=obj.getJSONArray("data");
-                                            for(int i=0;i<jsonArray.length();i++){
-                                                JSONObject user=jsonArray.getJSONObject(i);
-                                                String user_id=user.getString("user_id");
-                                                String user_name=user.getString("user_name");
-                                                String user_description=user.getString("user_description");
-                                                String user_address=user.getString("user_address");
-                                                String user_image=user.getString("user_image");
-                                                String rating=user.getString("rating");
-                                                String seller_type=user.getString("seller_type");
-                                                String meal_id=user.getString("meal_id");
-                                                String meal_name=user.getString("meal_name");
-                                                String place_name=user.getString("place_name");
-                                                String meal_description=user.getString("meal_description");
-                                                String classification=user.getString("classification");
-                                                String category=user.getString("category");
-                                                String type=user.getString("type");
-                                                String portion_price=user.getString("portion_price");
-                                              // String  meal_images = user.getJSONArray("meal_images").getString(0);
+                                            JSONArray jsonArray = obj.getJSONArray("data");
+                                            for (int i = 0; i < jsonArray.length(); i++) {
+                                                JSONObject user = jsonArray.getJSONObject(i);
+                                                String user_id = user.getString("user_id");
+                                                String user_name = user.getString("user_name");
+                                                String user_description = user.getString("user_description");
+                                                String user_address = user.getString("user_address");
+                                                String user_image = user.getString("user_image");
+                                                String rating = user.getString("rating");
+                                                String seller_type = user.getString("seller_type");
+                                                String meal_id = user.getString("meal_id");
+                                                String meal_name = user.getString("meal_name");
+                                                String place_name = user.getString("place_name");
+                                                String meal_description = user.getString("meal_description");
+                                                String classification = user.getString("classification");
+                                                String category = user.getString("category");
+                                                String type = user.getString("type");
+                                                String portion_price = user.getString("portion_price");
+                                                // String  meal_images = user.getJSONArray("meal_images").getString(0);
                                                 ArrayList<String> mylist = new ArrayList<String>();
-                                                int images=user.getJSONArray("meal_images").length();
-                                                for(int ii=0;ii<images;ii++) {
-                                                    String  meal_images = user.getJSONArray("meal_images").getString(ii);
-                                                    if(meal_images != null && !meal_images.isEmpty())
-                                                    {
+                                                int images = user.getJSONArray("meal_images").length();
+                                                for (int ii = 0; ii < images; ii++) {
+                                                    String meal_images = user.getJSONArray("meal_images").getString(ii);
+                                                    if (meal_images != null && !meal_images.isEmpty()) {
                                                         mylist.add(meal_images); //this adds an element to the list.
                                                         Log.i("onResponseImage", meal_images);
-                                                    }
-                                                    else
-                                                    {
+                                                    } else {
                                                         break;
                                                     }
                                                 }
-                                                homeSearchData.add(new Datum(user_id,user_name,user_description,user_address,user_image,rating,seller_type,meal_id,meal_name,place_name,meal_description,classification,category,type,portion_price,mylist));
+                                                homeSearchData.add(new Datum(user_id, user_name, user_description, user_address, user_image, rating, seller_type, meal_id, meal_name, place_name, meal_description, classification, category, type, portion_price, mylist));
                                             }
-                                            recyclerView.setAdapter(new HomeAdapter(getApplicationContext(),homeSearchData));
+                                            recyclerView.setAdapter(new HomeAdapter(getApplicationContext(), homeSearchData));
                                         }
                                     } catch (Throwable t) {
                                         Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
@@ -333,9 +239,93 @@ public class HomeActivity extends AppCompatActivity
                 }
             }
 
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
+    }
+
+    private void HomeData() {
+        final String url = "http://www.businessmarkaz.com/test/ucookipayws/meal_ads/home?user_id=" + arrayList.get(0).getUser_id() + "&session_id=" + arrayList.get(0).getSession_id();
+        final JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // display response
+                        Log.d("Response", response.toString());
+                        mProgressBar.setVisibility(View.INVISIBLE);
+                        layout.setVisibility(View.GONE);
+                        GsonBuilder gsonBuilder = new GsonBuilder();
+                        Gson gson = gsonBuilder.create();
+                        Home home = gson.fromJson(response.toString(), Home.class);
+                        boolean success = home.getStatus();
+                        try {
+                            if (success) {
+                                JSONObject obj = new JSONObject(response.toString());
+                                JSONArray jsonArray = obj.getJSONArray("data");
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject user = jsonArray.getJSONObject(i);
+                                    String user_id = user.getString("user_id");
+                                    String user_name = user.getString("user_name");
+                                    String user_description = user.getString("user_description");
+                                    String user_address = user.getString("user_address");
+                                    String user_image = user.getString("user_image");
+                                    String rating = user.getString("rating");
+                                    String seller_type = user.getString("seller_type");
+                                    String meal_id = user.getString("meal_id");
+                                    String meal_name = user.getString("meal_name");
+                                    String place_name = user.getString("place_name");
+                                    String meal_description = user.getString("meal_description");
+                                    String classification = user.getString("classification");
+                                    String category = user.getString("category");
+                                    String type = user.getString("type");
+                                    String portion_price = user.getString("portion_price");
+                                    ArrayList<String> mylist = new ArrayList<String>();
+                                    int images = user.getJSONArray("meal_images").length();
+                                    for (int ii = 0; ii < images; ii++) {
+                                        String meal_images = user.getJSONArray("meal_images").getString(ii);
+                                        if (meal_images != null && !meal_images.isEmpty()) {
+                                            mylist.add(meal_images); //this adds an element to the list.
+                                            Log.i("onResponseImage", meal_images);
+                                        } else {
+                                            break;
+                                        }
+                                    }
+                                    homeList.add(new Datum(user_id, user_name, user_description, user_address, user_image, rating, seller_type, meal_id, meal_name, place_name, meal_description, classification, category, type, portion_price, mylist));
+
+                                }
+                                recyclerView.setAdapter(new HomeAdapter(getApplicationContext(), homeList));
+                            }
+                        } catch (Throwable t) {
+                            Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        mProgressBar.setVisibility(View.INVISIBLE);
+                        layout.setVisibility(View.GONE);
+                        Log.d("Error.Response", error.toString());
+                    }
+                });
+        VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(getRequest);
+        getRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 30000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 30000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
 
             }
         });
@@ -348,6 +338,7 @@ public class HomeActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         }
     }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -355,40 +346,38 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            Intent intent=new Intent(getApplicationContext(),HomeActivity.class);
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_Profile) {
-            Intent intent=new Intent(getApplicationContext(),ProfileActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_order_history) {
-            Intent intent=new Intent(getApplicationContext(),OrderHistory1Activity.class);
+            Intent intent = new Intent(getApplicationContext(), OrderHistory1Activity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_delivery_address) {
-            Intent intent=new Intent(getApplicationContext(),UpdateDeliveryAddressActivity.class);
+            Intent intent = new Intent(getApplicationContext(), UpdateDeliveryAddressActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_about_us) {
-            Intent intent=new Intent(getApplicationContext(),AboutUsActivity.class);
+            Intent intent = new Intent(getApplicationContext(), AboutUsActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_how_use_app) {
-            Intent intent=new Intent(getApplicationContext(),HowToUseAppActivity.class);
+            Intent intent = new Intent(getApplicationContext(), HowToUseAppActivity.class);
             startActivity(intent);
 
-        }
-        else if (id == R.id.nav_new_orders) {
+        } else if (id == R.id.nav_new_orders) {
             Intent intent = new Intent(getApplicationContext(), NewOrdersActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_reviews) {
-            Intent intent=new Intent(getApplicationContext(),SeeReviewAndRatingActivity.class);
+            Intent intent = new Intent(getApplicationContext(), SeeReviewAndRatingActivity.class);
             startActivity(intent);
+        } else if (id == R.id.nav_logout) {
+            LogoutApi();
         }
-        else if (id == R.id.nav_logout) {
-             LogoutApi();
-          }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -403,8 +392,9 @@ public class HomeActivity extends AppCompatActivity
         else
             return false;
     }
-    public void LogoutApi(){
-        final String url = "http://www.businessmarkaz.com/test/ucookipayws/user/logout?user_id="+LoginInActivity.users.get(0).getUser_id()+"&session_id="+LoginInActivity.users.get(0).getSession_id();
+
+    public void LogoutApi() {
+        final String url = "http://www.businessmarkaz.com/test/ucookipayws/user/logout?user_id=" + LoginInActivity.users.get(0).getUser_id() + "&session_id=" + LoginInActivity.users.get(0).getSession_id();
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -413,10 +403,10 @@ public class HomeActivity extends AppCompatActivity
                         Log.d("Response", response.toString());
                         try {
                             JSONObject obj = new JSONObject(response.toString());
-                            String message=obj.getString("message");
-                            Boolean status=obj.getBoolean("status");
+                            String message = obj.getString("message");
+                            Boolean status = obj.getBoolean("status");
                             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                            if (status){
+                            if (status) {
                                 Intent intent = new Intent(getApplicationContext(), SplashScreen.class);
                                 startActivity(intent);
                             }

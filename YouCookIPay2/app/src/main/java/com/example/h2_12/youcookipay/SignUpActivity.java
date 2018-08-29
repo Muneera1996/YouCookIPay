@@ -126,9 +126,7 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(SignUpActivity.this, "please enter valid phone number", Toast.LENGTH_SHORT).show();
                 else signUp();
             }
-
-
-        });
+            });
 
         seller_option.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,13 +150,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
     private boolean isValidMobile()
     {
-        if(phone.getText().toString().trim().length() < 6 || phone.getText().toString().trim().length() > 13)
-        {
-            return false;
-
-        }
-
-        return true;
+        return phone.getText().toString().trim().length() >= 6 && phone.getText().toString().trim().length() <= 13;
     }
 
     private void signUp() {
@@ -192,10 +184,9 @@ public class SignUpActivity extends AppCompatActivity {
                                 gender="";
                                 type="";
                                 sellerType="";
-                                checkBox_seller.setImageResource(R.drawable.ic_check_box);
-                                checkBox_consumer.setImageResource(R.drawable.ic_check_box);
-
-                            }
+                                checkBox_seller.setImageResource(R.drawable.checkbox);
+                                checkBox_consumer.setImageResource(R.drawable.checkbox);
+                                }
 
                         } catch (Throwable t) {
                             Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
@@ -225,8 +216,7 @@ public class SignUpActivity extends AppCompatActivity {
                 params.put("payment_method", "");
                 if (!sellerType.equals("")){
                     params.put("seller_type", sellerType);
-
-                }
+                    }
 
                 return params;
             }

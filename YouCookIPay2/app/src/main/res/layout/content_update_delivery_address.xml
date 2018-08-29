@@ -56,6 +56,7 @@
                         android:inputType="none"
                         android:ellipsize="end"
                         android:maxLines="1"
+                        android:singleLine="true"
                         android:scrollHorizontally="true"
                         android:id="@+id/updateDeliveryAddress_street"
                         android:layout_width="match_parent"
@@ -103,6 +104,7 @@
                         android:inputType="none"
                         android:ellipsize="end"
                         android:maxLines="1"
+                        android:singleLine="true"
                         android:scrollHorizontally="true"
                         android:textSize="12sp"
                         android:completionThreshold="1"
@@ -139,6 +141,7 @@
                     android:layout_height="match_parent"
                     android:layout_toRightOf="@id/city_icon"
                     android:gravity="start"
+                    android:singleLine="true"
                     android:layout_marginLeft="5dp"
                     android:textColor="#3b6498"
                     android:textSize="12sp"
@@ -186,6 +189,7 @@
                     android:hint="Postal Code"
                     android:ellipsize="end"
                     android:maxLines="1"
+                    android:singleLine="true"
                     android:scrollHorizontally="true"
                     android:popupTheme="@drawable/overlay_bg"
                     />
@@ -200,7 +204,7 @@
                 <ProgressBar
                     android:visibility="invisible"
                     android:id="@+id/progressBar2"
-                    style="?android:attr/progressBarStyle"
+                    android:indeterminateDrawable="@drawable/progress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true" />
@@ -226,7 +230,7 @@
             <ProgressBar
                 android:visibility="gone"
                 android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyle"
+                android:indeterminateDrawable="@drawable/progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal" />

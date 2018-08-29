@@ -219,6 +219,7 @@
                         android:textSize="12sp"
                         android:ellipsize="end"
                         android:maxLines="1"
+                        android:singleLine="true"
                         android:scrollHorizontally="true"
                         android:textColorHint="#3b6498"
                         android:hint="Name" />
@@ -246,6 +247,7 @@
                     <EditText
                         android:ellipsize="end"
                         android:maxLines="1"
+                        android:singleLine="true"
                         android:scrollHorizontally="true"
                         android:id="@+id/orderScreen_email_address"
                         android:layout_width="match_parent"
@@ -284,6 +286,7 @@
                     <EditText
                         android:ellipsize="end"
                         android:maxLines="1"
+                        android:singleLine="true"
                         android:scrollHorizontally="true"
                         android:id="@+id/orderScreen_number"
                         android:layout_width="match_parent"
@@ -487,6 +490,7 @@
                             android:inputType="none"
                             android:ellipsize="end"
                             android:maxLines="1"
+                            android:singleLine="true"
                             android:scrollHorizontally="true"
                             android:id="@+id/orderScreen_street"
                             android:layout_width="match_parent"
@@ -535,8 +539,8 @@
                             android:inputType="none"
                             android:ellipsize="end"
                             android:maxLines="1"
+                            android:singleLine="true"
                             android:scrollHorizontally="true"
-
                             android:textSize="12sp"
                             android:completionThreshold="1"
                             android:textColorHint="#3b6498"
@@ -581,6 +585,7 @@
                         android:hint="City"
                         android:ellipsize="end"
                         android:maxLines="1"
+                        android:singleLine="true"
                         android:scrollHorizontally="true"
                         android:popupTheme="@drawable/overlay_bg"
                         />
@@ -596,7 +601,7 @@
                     <ProgressBar
                         android:visibility="gone"
                         android:id="@+id/progressBar"
-                        style="?android:attr/progressBarStyle"
+                        android:indeterminateDrawable="@drawable/progress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"/>

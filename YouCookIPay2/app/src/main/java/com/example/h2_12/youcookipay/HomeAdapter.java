@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +48,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         final Datum currentData=homeList.get(position);
         holder.chefName.setText(currentData.getUserName());
         Log.v("user name",currentData.getUserName());
-        holder.chefAddress.setText(currentData.getUserAddress());
+        holder.mProgressBar.setVisibility(View.VISIBLE);
+        if(currentData.getUserAddress() != null && !currentData.getUserAddress().trim().isEmpty())
+            holder.chefAddress.setText(currentData.getUserAddress());
+        else
+            holder.chefAddress.setText("No Address");
         holder.chefDescription.setText(currentData.getUserDescription());
         holder.mealName.setText(currentData.getMealName());
         String description=currentData.getMealDescription();
@@ -160,8 +165,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         Drawable dr = new BitmapDrawable(resource);
                         holder.mealImage.setBackgroundDrawable(dr);
+                        holder.mProgressBar.setVisibility(View.GONE);
                     }
                 });
+
+        if(LoginInActivity.users.get(0).getType().equals("buyer")) {
+          holder.orderMeal.setVisibility(View.VISIBLE);
+        }
 
 
 
@@ -198,11 +208,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         return homeList.size();
     }
     public class HomeViewHolder extends RecyclerView.ViewHolder{
+        ProgressBar mProgressBar;
         View mealImage,rating_section;
         TextView chefName,chefAddress,chefDescription,mealName,mealDescription,sellerType,chefRating;
         ImageView chefImage,orderMeal,star1,star2,star3,star4,star5;
         private HomeViewHolder(View itemView) {
             super(itemView);
+            mProgressBar=itemView.findViewById(R.id.custom_progressBar);
             chefName=itemView.findViewById(R.id.home_chef_name);
             chefAddress=itemView.findViewById(R.id.home_chef_address);
             chefDescription=itemView.findViewById(R.id.home_chef_description);

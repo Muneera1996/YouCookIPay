@@ -62,6 +62,56 @@ public class ViewYrAdActivity extends AppCompatActivity
         setContentView(R.layout.activity_view_yr_ad);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header=navigationView.getHeaderView(0);
+        /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
+        TextView user_name = (TextView) header.findViewById(R.id.nav_header_home_name);
+        TextView user_email = (TextView) header.findViewById(R.id.nav_header_home_email);
+        user_name.setText(LoginInActivity.users.get(0).getName());
+        user_email.setText(LoginInActivity.users.get(0).getEmail());
+        // get menu from navigationView
+        Menu menu = navigationView.getMenu();
+
+        // find MenuItem you want to change
+        if(LoginInActivity.users.get(0).getType().equalsIgnoreCase("buyer")) {
+            MenuItem homeItem = menu.findItem(R.id.nav_home);
+            MenuItem deliveryItem = menu.findItem(R.id.nav_delivery_address);
+            MenuItem useAppItem = menu.findItem(R.id.nav_how_use_app);
+            MenuItem aboutUsItem = menu.findItem(R.id.nav_about_us);
+            MenuItem historyItem = menu.findItem(R.id.nav_order_history);
+            MenuItem newOrderItem = menu.findItem(R.id.nav_new_orders);
+            historyItem.setVisible(true);
+            newOrderItem.setVisible(true);
+            homeItem.setVisible(true);
+            deliveryItem.setVisible(true);
+            useAppItem.setVisible(true);
+            aboutUsItem.setVisible(true);
+        }
+        else if (LoginInActivity.users.get(0).getType().equalsIgnoreCase("seller")) {
+            MenuItem homeItem = menu.findItem(R.id.nav_home);
+            MenuItem profileItem = menu.findItem(R.id.nav_Profile);
+            MenuItem useAppItem = menu.findItem(R.id.nav_how_use_app);
+            MenuItem aboutUsItem = menu.findItem(R.id.nav_about_us);
+            MenuItem historyItem = menu.findItem(R.id.nav_order_history);
+            MenuItem newOrderItem = menu.findItem(R.id.nav_new_orders);
+            MenuItem reviewItem = menu.findItem(R.id.nav_reviews);
+            homeItem.setVisible(true);
+            profileItem.setVisible(true);
+            useAppItem.setVisible(true);
+            aboutUsItem.setVisible(true);
+            historyItem.setVisible(true);
+            newOrderItem.setVisible(true);
+            reviewItem.setVisible(true);
+        }
+        navigationView.setNavigationItemSelectedListener(this);
         mealsList=new ArrayList<>();
         arrayList=LoginInActivity.users;
         ProfileActivity.check=true;
@@ -136,97 +186,7 @@ public class ViewYrAdActivity extends AppCompatActivity
                 }
             });
         }
-        /*search_bar.addTextChangedListener(new TextWatcher() {
 
-            public void afterTextChanged(Editable s) {
-                String searchData = search_bar.getText().toString();
-
-                if (isConnected()) {
-                    Toast.makeText(getApplicationContext(), "There is no Internet Connection", Toast.LENGTH_SHORT).show();
-
-                }
-                else {
-                    final String url = "http://www.businessmarkaz.com/test/ucookipayws/meal_ads/search?user_id=5&session_id=kdu9606kuq3amgg9tcn6rdgl63&classification=sell&category=commercial&type=food&search_term=" +searchData;
-
-                    JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    // display response
-                                    Log.d("Response", response.toString());
-                                    GsonBuilder gsonBuilder = new GsonBuilder();
-                                    Gson gson = gsonBuilder.create();
-                                    ForgetPassword forgetPasswords = gson.fromJson(response.toString(), ForgetPassword.class);
-                                    boolean success = forgetPasswords.getStatus();
-                                    String message = forgetPasswords.getMessage();
-                                    try {
-                                        if (!success) {
-                                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                                        }
-                                    } catch (Throwable t) {
-                                        Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
-                                    }
-                                }
-                            },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Log.d("Error.Response", error.getMessage());
-                                }});
-                    queue.add(getRequest);
-                }
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-        });*/
-
-        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        // get menu from navigationView
-        Menu menu = navigationView.getMenu();
-
-        // find MenuItem you want to change
-        if(LoginInActivity.users.get(0).getType().equalsIgnoreCase("buyer")) {
-            MenuItem homeItem = menu.findItem(R.id.nav_home);
-            MenuItem deliveryItem = menu.findItem(R.id.nav_delivery_address);
-            MenuItem useAppItem = menu.findItem(R.id.nav_how_use_app);
-            MenuItem aboutUsItem = menu.findItem(R.id.nav_about_us);
-            MenuItem historyItem = menu.findItem(R.id.nav_order_history);
-            MenuItem newOrderItem = menu.findItem(R.id.nav_new_orders);
-            historyItem.setVisible(true);
-            newOrderItem.setVisible(true);
-            homeItem.setVisible(true);
-            deliveryItem.setVisible(true);
-            useAppItem.setVisible(true);
-            aboutUsItem.setVisible(true);
-        }
-        else if (LoginInActivity.users.get(0).getType().equalsIgnoreCase("seller")) {
-            MenuItem homeItem = menu.findItem(R.id.nav_home);
-            MenuItem profileItem = menu.findItem(R.id.nav_Profile);
-            MenuItem useAppItem = menu.findItem(R.id.nav_how_use_app);
-            MenuItem aboutUsItem = menu.findItem(R.id.nav_about_us);
-            MenuItem historyItem = menu.findItem(R.id.nav_order_history);
-            MenuItem newOrderItem = menu.findItem(R.id.nav_new_orders);
-            MenuItem reviewItem = menu.findItem(R.id.nav_reviews);
-            homeItem.setVisible(true);
-            profileItem.setVisible(true);
-            useAppItem.setVisible(true);
-            aboutUsItem.setVisible(true);
-            historyItem.setVisible(true);
-            newOrderItem.setVisible(true);
-            reviewItem.setVisible(true);
-        }
-        navigationView.setNavigationItemSelectedListener(this);
 
         home_menu.setOnClickListener(new View.OnClickListener() {
             @Override

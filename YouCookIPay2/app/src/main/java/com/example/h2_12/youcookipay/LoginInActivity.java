@@ -55,19 +55,18 @@ import java.util.Map;
 
 import static java.util.Arrays.*;
 
-public class  LoginInActivity extends AppCompatActivity {
+public class LoginInActivity extends AppCompatActivity {
     Button signUp;
     EditText email, password;
     TextView forget_password;
-    public  static ArrayList<User> users;
-    ImageView fb_btn,insta_btn;
+    public static ArrayList<User> users;
+    ImageView fb_btn, insta_btn;
     CallbackManager callbackManager;
     ProgressBar mProgressBar;
     LoginButton loginButton;
-    String id,name,mail;
+    String id, name, mail;
     InstagramHelper instagramHelper;
     View signIn;
-    public static String Email="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +81,8 @@ public class  LoginInActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
         fb_btn = findViewById(R.id.fb_btn);
         loginButton = findViewById(R.id.login_button);
-        insta_btn=findViewById(R.id.insta_btn);
+        insta_btn = findViewById(R.id.insta_btn);
+
         String scope = "basic+public_content+follower_list+comments+relationships+likes";
         instagramHelper = new InstagramHelper.Builder()
                 .withClientId("8bfd4a26802a422ab2df08d6301da09e")
@@ -93,58 +93,58 @@ public class  LoginInActivity extends AppCompatActivity {
         insta_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // signInWithInstagram();
-               // checkForInstagramData();
                 instagramHelper.loginFromActivity(LoginInActivity.this);
             }
         });
 
-        List< String > permissionNeeds = Arrays.asList("user_photos", "email",
+        List<String> permissionNeeds = Arrays.asList("user_photos", "email",
                 "user_birthday", "public_profile", "AccessToken");
         loginButton.registerCallback(callbackManager,
-                new FacebookCallback < LoginResult > () {@Override
-                public void onSuccess(LoginResult loginResult) {
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
 
-                    System.out.println("onSuccess");
+                        System.out.println("onSuccess");
 
-                    final String accessToken = loginResult.getAccessToken()
-                            .getToken();
-                    Log.i("accessToken", accessToken);
+                        final String accessToken = loginResult.getAccessToken()
+                                .getToken();
+                        Log.i("accessToken", accessToken);
 
-                    GraphRequest request = GraphRequest.newMeRequest(
-                            loginResult.getAccessToken(),
-                            new GraphRequest.GraphJSONObjectCallback() {@Override
-                            public void onCompleted(JSONObject object,
-                                                    GraphResponse response) {
+                        GraphRequest request = GraphRequest.newMeRequest(
+                                loginResult.getAccessToken(),
+                                new GraphRequest.GraphJSONObjectCallback() {
+                                    @Override
+                                    public void onCompleted(JSONObject object,
+                                                            GraphResponse response) {
 
-                                Log.i("LoginActivity",
-                                        response.toString());
-                                try {
-                                    id = object.getString("id");
-                                    try {
-                                        URL profile_pic = new URL(
-                                                "http://graph.facebook.com/" + id + "/picture?type=large");
-                                        Log.i("profile_pic",
-                                                profile_pic + "");
+                                        Log.i("LoginActivity",
+                                                response.toString());
+                                        try {
+                                            id = object.getString("id");
+                                            try {
+                                                URL profile_pic = new URL(
+                                                        "http://graph.facebook.com/" + id + "/picture?type=large");
+                                                Log.i("profile_pic",
+                                                        profile_pic + "");
 
-                                    } catch (MalformedURLException e) {
-                                        e.printStackTrace();
+                                            } catch (MalformedURLException e) {
+                                                e.printStackTrace();
+                                            }
+                                            name = object.getString("name");
+                                            mail = object.getString("email");
+                                            socialLogin("facebook", accessToken);
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
-                                    name = object.getString("name");
-                                    mail = object.getString("email");
-                                    socialLogin("facebook",accessToken);
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            });
-                    Bundle parameters = new Bundle();
-                    parameters.putString("fields",
-                            "id,name,email,gender, birthday");
-                    request.setParameters(parameters);
-                    request.executeAsync();
-                }
+                                });
+                        Bundle parameters = new Bundle();
+                        parameters.putString("fields",
+                                "id,name,email,gender, birthday");
+                        request.setParameters(parameters);
+                        request.executeAsync();
+                    }
 
                     @Override
                     public void onCancel() {
@@ -159,12 +159,9 @@ public class  LoginInActivity extends AppCompatActivity {
                 });
 
 
-
         if (!isConnected()) {
             Toast.makeText(this, "Check Your Internet Connection", Toast.LENGTH_SHORT).show();
-        }
-
-        else {
+        } else {
             signUp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -191,17 +188,17 @@ public class  LoginInActivity extends AppCompatActivity {
             forget_password.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     if (email.getText().toString().equalsIgnoreCase("")) {
                         Toast.makeText(LoginInActivity.this, "Enter your Email", Toast.LENGTH_SHORT).show();
-                        } else {
-                          forgetPassword();
+                    } else {
+                        forgetPassword();
                     }
                 }
             });
         }
     }
-    private void signIn(){
+
+    private void signIn() {
         String url = "http://www.businessmarkaz.com/test/ucookipayws/user/sign_in";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -215,19 +212,23 @@ public class  LoginInActivity extends AppCompatActivity {
                             JSONObject obj = new JSONObject(response);
                             String message = obj.getString("message");
                             boolean status = obj.getBoolean("status");
-                            Toast.makeText(LoginInActivity.this, message, Toast.LENGTH_SHORT).show();
+                            Log.v("login message", message);
                             if (status) {
                                 JSONObject data = obj.getJSONObject("data");
                                 String user_id = data.getString("user_id");
                                 String session_id = data.getString("session_id");
                                 String type = data.getString("type");
+                                String name = data.getString("name");
+                                String email = data.getString("email");
                                 users = new ArrayList<>();
-                                users.add(new User(user_id, session_id, type));
-                                if (message.equalsIgnoreCase("Sign In successfull")) {
-                                    Email=email.getText().toString();
-                                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                                    startActivity(intent);
-                                }
+                                users.add(new User(user_id, session_id, type, name, email));
+                                Toast.makeText(LoginInActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                startActivity(intent);
+
+                            }
+                            else {
+                                Toast.makeText(LoginInActivity.this, message, Toast.LENGTH_SHORT).show();
                             }
 
                         } catch (Throwable t) {
@@ -273,13 +274,15 @@ public class  LoginInActivity extends AppCompatActivity {
             }
         });
     }
-    private void socialLogin(String social_type,String social_id) {
-       Intent intent = new Intent(getApplicationContext(),SocialViewPopUpActivity.class);
-       intent.putExtra("Social_Type",social_type);
-       intent.putExtra("Social_Id",social_id);
-       startActivity(intent);
+
+    private void socialLogin(String social_type, String social_id) {
+        Intent intent = new Intent(getApplicationContext(), SocialViewPopUpActivity.class);
+        intent.putExtra("Social_Type", social_type);
+        intent.putExtra("Social_Id", social_id);
+        startActivity(intent);
     }
-    private void forgetPassword(){
+
+    private void forgetPassword() {
         final String url = "http://www.businessmarkaz.com/test/ucookipayws/user/forget_password?email=" + email.getText().toString();
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -287,17 +290,12 @@ public class  LoginInActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         // display response
                         Log.d("Response", response.toString());
-                        GsonBuilder gsonBuilder = new GsonBuilder();
-                        Gson gson = gsonBuilder.create();
-                        ForgetPassword forgetPasswords = gson.fromJson(response.toString(), ForgetPassword.class);
-                        boolean success = forgetPasswords.getStatus();
-                        String message = forgetPasswords.getMessage();
-
                         try {
-
-                            if (!success) {
-                                Toast.makeText(LoginInActivity.this, message, Toast.LENGTH_SHORT).show();
-                            }
+                            JSONObject obj = new JSONObject(response.toString());
+                            String message = obj.getString("message");
+                            boolean status = obj.getBoolean("status");
+                            Log.v("login message", message);
+                            Toast.makeText(LoginInActivity.this, message, Toast.LENGTH_SHORT).show();
                         } catch (Throwable t) {
                             Log.e("Login", "Could not parse malformed JSON: \"" + response + "\"");
                         }
@@ -322,6 +320,7 @@ public class  LoginInActivity extends AppCompatActivity {
             public int getCurrentRetryCount() {
                 return 30000;
             }
+
             @Override
             public void retry(VolleyError error) throws VolleyError {
 
@@ -335,16 +334,18 @@ public class  LoginInActivity extends AppCompatActivity {
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == InstagramHelperConstants.INSTA_LOGIN && resultCode == RESULT_OK) {
             InstagramUser user = instagramHelper.getInstagramUser(this);
-            Log.i("Insta Data",user.getData().getId());
-            socialLogin("instagram",user.getData().getId());
+            Log.i("Insta Data", user.getData().getId());
+            socialLogin("instagram", user.getData().getId());
         }
     }
+
     public void onClick(View v) {
         if (v == fb_btn) {
             loginButton.performClick();
@@ -353,7 +354,7 @@ public class  LoginInActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent=new Intent(getApplicationContext(),LoginInActivity.class);
+        Intent intent = new Intent(getApplicationContext(), LoginInActivity.class);
         startActivity(intent);
     }
 }
