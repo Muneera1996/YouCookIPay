@@ -292,7 +292,7 @@ public class UpdateDeliveryAddressActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_reviews) {
             Intent intent=new Intent(getApplicationContext(),SeeReviewAndRatingActivity.class);
-            intent.putExtra("ChefId",HomeActivity.arrayList.get(0).getUser_id());
+            intent.putExtra("ChefId",LoginInActivity.users.get(0).getUser_id());
             startActivity(intent);
         }
         else if (id == R.id.nav_logout) {
@@ -386,7 +386,7 @@ public class UpdateDeliveryAddressActivity extends AppCompatActivity
                                     if (!cities.contains(city.getString(i)))
                                         cities.add(city.getString(i));
                                 }
-                                JSONArray code = data.getJSONArray("cities");
+                                JSONArray code = data.getJSONArray("postal_codes");
                                 for (int i = 0; i < code.length(); i++) {
                                     if (!codes.contains(code.getString(i)))
                                         codes.add(code.getString(i));

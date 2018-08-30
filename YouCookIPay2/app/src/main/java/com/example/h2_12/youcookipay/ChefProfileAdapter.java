@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -50,7 +51,9 @@ public class ChefProfileAdapter extends RecyclerView.Adapter<ChefProfileAdapter.
           final Meal currentMeal=mealList.get(position);
           holder.dishName.setText(currentMeal.getMealName());
           holder.dishPrice.setText(currentMeal.getMealPrice());
-         // Glide.with(holder.dishPic.getContext()).load(currentMeal.getMealImageUrl()).into((ImageView) holder.dishPic);
+          holder.mProgressBar.setVisibility(View.VISIBLE);
+
+        // Glide.with(holder.dishPic.getContext()).load(currentMeal.getMealImageUrl()).into((ImageView) holder.dishPic);
         Glide
                 .with(holder.dishPic.getContext())
                 .asBitmap()
@@ -60,6 +63,8 @@ public class ChefProfileAdapter extends RecyclerView.Adapter<ChefProfileAdapter.
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         Drawable dr = new BitmapDrawable(resource);
                         holder.dishPic.setBackgroundDrawable(dr);
+                        holder.mProgressBar.setVisibility(View.GONE);
+
                     }
                 });
         if(LoginInActivity.users.get(0).getType().equals("buyer")) {
@@ -89,12 +94,14 @@ public class ChefProfileAdapter extends RecyclerView.Adapter<ChefProfileAdapter.
     }
 
     public class ChefProfileViewHolder extends RecyclerView.ViewHolder{
+        ProgressBar mProgressBar;
         View dishPic;
         TextView dishName,dishPrice;
         ImageView placeOrder;
 
         public ChefProfileViewHolder(View itemView) {
             super(itemView);
+            mProgressBar=itemView.findViewById(R.id.custom_progressBar);
             dishName=itemView.findViewById(R.id.dish_name);
             dishPrice=itemView.findViewById(R.id.dish_price);
             dishPic=itemView.findViewById(R.id.dish_pic);

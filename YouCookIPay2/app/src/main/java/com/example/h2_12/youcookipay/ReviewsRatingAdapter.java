@@ -34,7 +34,12 @@ public class ReviewsRatingAdapter extends RecyclerView.Adapter<ReviewsRatingAdap
     public void onBindViewHolder(@NonNull ReviewsRatingHolder holder, int position) {
         final Reviews_Rating currentData=List.get(position);
         holder.name.setText(currentData.getName());
-        holder.comment.setText(currentData.getComments());
+        if(currentData.getComments() != null && !currentData.getComments().trim().isEmpty())
+            holder.comment.setText(currentData.getComments());
+        else {
+            holder.comment_tv.setVisibility(View.GONE);
+            holder.comment.setVisibility(View.GONE);
+            }
         if(currentData.getRating() != null && !currentData.getRating().trim().isEmpty()){
             rating = Double.parseDouble(currentData.getRating());
         }
@@ -78,13 +83,14 @@ public class ReviewsRatingAdapter extends RecyclerView.Adapter<ReviewsRatingAdap
         return List.size();
     }
     public class ReviewsRatingHolder extends RecyclerView.ViewHolder {
-        TextView name,comment;
+        TextView name,comment,comment_tv;
         ImageView star1,star2,star3,star4,star5;
 
         public ReviewsRatingHolder(View itemView) {
             super(itemView);
             name=itemView.findViewById(R.id.See_Reviews_username);
             comment=itemView.findViewById(R.id.See_Reviews_comments);
+            comment_tv=itemView.findViewById(R.id.comment_tv);
             star1=itemView.findViewById(R.id.see_rating_star1);
             star2=itemView.findViewById(R.id.see_rating_star2);
             star3=itemView.findViewById(R.id.see_rating_star3);

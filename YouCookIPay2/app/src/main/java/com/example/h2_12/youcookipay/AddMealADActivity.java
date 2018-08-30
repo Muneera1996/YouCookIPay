@@ -539,7 +539,7 @@ public class AddMealADActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_reviews) {
             Intent intent=new Intent(getApplicationContext(),SeeReviewAndRatingActivity.class);
-            intent.putExtra("ChefId",arrayList.get(0).getUser_id());
+            intent.putExtra("ChefId",LoginInActivity.users.get(0).getUser_id());
             startActivity(intent);
         }
         else if (id == R.id.nav_logout) {

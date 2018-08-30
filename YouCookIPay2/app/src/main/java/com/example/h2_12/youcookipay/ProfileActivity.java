@@ -50,7 +50,7 @@ import java.util.ArrayList;
 public class ProfileActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Button add_meals,view_meal_add,update;
-    View home_menu;
+    View home_menu,rating_section;
     ImageView profile_info,star1,star2,star3,star4,star5,image;
     TextView profile_description,name,place,type,rating;
     String message;
@@ -73,6 +73,7 @@ public class ProfileActivity extends AppCompatActivity
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         arrayList=LoginInActivity.users;
         myProfile=new ArrayList<>();
+        rating_section=findViewById(R.id.rating_section);
         home_menu=findViewById(R.id.home_menu);
         profile_description=findViewById(R.id.profile_Description);
         layout = (LinearLayout) findViewById(R.id.progressbar_view);
@@ -186,6 +187,14 @@ public class ProfileActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(),UpdateDescriptionActivity.class);
+                startActivity(i);
+            }
+        });
+        rating_section.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),SeeReviewAndRatingActivity.class);
+                i.putExtra("ChefId",LoginInActivity.users.get(0).getUser_id());
                 startActivity(i);
             }
         });

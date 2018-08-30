@@ -83,13 +83,28 @@ public class OrderScreeen2Activity extends AppCompatActivity
     private AutoCompleteTextView area_txt;
     private AutoCompleteTextView city_txt;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_screeen2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header=navigationView.getHeaderView(0);
+        /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
+        TextView user_name = (TextView) header.findViewById(R.id.nav_header_home_name);
+        TextView user_email = (TextView) header.findViewById(R.id.nav_header_home_email);
+        user_name.setText(LoginInActivity.users.get(0).getName());
+        user_email.setText(LoginInActivity.users.get(0).getEmail());
+        // get menu from navigationView
+        Menu menu = navigationView.getMenu();
 
         Intent intent = getIntent();
         final String screen = intent.getStringExtra("Screen");
@@ -116,8 +131,7 @@ public class OrderScreeen2Activity extends AppCompatActivity
             chef_profile.add(new Chef_Profile(chef_id,chef_name,chef_address,chef_type,description,rating,imageUrl));
             profile=chef_profile;
 
-
-        }
+            }
         home_menu = findViewById(R.id.home_menu);
         area_street = findViewById(R.id.streetAndAreaView);
         city_view = findViewById(R.id.cityView);
@@ -148,7 +162,11 @@ public class OrderScreeen2Activity extends AppCompatActivity
         star5 = findViewById(R.id.orderScreen1_star_five);
 
         chef_name.setText(profile.get(0).getName());
-        chef_address.setText(profile.get(0).getAddress());
+        if(profile.get(0).getAddress() != null && !profile.get(0).getAddress().trim().isEmpty())
+            chef_address.setText(profile.get(0).getAddress());
+        else
+            chef_address.setText("No Address");
+
         chef_type.setText(profile.get(0).getType());
         chef_rating.setText(profile.get(0).getRating());
         if (!chef_rating.getText().toString().trim().isEmpty()) {
@@ -183,21 +201,7 @@ public class OrderScreeen2Activity extends AppCompatActivity
         {
             Glide.with(image.getContext()).load(R.drawable.profile_pic).into(image);
         }
-        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        View header=navigationView.getHeaderView(0);
-        /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
-        TextView user_name = (TextView) header.findViewById(R.id.nav_header_home_name);
-        TextView user_email = (TextView) header.findViewById(R.id.nav_header_home_email);
-        user_name.setText(LoginInActivity.users.get(0).getName());
-        user_email.setText(LoginInActivity.users.get(0).getEmail());
-        // get menu from navigationView
-        Menu menu = navigationView.getMenu();
 
         // find MenuItem you want to change
         if (LoginInActivity.users.get(0).getType().equalsIgnoreCase("buyer")) {
@@ -480,8 +484,6 @@ public class OrderScreeen2Activity extends AppCompatActivity
         area_txt.setAdapter(areaAdapter);
         ArrayAdapter<String> cityAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,cities);
         city_txt.setAdapter(cityAdapter);
-
-
     }
 
     @Override
@@ -539,7 +541,7 @@ public class OrderScreeen2Activity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_reviews) {
             Intent intent=new Intent(getApplicationContext(),SeeReviewAndRatingActivity.class);
-            intent.putExtra("ChefId",HomeActivity.arrayList.get(0).getUser_id());
+            intent.putExtra("ChefId",LoginInActivity.users.get(0).getUser_id());
             startActivity(intent);
         }
         else if (id == R.id.nav_logout) {

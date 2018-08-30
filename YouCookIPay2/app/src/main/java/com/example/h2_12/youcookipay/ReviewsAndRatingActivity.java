@@ -116,9 +116,11 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
         taste_star3=findViewById(R.id.star_three2);
         taste_star4=findViewById(R.id.star_four2);
         taste_star5=findViewById(R.id.star_five2);
-
         name.setText(arrayList.get(0).getName());
-        address.setText(arrayList.get(0).getAddress());
+        if(arrayList.get(0).getAddress() != null && !arrayList.get(0).getAddress().trim().isEmpty())
+            address.setText(arrayList.get(0).getAddress());
+        else
+            address.setText("No Address");
         type.setText(arrayList.get(0).getType());
         if(!arrayList.get(0).getImage().equals("")) {
             Glide.with(image.getContext()).load(arrayList.get(0).getImage()).into(image);
@@ -451,7 +453,7 @@ public class ReviewsAndRatingActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_reviews) {
             Intent intent=new Intent(getApplicationContext(),SeeReviewAndRatingActivity.class);
-            intent.putExtra("ChefId",HomeActivity.arrayList.get(0).getUser_id());
+            intent.putExtra("ChefId",LoginInActivity.users.get(0).getUser_id());
             startActivity(intent);
         }
         else if (id == R.id.nav_logout) {

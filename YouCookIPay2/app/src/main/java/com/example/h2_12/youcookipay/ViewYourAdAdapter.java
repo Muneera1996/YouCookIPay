@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +55,8 @@ public class ViewYourAdAdapter extends RecyclerView.Adapter<ViewYourAdAdapter.Vi
         final ViewYourAd currentMeal=mealList.get(position);
         holder.dishName.setText(currentMeal.getMealName());
         holder.dishPrice.setText(currentMeal.getPortionPrice());
+        holder.mProgressBar.setVisibility(View.VISIBLE);
+
         // Glide.with(holder.dishPic.getContext()).load(currentMeal.getMealImageUrl()).into((ImageView) holder.dishPic);
         Glide
                 .with(holder.dishPic.getContext())
@@ -64,6 +67,8 @@ public class ViewYourAdAdapter extends RecyclerView.Adapter<ViewYourAdAdapter.Vi
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         Drawable dr = new BitmapDrawable(resource);
                         holder.dishPic.setBackgroundDrawable(dr);
+                        holder.mProgressBar.setVisibility(View.GONE);
+
                     }
                 });
         holder.slidingOption.setOnClickListener(new View.OnClickListener() {
@@ -133,10 +138,12 @@ public class ViewYourAdAdapter extends RecyclerView.Adapter<ViewYourAdAdapter.Vi
     public class ViewYourAdHolder extends RecyclerView.ViewHolder{
 
         View dishPic;
+        ProgressBar mProgressBar;
         TextView dishName,dishPrice;
         ImageView slidingOption;
         public ViewYourAdHolder(View itemView) {
             super(itemView);
+            mProgressBar=itemView.findViewById(R.id.custom_progressBar);
             dishName=itemView.findViewById(R.id.viewyourmeal_dish_name);
             dishPrice=itemView.findViewById(R.id.viewyourmeal_dish_price);
             dishPic=itemView.findViewById(R.id.viewyourmeal_dish_image);

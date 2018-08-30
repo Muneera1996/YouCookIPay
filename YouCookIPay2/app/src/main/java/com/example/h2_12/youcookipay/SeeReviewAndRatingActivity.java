@@ -50,6 +50,9 @@ public class SeeReviewAndRatingActivity extends AppCompatActivity
     ProgressBar mProgressBar;
     LinearLayout layout;
     TextView reviews;
+    private ReviewsRatingAdapter adapter;
+    String id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +60,12 @@ public class SeeReviewAndRatingActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         home_menu=findViewById(R.id.home_menu);
+        ratingList=new ArrayList<>();
         recyclerView=findViewById(R.id.recyclerview_SeeReviews);
+        adapter = new ReviewsRatingAdapter(getApplicationContext(), ratingList);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(llm);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mProgressBar.setVisibility(View.VISIBLE);
@@ -65,9 +73,8 @@ public class SeeReviewAndRatingActivity extends AppCompatActivity
         layout.setVisibility(View.VISIBLE);
         reviews=findViewById(R.id.no_reviews_rating);
         arrayList=LoginInActivity.users;
-        ratingList=new ArrayList<>();
         Intent intent = getIntent();
-        String id = intent.getStringExtra("ChefId");
+        id = intent.getStringExtra("ChefId");
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -126,69 +133,72 @@ public class SeeReviewAndRatingActivity extends AppCompatActivity
             Toast.makeText(getApplicationContext(), "There is no Internet Connection", Toast.LENGTH_SHORT).show();
         }
         else {
-            final String url = "http://www.businessmarkaz.com/test/ucookipayws/user/view_seller_reviews?user_id="+arrayList.get(0).getUser_id()+"&session_id="+arrayList.get(0).getSession_id()+"&seller_id="+id;
-            final JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            // display response
-                            Log.d("Response", response.toString());
-                            mProgressBar.setVisibility(View.GONE);
-                            layout.setVisibility(View.GONE);
-                            try {
-                                JSONObject obj = new JSONObject(response.toString());
-                                String message=obj.getString("message");
-                                Boolean success=obj.getBoolean("status");
-                                Log.v("message",message);
-
-                                if(!message.equals("Seller reviews found"))
-                                {
-                                    reviews.setVisibility(View.VISIBLE);
-
-                                }
-                                else if (success) {
-                                    JSONArray jsonArray=obj.getJSONArray("data");
-                                    for(int i=0;i<jsonArray.length();i++){
-                                        JSONObject user=jsonArray.getJSONObject(i);
-                                        String user_id=user.getString("user_id");
-                                        String user_name=user.getString("user_name");
-                                        String user_image=user.getString("user_image");
-                                        String rating=user.getString("rating");
-                                        String comments=user.getString("text");
-                                        ratingList.add(new Reviews_Rating(user_id,user_name,rating,comments,user_image));
-                                    }
-                                    recyclerView.setAdapter(new ReviewsRatingAdapter(getApplicationContext(),ratingList));
-                                }
-
-                            } catch (Throwable t) {
-                                Log.e("see Reviews and Rating", "Could not parse malformed JSON: \"" + response + "\"");
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d("Error.Response",error.toString());
-                            mProgressBar.setVisibility(View.GONE);
-                            layout.setVisibility(View.GONE);
-
-                        }});
-            VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(getRequest);
-            getRequest.setRetryPolicy(new RetryPolicy() {
-                @Override
-                public int getCurrentTimeout() {
-                    return 20000;
-                }
-
-                @Override
-                public int getCurrentRetryCount() {
-                    return 20000;
-                }
-                @Override
-                public void retry(VolleyError error) throws VolleyError {
-                }
-            });
+           SeeReviewsAndRating();
         }
+    }
+
+    private void SeeReviewsAndRating() {
+        final String url = "http://www.businessmarkaz.com/test/ucookipayws/user/view_seller_reviews?user_id="+arrayList.get(0).getUser_id()+"&session_id="+arrayList.get(0).getSession_id()+"&seller_id="+id;
+        final JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // display response
+                        Log.d("Response", response.toString());
+                        mProgressBar.setVisibility(View.GONE);
+                        layout.setVisibility(View.GONE);
+                        try {
+                            JSONObject obj = new JSONObject(response.toString());
+                            String message=obj.getString("message");
+                            Boolean success=obj.getBoolean("status");
+                            Log.v("message",message);
+
+                            if (success) {
+                                JSONArray jsonArray = obj.getJSONArray("data");
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject user = jsonArray.getJSONObject(i);
+                                    String user_id = user.getString("user_id");
+                                    String user_name = user.getString("user_name");
+                                    String rating = user.getString("rating");
+                                    String comments = user.getString("text");
+                                    ratingList.add(new Reviews_Rating(user_id, user_name, rating, comments));
+                                }
+                                recyclerView.setAdapter(new ReviewsRatingAdapter(getApplicationContext(),ratingList));
+                                adapter.notifyDataSetChanged();
+                            }
+                            else
+                            {
+                                reviews.setVisibility(View.VISIBLE);
+                            }
+
+                        } catch (Throwable t) {
+                            Log.e("see Reviews and Rating", "Could not parse malformed JSON: \"" + response + "\"");
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.v("Error.Response",error.toString());
+                        mProgressBar.setVisibility(View.GONE);
+                        layout.setVisibility(View.GONE);
+
+                    }});
+        VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(getRequest);
+        getRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+            }
+        });
     }
 
     @Override
@@ -235,7 +245,7 @@ public class SeeReviewAndRatingActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_reviews) {
             Intent intent=new Intent(getApplicationContext(),SeeReviewAndRatingActivity.class);
-            intent.putExtra("ChefId",HomeActivity.arrayList.get(0).getUser_id());
+            intent.putExtra("ChefId",LoginInActivity.users.get(0).getUser_id());
             startActivity(intent);
         }
         else if (id == R.id.nav_logout) {

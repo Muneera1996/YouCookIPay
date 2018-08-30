@@ -190,6 +190,7 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:singleLine="true"
+                    android:inputType="number"
                     android:scrollHorizontally="true"
                     android:popupTheme="@drawable/overlay_bg"
                     />

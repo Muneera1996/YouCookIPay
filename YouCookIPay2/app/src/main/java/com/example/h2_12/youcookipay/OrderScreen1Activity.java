@@ -67,6 +67,7 @@ OrderScreen1Activity extends AppCompatActivity
     private double rate=0;
     ProgressBar mProgressBar;
     ProgressBar mProgressBar2;
+    ProgressBar cProgressBar;
     View rating_view,delivery_view;
     public static int REQUEST_CODE = 1;
     public static String nonce_str = "";
@@ -108,10 +109,16 @@ OrderScreen1Activity extends AppCompatActivity
         star4=findViewById(R.id.orderScreen1_star_four);
         star5=findViewById(R.id.orderScreen1_star_five);
         chef_name.setText(profile.get(0).getName());
-        chef_address.setText(profile.get(0).getAddress());
+        chef_name.setText(profile.get(0).getName());
+        if(profile.get(0).getAddress() != null && !profile.get(0).getAddress().trim().isEmpty())
+            chef_address.setText(profile.get(0).getAddress());
+        else
+            chef_address.setText("No Address");
         chef_type.setText(profile.get(0).getType());
         chef_rating.setText(profile.get(0).getRating());
         mProgressBar2 = (ProgressBar) findViewById(R.id.progressBar2);
+        cProgressBar = (ProgressBar) findViewById(R.id.custom_progressBar);
+
         dish_name.setText(OrderScreeen2Activity.orderScreens.get(0).getMeal_name());
         dish_price.setText(OrderScreeen2Activity.orderScreens.get(0).getMeal_price());
         meal_name.setText(OrderScreeen2Activity.orderScreens.get(0).getMeal_name());
@@ -120,17 +127,13 @@ OrderScreen1Activity extends AppCompatActivity
             delivery_view.setVisibility(View.VISIBLE);
             check=true;
             total_bill = Double.toString((quantity * Double.parseDouble(OrderScreeen2Activity.orderScreens.get(0).getMeal_price())) + 2.00);
-
         }
         else{
             delivery_view.setVisibility(View.GONE);
             check=false;
             total_bill = Double.toString(quantity * Double.parseDouble(OrderScreeen2Activity.orderScreens.get(0).getMeal_price()));
-
         }
         total_amount.setText(total_bill);
-
-
         Glide.with(dish_image_view.getContext())
                 .asBitmap()
                 .load(OrderScreeen2Activity.orderScreens.get(0).getMeal_image())
@@ -139,6 +142,8 @@ OrderScreen1Activity extends AppCompatActivity
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         Drawable dr = new BitmapDrawable(resource);
                         dish_image_view.setBackgroundDrawable(dr);
+                        cProgressBar.setVisibility(View.GONE);
+
                     }
                  });
         if(!chef_rating.getText().toString().trim().isEmpty()){
@@ -249,13 +254,8 @@ OrderScreen1Activity extends AppCompatActivity
             @Override
             public void onClick(View v) {
               quantity++;
-              txt_quanity.setText(Integer.toString(quantity));
-              if(check)
-                  total_bill = Double.toString((quantity * Double.parseDouble(OrderScreeen2Activity.orderScreens.get(0).getMeal_price())) + 2.00);
-              else
-                  total_bill = Double.toString(quantity * Double.parseDouble(OrderScreeen2Activity.orderScreens.get(0).getMeal_price()));
+              setQuantity();
 
-              total_amount.setText(total_bill);
             }
         });
         minus_quantity.setOnClickListener(new View.OnClickListener() {
@@ -265,12 +265,7 @@ OrderScreen1Activity extends AppCompatActivity
                 if(quantity>1) {
                     quantity--;
                 }
-                txt_quanity.setText(Integer.toString(quantity));
-                if(check)
-                    total_bill=Double.toString((quantity*Double.parseDouble(OrderScreeen2Activity.orderScreens.get(0).getMeal_price()))+2.00);
-                else
-                    total_bill=Double.toString(quantity*Double.parseDouble(OrderScreeen2Activity.orderScreens.get(0).getMeal_price()));
-                     total_amount.setText(total_bill);
+              setQuantity();
             }
         });
         rating_view.setOnClickListener(new View.OnClickListener() {
@@ -282,6 +277,17 @@ OrderScreen1Activity extends AppCompatActivity
             }
         });
     }
+
+    private void setQuantity() {
+        txt_quanity.setText(Integer.toString(quantity));
+        if(check)
+            total_bill=Double.toString((quantity*Double.parseDouble(OrderScreeen2Activity.orderScreens.get(0).getMeal_price()))+2.00);
+        else
+            total_bill=Double.toString(quantity*Double.parseDouble(OrderScreeen2Activity.orderScreens.get(0).getMeal_price()));
+        total_amount.setText(total_bill);
+
+    }
+
     private void placeOrder() {
         mProgressBar2.setVisibility(View.VISIBLE);
         String url = "http://www.businessmarkaz.com/test/ucookipayws/meal_ads/place_order";
@@ -454,7 +460,7 @@ OrderScreen1Activity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_reviews) {
             Intent intent=new Intent(getApplicationContext(),SeeReviewAndRatingActivity.class);
-            intent.putExtra("ChefId",HomeActivity.arrayList.get(0).getUser_id());
+            intent.putExtra("ChefId",LoginInActivity.users.get(0).getUser_id());
             startActivity(intent);
         }
         else if (id == R.id.nav_logout) {

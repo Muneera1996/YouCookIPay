@@ -6,14 +6,12 @@ public class Reviews_Rating {
     private String name;
     private String rating;
     private String comments;
-    private String image;
 
-    public Reviews_Rating(String id, String name, String rating, String comments, String image) {
+    public Reviews_Rating(String id, String name, String rating, String comments) {
         this.id = id;
         this.name = name;
         this.rating = rating;
         this.comments = comments;
-        this.image = image;
     }
 
     public String getName() {
@@ -48,11 +46,5 @@ public class Reviews_Rating {
         this.comments = comments;
     }
 
-    public String getImage() {
-        return image;
-    }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
 }

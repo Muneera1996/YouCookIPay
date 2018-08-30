@@ -296,6 +296,7 @@
                         android:backgroundTint="@android:color/transparent"
                         android:gravity="start"
                         android:textSize="12sp"
+                        android:inputType="number"
                         android:layout_marginLeft="5dp"
                         android:textColor="#3b6498"
                         android:textColorHint="#3b6498"

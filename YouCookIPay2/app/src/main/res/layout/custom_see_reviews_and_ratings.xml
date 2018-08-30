@@ -93,6 +93,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/comment_tv"
                         android:layout_marginVertical="5dp"
                         android:layout_marginHorizontal="10dp"
                         android:layout_width="match_parent"
